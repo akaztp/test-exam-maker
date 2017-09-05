@@ -4,25 +4,31 @@
 const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
-  allScriptsTimeout: 11000,
-  specs: [
-    './e2e/**/*.e2e-spec.ts'
-  ],
-  capabilities: {
-    'browserName': 'chrome'
-  },
-  directConnect: true,
-  baseUrl: 'http://localhost:4200/',
-  framework: 'jasmine',
-  jasmineNodeOpts: {
-    showColors: true,
-    defaultTimeoutInterval: 30000,
-    print: function() {}
-  },
-  onPrepare() {
-    require('ts-node').register({
-      project: 'e2e/tsconfig.e2e.json'
-    });
-    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
-  }
+	allScriptsTimeout: 11000,
+	specs: [
+		'./e2e/**/*.e2e-spec.ts'
+	],
+	capabilities: {
+		'browserName': 'chrome',
+		// when using linux chromedriver, use the debuggerAddress of a remote debugging configured chrome
+		//chromeOptions: {
+		//	"debuggerAddress": "127.0.0.1:9222",
+		//},
+	},
+	directConnect: false,
+	seleniumAddress: 'http://localhost:4444/wd/hub', // address of independent ChromeDriver
+	baseUrl: 'http://localhost:4200/',
+	framework: 'jasmine',
+	jasmineNodeOpts: {
+		showColors: true,
+		defaultTimeoutInterval: 30000,
+		print: function () { }
+	},
+	onPrepare()
+	{
+		require('ts-node').register({
+			project: 'e2e/tsconfig.e2e.json'
+		});
+		jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+	}
 };
