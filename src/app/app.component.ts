@@ -1,8 +1,4 @@
-import { Component, Optional } from '@angular/core';
-import { Store } from '@ngrx/store';
-
-import { userStatus } from './logic/user/user.actions';
-import { UserStatus } from './logic/user/user.reducer';
+import { Component } from '@angular/core';
 
 @Component({
 	selector: 'app-root',
@@ -11,9 +7,7 @@ import { UserStatus } from './logic/user/user.reducer';
 })
 export class AppComponent
 {
-	constructor(@Optional() private store: Store<any>)
+	constructor()
 	{
-		if (this.store)
-			this.store.dispatch(userStatus(UserStatus.NONE));
 	}
 }

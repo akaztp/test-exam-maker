@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { StoreModule, ActionReducerMap, Action } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, routerReducer, RouterReducerState } from '@ngrx/router-store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { reducer as userReducer, State as UserState } from './user/user.reducer';
+import { InitEffects } from "./user/init.effects";
 
 export interface State
 {
@@ -21,6 +23,7 @@ const reducers: ActionReducerMap<State, Action> = {
 	imports: [
 		CommonModule,
 		StoreModule.forRoot(reducers),
+		EffectsModule.forRoot([InitEffects]),
 		StoreDevtoolsModule.instrument({
 			maxAge: 50 //  Retains last n states
 		}),

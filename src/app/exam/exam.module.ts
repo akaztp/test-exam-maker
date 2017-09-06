@@ -1,20 +1,31 @@
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken  } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StoreModule, ActionReducerMap, Action } from '@ngrx/store';
+import { StoreModule, ActionReducerMap, Action, Store, createFeatureSelector } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
-import { reducer as examReducer } from './logic/exam/exam.reducer';
-import { reducer as questionsReducer } from './logic/questions/questions.reducer';
+import { InitEffects } from './logic/exam/init.effects';
+import { State, MODULE_STORE_TOKEN, reducers } from './logic/reducers';
 
-const reducers: ActionReducerMap<{}, Action> = {
-	exam: examReducer,
-	questions: questionsReducer,
+const featureName = 'exam';
+
+export function featureSelector(store: Store<any>)
+{
+	return store.select(createFeatureSelector<State>(featureName));
 }
 
-@NgModule({
+@NgModule({ 
 	imports: [
 		CommonModule,
-		StoreModule.forFeature('exam', reducers),
+		StoreModule.forFeature(featureName, reducers),
+		EffectsModule.forFeature([InitEffects])
 	],
-	declarations: []
+	declarations: [],
+	providers: [
+		{
+			provide: MODULE_STORE_TOKEN,
+			useFactory: featureSelector,
+			deps: [Store]
+		}
+	]
 })
 export class ExamModule { }
