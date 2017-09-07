@@ -1,12 +1,11 @@
 ﻿import { Injectable, Inject } from '@angular/core';
-import { Action, Store, createSelector, createFeatureSelector } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, toPayload } from '@ngrx/effects';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from "@ngrx/router-store";
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/observable/of';
 
 import { StartComponent } from '../../../pages/start/start.component';
 import { ExamStatusAction } from './exam.actions';

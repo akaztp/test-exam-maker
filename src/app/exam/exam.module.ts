@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { InitEffects } from './logic/exam/init.effects';
 import { State, MODULE_STORE_TOKEN, reducers } from './logic/reducers';
+import { QuestionComponent } from './pages/question/question.component';
 
 const featureName = 'exam';
 
@@ -19,7 +20,9 @@ export function featureSelector(store: Store<any>)
 		StoreModule.forFeature(featureName, reducers),
 		EffectsModule.forFeature([InitEffects])
 	],
-	declarations: [],
+	declarations: [
+		QuestionComponent
+	],
 	providers: [
 		{
 			provide: MODULE_STORE_TOKEN,
