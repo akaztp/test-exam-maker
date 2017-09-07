@@ -2,7 +2,7 @@
 
 import { ExamStatus } from '../reducers/exam.reducer';
 import { AsyncDataSer } from "../../../data/asyncData";
-import { ExamData } from "../../models/exam-data";
+import { ExamInfo } from "../../models/exam-info";
 
 export const ACTION_EXAM_STATUS = 'EXAM_STATUS';
 export const ACTION_EXAM_START = 'EXAM_START';
@@ -36,7 +36,7 @@ export class ExamDataAction implements Action
 {
 	readonly type = ACTION_EXAM_DATA;
 	constructor(
-		public payload: { data: AsyncDataSer<ExamData> }
+		public payload: { data: AsyncDataSer<ExamInfo> }
 	) { }
 }
 

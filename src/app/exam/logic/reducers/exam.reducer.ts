@@ -1,14 +1,14 @@
 ﻿import { ActionReducer, Action} from '@ngrx/store';
 
 import { AsyncDataSer } from "../../../data/asyncData";
-import { ExamData } from "../../models/exam-data";
+import { ExamInfo } from "../../models/exam-info";
 import { ACTION_EXAM_STATUS, ACTION_EXAM_START, ACTION_EXAM_END, ACTION_EXAM_DATA, ACTION_EXAM_TIME, ACTION_EXAM_SCORE, ExamStatusAction, ExamEndAction, ExamDataAction, ExamTimeAction, ExamScoreAction } from "../actions/exam.actions";
 
 export enum ExamStatus { OFF, READY, RUNNING, TIME_ENDED, ENDED };
 
 export interface State
 {
-	data: AsyncDataSer<ExamData>,
+	data: AsyncDataSer<ExamInfo>,
 	resultScore: AsyncDataSer<number>,
 	timeLeft: number, // seconds
 	status: ExamStatus,
@@ -32,7 +32,7 @@ export function reducer(state: State = initialState, action: Action): State
 		case ACTION_EXAM_DATA:
 			{
 				let timeLeft = 0;
-				const adata: AsyncDataSer<ExamData> = (action as ExamDataAction).payload.data;
+				const adata: AsyncDataSer<ExamInfo> = (action as ExamDataAction).payload.data;
 				if (AsyncDataSer.hasData(adata, false))
 					timeLeft = adata.data.duration;
 				return { ...state, data: (action as ExamDataAction).payload.data, timeLeft: timeLeft };

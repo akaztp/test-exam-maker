@@ -1,4 +1,4 @@
-﻿export interface ExamData
+﻿export interface ExamInfo
 {
 	name: string,
 	description: string,
