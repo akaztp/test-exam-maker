@@ -13,7 +13,7 @@ import { ExamStatus, State as ExamState } from '../reducers/exam.reducer';
 import { MODULE_STORE_TOKEN, State } from "../reducers";
 
 @Injectable()
-export class InitEffects
+export class PageStartEffects
 {
 	@Effect()
 	public effect$: Observable<Action>;

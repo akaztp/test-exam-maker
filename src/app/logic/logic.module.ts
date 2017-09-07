@@ -6,7 +6,7 @@ import { StoreRouterConnectingModule, routerReducer, RouterReducerState } from '
 import { EffectsModule } from '@ngrx/effects';
 
 import { reducer as userReducer, State as UserState } from './reducers/user.reducer';
-import { InitEffects } from "./effects/init.effects";
+import { PageStartEffects } from "./effects/init.effects";
 
 export interface State
 {
@@ -23,7 +23,7 @@ const reducers: ActionReducerMap<State, Action> = {
 	imports: [
 		CommonModule,
 		StoreModule.forRoot(reducers),
-		EffectsModule.forRoot([InitEffects]),
+		EffectsModule.forRoot([PageStartEffects]),
 		StoreDevtoolsModule.instrument({
 			maxAge: 50 //  Retains last n states
 		}),

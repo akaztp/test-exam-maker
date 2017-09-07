@@ -1,5 +1,5 @@
 ﻿import { Injectable, Inject } from '@angular/core';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, toPayload } from '@ngrx/effects';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from "@ngrx/router-store";
 import { Observable } from 'rxjs/Observable';
@@ -7,14 +7,12 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 
 import { QuestionComponent } from '../../pages/question/question.component';
-import { ExamStatusAction, ExamStartAction } from '../actions/exam.actions';
-import { ExamStatus, State as ExamState } from '../reducers/exam.reducer';
-import { MODULE_STORE_TOKEN, State } from "../reducers";
+import { QuestionsCurrentAction } from "../actions/questions.actions";
 
 @Injectable()
-export class StartEffects
+export class PageQuestionCurrentEffects
 {
-	@Effect()  
+	@Effect()
 	public effect$: Observable<Action>;
 
 	constructor(
@@ -22,11 +20,11 @@ export class StartEffects
 	)
 	{
 		this.effect$ = this.actions$.ofType<RouterNavigationAction>(ROUTER_NAVIGATION)
-			.filter(action =>
-			{
-				return action.payload.routerState.root.firstChild.component == QuestionComponent
-					&& !action.payload.routerState.root.firstChild.params['num'];
-			})
-			.map(action => new ExamStartAction());
+			.filter(action => action.payload.routerState.root.firstChild.component == QuestionComponent
+					&& !isNaN(Number.parseInt(action.payload.routerState.root.firstChild.params['num'])))
+			.map(action =>
+				new QuestionsCurrentAction({
+					num: Number.parseInt(action.payload.routerState.root.firstChild.params['num'])
+				}));
 	}
 }

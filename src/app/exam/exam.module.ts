@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule, ActionReducerMap, Action, Store, createFeatureSelector } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { InitEffects } from './logic/effects/init.effects';
+import { PageStartEffects } from './logic/effects/init.effects';
 import { State, MODULE_STORE_TOKEN, reducers } from './logic/reducers';
 import { QuestionComponent } from './pages/question/question.component';
 
@@ -18,7 +18,7 @@ export function featureSelector(store: Store<any>)
 	imports: [
 		CommonModule,
 		StoreModule.forFeature(featureName, reducers),
-		EffectsModule.forFeature([InitEffects])
+		EffectsModule.forFeature([PageStartEffects])
 	],
 	declarations: [
 		QuestionComponent

@@ -5,31 +5,31 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable } from "rxjs/Observable";
 
-import { StartEffects } from './start.effects';
+import { PageQuestionStartEffects } from './page-question-start.effects';
 import { QuestionComponent } from "../../pages/question/question.component";
 import { ExamStatus, initialState as examInitialState } from "../reducers/exam.reducer";
 import { ExamStartAction } from "../actions/exam.actions";
 
-describe('Exam/Logic/Exam/StartEffects', () =>
+describe('Exam/Logic/' + PageQuestionStartEffects.name, () =>
 {
-	let effects: StartEffects;
+	let effects: PageQuestionStartEffects;
 	let actions: Observable<any>;
 
 	beforeEach(() =>
 	{
 		TestBed.configureTestingModule({
 			providers: [
-				StartEffects,
+				PageQuestionStartEffects,
 				provideMockActions(() => actions),
 			]
 		});
 
-		effects = TestBed.get(StartEffects);
+		effects = TestBed.get(PageQuestionStartEffects);
 	});
 
 	it('should emit no action', () =>
 	{
-		const routerAction: any = { 
+		const routerAction = { 
 			type: ROUTER_NAVIGATION,
 			payload: {
 				routerState: {
@@ -52,7 +52,7 @@ describe('Exam/Logic/Exam/StartEffects', () =>
 
 	it('should emit one action', () =>
 	{
-		const routerAction: any = {
+		const routerAction = {
 			type: ROUTER_NAVIGATION,
 			payload: {
 				routerState: {

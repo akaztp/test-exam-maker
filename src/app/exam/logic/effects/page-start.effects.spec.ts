@@ -6,14 +6,14 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable } from "rxjs/Observable";
 
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
-import { InitEffects } from './init.effects';
+import { PageStartEffects } from './page-start.effects';
 import { StartComponent } from "../../../pages/start/start.component";
 import { ExamStatus, initialState as examInitialState } from "../reducers/exam.reducer";
 import { ExamStatusAction } from "../actions/exam.actions";
 
-describe('Exam/Logic/Exam/InitEffects', () =>
+describe('Exam/Logic/InitEffects', () =>
 {
-	let effects: InitEffects;
+	let effects: PageStartEffects;
 	let actions: Observable<any>;
 	let store: Store<State>;
 
@@ -24,16 +24,16 @@ describe('Exam/Logic/Exam/InitEffects', () =>
 				StoreModule.forRoot<State, Action>(reducers),
 			],
 			providers: [
-				InitEffects,
+				PageStartEffects,
 				provideMockActions(() => actions),
 				{ provide: MODULE_STORE_TOKEN, useExisting: Store }
 			]
 		});
 
-		effects = TestBed.get(InitEffects);
+		effects = TestBed.get(PageStartEffects);
 		store = TestBed.get(Store);
 
-		const routerAction: any = {
+		const routerAction = {
 			type: ROUTER_NAVIGATION,
 			payload: {
 				routerState: {
@@ -63,16 +63,16 @@ describe('Exam/Logic/Exam/InitEffects', () =>
 				}),
 			],
 			providers: [
-				InitEffects,
+				PageStartEffects,
 				provideMockActions(() => actions),
 				{ provide: MODULE_STORE_TOKEN, useExisting: Store }
 			]
 		});
 
-		effects = TestBed.get(InitEffects);
+		effects = TestBed.get(PageStartEffects);
 		store = TestBed.get(Store);
 
-		const routerAction: any = { 
+		const routerAction = { 
 			type: ROUTER_NAVIGATION,
 			payload: {
 				routerState: {

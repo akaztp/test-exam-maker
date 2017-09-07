@@ -7,23 +7,23 @@ import { Observable } from "rxjs/Observable";
 import { StartComponent } from "../../pages/start/start.component";
 import { UserStatusAction, UserInputAction } from "../actions/user.actions";
 import { UserStatus } from "../reducers/user.reducer";
-import { InitEffects } from './init.effects';
+import { PageStartEffects } from './page-start.effects';
 
-describe('Logic/User/InitEffects', () =>
+describe('Logic/User/' + PageStartEffects.name, () =>
 {
-	let effects: InitEffects;
+	let effects: PageStartEffects;
 	let actions: Observable<any>;
 
 	beforeEach(() =>
 	{
 		TestBed.configureTestingModule({
 			providers: [
-				InitEffects,
+				PageStartEffects,
 				provideMockActions(() => actions),
 			]
 		});
 
-		effects = TestBed.get(InitEffects);
+		effects = TestBed.get(PageStartEffects);
 	});
 
 	it('should work', () =>

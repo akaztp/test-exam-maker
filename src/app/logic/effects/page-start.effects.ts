@@ -12,7 +12,7 @@ import { UserStatus } from "../reducers/user.reducer";
 import { StartComponent } from '../../pages/start/start.component';
 
 @Injectable()
-export class InitEffects
+export class PageStartEffects
 {
 	@Effect()
 	public effect$: Observable<Action> = this.actions$.ofType(ROUTER_NAVIGATION)
