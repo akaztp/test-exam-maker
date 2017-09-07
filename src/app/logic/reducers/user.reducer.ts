@@ -1,5 +1,5 @@
 ﻿import { ActionReducer, Action} from '@ngrx/store';
-import { ACTION_USER_STATUS, UserStatusAction, ACTION_USER_INPUT, UserInputAction, ACTION_USER_LOGIN, UserLoginAction, UserDataAction, ACTION_USER_DATA } from "./user.actions";
+import { ACTION_USER_STATUS, UserStatusAction, ACTION_USER_INPUT, UserInputAction, ACTION_USER_LOGIN, UserLoginAction, UserDataAction, ACTION_USER_DATA } from "../actions/user.actions";
 
 export enum UserStatus { NONE, LOGGED, UNAUTH, ERROR };
 

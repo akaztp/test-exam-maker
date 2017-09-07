@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule, ActionReducerMap, Action, Store, createFeatureSelector } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { InitEffects } from './logic/exam/init.effects';
+import { InitEffects } from './logic/effects/init.effects';
 import { State, MODULE_STORE_TOKEN, reducers } from './logic/reducers';
 import { QuestionComponent } from './pages/question/question.component';
 

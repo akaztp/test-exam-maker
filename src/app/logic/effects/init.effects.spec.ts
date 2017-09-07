@@ -5,8 +5,8 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable } from "rxjs/Observable";
 
 import { StartComponent } from "../../pages/start/start.component";
-import { UserStatusAction, UserInputAction } from "./user.actions";
-import { UserStatus } from "./user.reducer";
+import { UserStatusAction, UserInputAction } from "../actions/user.actions";
+import { UserStatus } from "../reducers/user.reducer";
 import { InitEffects } from './init.effects';
 
 describe('Logic/User/InitEffects', () =>

@@ -8,8 +8,8 @@ import { Observable } from "rxjs/Observable";
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
 import { InitEffects } from './init.effects';
 import { StartComponent } from "../../../pages/start/start.component";
-import { ExamStatus, initialState as examInitialState } from "./exam.reducer";
-import { ExamStatusAction } from "./exam.actions";
+import { ExamStatus, initialState as examInitialState } from "../reducers/exam.reducer";
+import { ExamStatusAction } from "../actions/exam.actions";
 
 describe('Exam/Logic/Exam/InitEffects', () =>
 {

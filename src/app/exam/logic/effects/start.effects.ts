@@ -7,14 +7,14 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 
 import { QuestionComponent } from '../../pages/question/question.component';
-import { ExamStatusAction, ExamStartAction } from './exam.actions';
-import { ExamStatus, State as ExamState } from './exam.reducer';
+import { ExamStatusAction, ExamStartAction } from '../actions/exam.actions';
+import { ExamStatus, State as ExamState } from '../reducers/exam.reducer';
 import { MODULE_STORE_TOKEN, State } from "../reducers";
 
 @Injectable()
 export class StartEffects
 {
-	@Effect()
+	@Effect()  
 	public effect$: Observable<Action>;
 
 	constructor(

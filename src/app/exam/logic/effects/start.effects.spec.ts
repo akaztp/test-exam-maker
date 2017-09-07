@@ -7,8 +7,8 @@ import { Observable } from "rxjs/Observable";
 
 import { StartEffects } from './start.effects';
 import { QuestionComponent } from "../../pages/question/question.component";
-import { ExamStatus, initialState as examInitialState } from "./exam.reducer";
-import { ExamStartAction } from "./exam.actions";
+import { ExamStatus, initialState as examInitialState } from "../reducers/exam.reducer";
+import { ExamStartAction } from "../actions/exam.actions";
 
 describe('Exam/Logic/Exam/StartEffects', () =>
 {

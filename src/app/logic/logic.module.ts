@@ -5,8 +5,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducer as userReducer, State as UserState } from './user/user.reducer';
-import { InitEffects } from "./user/init.effects";
+import { reducer as userReducer, State as UserState } from './reducers/user.reducer';
+import { InitEffects } from "./effects/init.effects";
 
 export interface State
 {

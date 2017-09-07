@@ -8,8 +8,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/withLatestFrom';
 
 import { StartComponent } from '../../../pages/start/start.component';
-import { ExamStatusAction } from './exam.actions';
-import { ExamStatus, State as ExamState } from './exam.reducer';
+import { ExamStatusAction } from '../actions/exam.actions';
+import { ExamStatus, State as ExamState } from '../reducers/exam.reducer';
 import { MODULE_STORE_TOKEN, State } from "../reducers";
 
 @Injectable()

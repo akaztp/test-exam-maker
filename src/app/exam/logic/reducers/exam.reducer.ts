@@ -2,7 +2,7 @@
 
 import { AsyncDataSer } from "../../../data/asyncData";
 import { ExamData } from "../../models/exam-data";
-import { ACTION_EXAM_STATUS, ACTION_EXAM_START, ACTION_EXAM_END, ACTION_EXAM_DATA, ACTION_EXAM_TIME, ACTION_EXAM_SCORE, ExamStatusAction, ExamEndAction, ExamDataAction, ExamTimeAction, ExamScoreAction } from "./exam.actions";
+import { ACTION_EXAM_STATUS, ACTION_EXAM_START, ACTION_EXAM_END, ACTION_EXAM_DATA, ACTION_EXAM_TIME, ACTION_EXAM_SCORE, ExamStatusAction, ExamEndAction, ExamDataAction, ExamTimeAction, ExamScoreAction } from "../actions/exam.actions";
 
 export enum ExamStatus { OFF, READY, RUNNING, TIME_ENDED, ENDED };
 

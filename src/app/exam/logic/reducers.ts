@@ -1,8 +1,8 @@
 ﻿import { InjectionToken } from '@angular/core';
 import { ActionReducerMap, Action, Store } from '@ngrx/store';
 
-import { reducer as examReducer, State as ExamState } from './exam/exam.reducer';
-import { reducer as questionsReducer, State as QuestionsState } from './questions/questions.reducer';
+import { reducer as examReducer, State as ExamState } from './reducers/exam.reducer';
+import { reducer as questionsReducer, State as QuestionsState } from './reducers/questions.reducer';
 
 export interface State
 {

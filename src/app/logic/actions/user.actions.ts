@@ -1,6 +1,6 @@
 ﻿import { Action } from '@ngrx/store';
 
-import { UserStatus } from './user.reducer';
+import { UserStatus } from '../reducers/user.reducer';
 
 export const ACTION_USER_STATUS = 'USER_STATUS';
 export const ACTION_USER_INPUT = 'USER_INPUT';

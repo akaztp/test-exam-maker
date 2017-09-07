@@ -7,8 +7,8 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/of';
 
-import { UserStatusAction, UserInputAction } from './user.actions';
-import { UserStatus } from "./user.reducer";
+import { UserStatusAction, UserInputAction } from '../actions/user.actions';
+import { UserStatus } from "../reducers/user.reducer";
 import { StartComponent } from '../../pages/start/start.component';
 
 @Injectable()
