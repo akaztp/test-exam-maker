@@ -6,7 +6,7 @@ import { StoreRouterConnectingModule, routerReducer, RouterReducerState } from '
 import { EffectsModule } from '@ngrx/effects';
 
 import { reducer as userReducer, State as UserState } from './reducers/user.reducer';
-import { PageStartEffects } from "./effects/init.effects";
+import { PageStartEffects } from "./effects/page-start.effects";
 
 export interface State
 {

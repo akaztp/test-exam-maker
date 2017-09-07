@@ -6,14 +6,14 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable } from "rxjs/Observable";
 
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
-import { PageStartEffects } from './page-start.effects';
-import { StartComponent } from "../../../pages/start/start.component";
+import { PageResultEffects } from './page-result.effects';
+import { ResultComponent } from '../../pages/result/result.component';
 import { ExamStatus, initialState as examInitialState } from "../reducers/exam.reducer";
-import { ExamStatusAction } from "../actions/exam.actions";
+import { ExamStatusAction, ExamEndAction } from "../actions/exam.actions";
 
-describe('Exam/Logic/' + PageStartEffects.name, () =>
+describe('Exam/Logic/' + PageResultEffects.name, () =>
 {
-	let effects: PageStartEffects;
+	let effects: PageResultEffects;
 	let actions: Observable<any>;
 	let store: Store<State>;
 	const routerAction = {
@@ -22,7 +22,7 @@ describe('Exam/Logic/' + PageStartEffects.name, () =>
 			routerState: {
 				root: {
 					firstChild: {
-						component: StartComponent
+						component: ResultComponent
 					}
 				}
 			}
@@ -37,31 +37,39 @@ describe('Exam/Logic/' + PageStartEffects.name, () =>
 					initialState ? { initialState: initialState } : {}),
 			],
 			providers: [
-				PageStartEffects,
+				PageResultEffects,
 				provideMockActions(() => actions),
 				{ provide: MODULE_STORE_TOKEN, useExisting: Store }
 			]
 		});
 
-		effects = TestBed.get(PageStartEffects);
+		effects = TestBed.get(PageResultEffects);
 		store = TestBed.get(Store);
 	}
 
-	it('should not emit actions', () =>
+	it('should not emit actions when exam.status is ENDED', () =>
 	{
-		init(null);
+		init({ exam: { ...examInitialState, status: ExamStatus.ENDED } });
 		actions = hot('a', { a: routerAction });
 		const expected = cold('', { });
 
 		expect(effects.effect$).toBeObservable(expected);
 	});
 
+	it('should not emit actions when exam.status is TIME_ENDED', () =>
+	{
+		init({ exam: { ...examInitialState, status: ExamStatus.TIME_ENDED } });
+		actions = hot('a', { a: routerAction });
+		const expected = cold('', {});
+
+		expect(effects.effect$).toBeObservable(expected);
+	});
 
 	it('should emit one action', () =>
 	{
-		init({ exam: { ...examInitialState, status: ExamStatus.ENDED } });
+		init({ exam: { ...examInitialState, status: ExamStatus.OFF } });
 		actions = hot('a', { a: routerAction });
-		const expected = cold('a', { a: new ExamStatusAction({ status: ExamStatus.OFF })});
+		const expected = cold('a', { a: new ExamEndAction({ status: ExamStatus.ENDED }) });
 
 		expect(effects.effect$).toBeObservable(expected);
 	});
