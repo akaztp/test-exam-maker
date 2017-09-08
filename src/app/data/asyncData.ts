@@ -14,7 +14,10 @@ export class AsyncDataSer<T>
     }
 
     public static hasData(adata: AsyncDataSer<any>, orError: boolean = false): boolean
-    {
+	{
+		if (!adata)
+			return false;
+
         if (orError)
             return adata.error || (!adata.loading && adata.data != null);
             
