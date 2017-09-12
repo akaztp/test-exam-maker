@@ -16,7 +16,8 @@ exports.config = {
 		//},
 	},
 	directConnect: false,
-	seleniumAddress: 'http://localhost:4444/wd/hub', // address of independent ChromeDriver
+	 // address of independent ChromeDriver, use: chromedriver --post=4444 --url-base=wd/hub
+	seleniumAddress: 'http://localhost:4444/wd/hub',
 	baseUrl: 'http://localhost:4200/',
 	framework: 'jasmine',
 	jasmineNodeOpts: {
