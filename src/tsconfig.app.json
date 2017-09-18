@@ -8,7 +8,7 @@
     },
     "exclude": [
         "test.ts",
-        "./app/utils/jasmine-matchers.ts",
+        "./utils/jasmine-matchers.ts",
         "**/*.spec.ts"
     ]
 }

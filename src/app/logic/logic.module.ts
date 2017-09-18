@@ -6,29 +6,29 @@ import { StoreRouterConnectingModule, routerReducer, RouterReducerState } from '
 import { EffectsModule } from '@ngrx/effects';
 
 import { reducer as userReducer, State as UserState } from './reducers/user.reducer';
-import { PageStartEffects } from "./effects/page-start.effects";
+import { PageStartEffects } from './effects/page-start.effects';
 
 export interface State
 {
-	user: UserState,
-	router: RouterReducerState,
+    user: UserState;
+    router: RouterReducerState;
 }
 
 const reducers: ActionReducerMap<State, Action> = {
-	user: userReducer,
-	router: routerReducer,
+    user: userReducer,
+    router: routerReducer,
 };
 
 @NgModule({
-	imports: [
-		CommonModule,
-		StoreModule.forRoot(reducers),
-		EffectsModule.forRoot([PageStartEffects]),
-		StoreDevtoolsModule.instrument({
-			maxAge: 50 //  Retains last n states
-		}),
-		StoreRouterConnectingModule
-	],
-	declarations: []
+    imports: [
+        CommonModule,
+        StoreModule.forRoot(reducers),
+        EffectsModule.forRoot([PageStartEffects]),
+        StoreDevtoolsModule.instrument({
+            maxAge: 50 //  Retains last n states
+        }),
+        StoreRouterConnectingModule
+    ],
+    declarations: []
 })
 export class LogicModule { }
