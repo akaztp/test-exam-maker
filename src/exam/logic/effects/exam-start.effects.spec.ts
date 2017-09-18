@@ -4,6 +4,10 @@ import { RouterNavigationAction, ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
+import { IScheduler } from 'rxjs/Scheduler';
+import 'rxjs/add/observable/concat';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/do';
 
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
 import { ExamStartEffects } from './exam-start.effects';
@@ -14,6 +18,8 @@ import { ExamTimerService } from '../../data/exam-timer.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamInfo } from '../../models/exam-info';
 import { deepEqual } from 'assert';
+import { expectObservableValues } from '../../../utils/jasmine-observables';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 describe('Exam/Logic/' + ExamStartEffects.name, () =>
 {
@@ -29,10 +35,13 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
             imports: [
                 StoreModule.forRoot<State, Action>(reducers,
                     initialState ? { initialState: initialState } : {}),
+                StoreDevtoolsModule.instrument({
+                    maxAge: 50 //  Retains last n states
+                }),
             ],
             providers: [
                 ExamStartEffects,
-                provideMockActions(() => actions),
+                provideMockActions(() => actions.do(a => store.dispatch(a))),
                 { provide: MODULE_STORE_TOKEN, useExisting: Store },
                 ExamTimerService,
             ]
@@ -57,50 +66,68 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
     {
         fakeAsync(() =>
         {
-            init({
-                exam: {
-                    ...examInitialState,
-                    status: ExamStatus.READY,
-                    data: new AsyncDataSer({
-                        duration: examDuration, // seconds
-                    } as ExamInfo, false),
-                }
-            });
+            initExam(examDuration);
             actions = Observable.of(new ExamStartAction());
-            const expected = [
-                new ExamStatusAction({ status: ExamStatus.RUNNING }),
-                new ExamTimeAction({ time: 5 }),
-                new ExamTimeAction({ time: 4 }),
-                new ExamTimeAction({ time: 3 }),
-                new ExamTimeAction({ time: 2 }),
-                new ExamTimeAction({ time: 1 }),
-                new ExamEndAction({ status: ExamStatus.TIME_ENDED }),
-            ];
-            let expectedStep = 0;
+            expectObservableValues(
+                effects.effect$.do(a => store.dispatch(a)),
+                buildExpected(examDuration),
+                done,
+                true);
 
-            effects.effect$.subscribe(
-                (value) =>
-                {
-                    expect(value).toEqual(expected[expectedStep]);
-                    expectedStep++;
-                },
-                (error) => fail('Effects observable errored unexpectedly. Error: ' + error.toString()),
-                () =>
-                { // because the above actions observable does complete
-                    if (expectedStep === expected.length)
-                    {
-                        done();
-                        flush();
-                    }
-                    else
-                        fail('Effects observable completed unexpectedly. '
-                            + (expectedStep < expected.length
-                                ? 'Missing values from effects observable.'
-                                : 'Too many values on effects observable.'));
-                }
-            );
-            tick(examDuration * 1000);
+            tick(examDuration * 1000 + 1000);
             flush();
         })();
     });
+
+    it('should interrupt timer if exam ends', (done) =>
+    {
+        fakeAsync(() =>
+        {
+            initExam(examDuration);
+            actions = Observable.concat(
+                Observable.of(new ExamStartAction()),
+                Observable.interval(2.5 * 1000).take(1).map(() => new ExamEndAction({ status: ExamStatus.ENDED }))
+            );
+            expectObservableValues(
+                effects.effect$.do(a => store.dispatch(a)),
+                buildExpected(examDuration, examDuration - 2),
+                done,
+                true);
+
+            tick(examDuration * 1000 + 1000);
+            flush();
+        })();
+    });
+
+    /**
+     *
+     * @param duration Duration in the preset exam data
+     */
+    function initExam(duration: number)
+    {
+        init({
+            exam: {
+                ...examInitialState,
+                status: ExamStatus.READY,
+                data: new AsyncDataSer({
+                    duration: duration, // seconds
+                } as ExamInfo, false),
+            }
+        });
+
+    }
+
+    function buildExpected(timerStart: number, timerEnd: number = 0)
+    {
+        const expected: Array<Action> = [new ExamStatusAction({ status: ExamStatus.RUNNING })];
+
+        for (; timerStart >= timerEnd; --timerStart)
+            expected.push(new ExamTimeAction({ time: timerStart }));
+
+        if (timerEnd === 0)
+            expected.push(new ExamEndAction({ status: ExamStatus.TIME_ENDED }));
+
+        return expected;
+    }
+
 });

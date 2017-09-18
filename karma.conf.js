@@ -28,22 +28,21 @@ module.exports = function (config)
 		colors: true,
 		logLevel: config.LOG_INFO,
 		autoWatch: true,
-		browsers: ['chromeDriver'],
 		singleRun: false,
-		customLaunchers: {
-			'chromeDriver': {
-				base: 'WebDriver',
-				config: {
-					hostname: 'localhost',
-					port: 4444,
-				},
-				browserName: 'chrome',
-				// use an existing remote debugging configured chrome
-				//chromeOptions: {
-				//	"debuggerAddress": "127.0.0.1:9222",
-				//},
-				name: 'Karma',
-			}
-		},
+        // browsers: ['chromeDriver'],
+		// customLaunchers: {
+		// 	'chromeDriver': {
+		// 		base: 'WebDriver',
+		// 		config: {
+		// 			hostname: 'localhost',
+		// 			port: 4444,
+		// 		},
+		// 		browserName: 'chrome',
+		// 		cromeOptions: {
+		// 			"debuggerAddress": "127.0.0.1:9222",
+		// 		},
+		// 		name: 'Karma',
+		// 	}
+		// },
 	});
 };

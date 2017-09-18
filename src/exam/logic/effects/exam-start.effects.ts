@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/skip';
 import 'rxjs/add/observable/concat';
 
 import { ExamStatusAction, ExamEndAction, ExamTimeAction, ACTION_EXAM_START } from '../actions/exam.actions';
@@ -45,8 +47,11 @@ export class ExamStartEffects
                 return Observable.concat(
                     Observable.of(new ExamStatusAction({ status: ExamStatus.RUNNING })),
                     this.examTimerService.getTimer(state.data.data.duration)
+                        .takeUntil(exam$.filter(s => s.status !== ExamStatus.RUNNING))
                         .map(num => new ExamTimeAction({ time: num })),
                     Observable.of(new ExamEndAction({ status: ExamStatus.TIME_ENDED }))
+                        .withLatestFrom(exam$, (a, s) => s.status === ExamStatus.RUNNING ? a : null)
+                        .filter(a => a !== null)
                 );
             });
     }
