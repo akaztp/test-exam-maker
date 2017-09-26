@@ -9,6 +9,44 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "problemMatcher": [
+                "$tsc-watch"
+            ]
+        },
+        {
+            "type": "npm",
+            "script": "lint",
+            "problemMatcher": [
+                {
+                    "applyTo": "allDocuments",
+                    "severity": "warning",
+                    "fileLocation": "relative",
+                    "pattern": {
+                        "regexp": "^(WARNING|ERROR):(\\s+\\(\\S*\\))?\\s+\\/mnt\\/c\\/Users\\/josea\\/Source\\/Repos\\/TestExamMaker\\/(\\S.*)\\[(\\d+), (\\d+)\\]:\\s+((.|\\n)*?)\\.$",
+                        "severity": 1,
+                        "file": 3,
+                        "line": 4,
+                        "column": 5,
+                        "message": 6
+                    }
+                }
+            ]
+        },
+        {
+            "type": "npm",
+            "script": "test",
+            "problemMatcher": {
+                "applyTo": "allDocuments",
+                "owner": "typescript",
+                "fileLocation": "relative",
+                "pattern": {
+                    "regexp": "^(WARNING|ERROR) in \/mnt\/.*?\/TestExamMaker\/(.*?) \\((\\d+,\\d+)\\): (.*)$",
+                    "severity": 1,
+                    "file": 2,
+                    "location": 3,
+                    "message": 4
+                }
             }
         }
     ]

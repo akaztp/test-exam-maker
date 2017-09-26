@@ -1,31 +1,40 @@
 ﻿import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { StoreModule, Store, Action } from '@ngrx/store';
-import { RouterNavigationAction, ROUTER_NAVIGATION } from '@ngrx/router-store';
+import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
+import { EffectsModule } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { hot, cold } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
+import { RouterStateSer, RouterStoreSerModule } from 'router-store-ser';
 
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
-import { PageStartEffects } from './page-start.effects';
-import { StartContainer } from '../../../app/containers/start/start.container';
+import { RouterOutEffects } from './router-out.effects';
 import { ExamStatus, initialState as examInitialState } from '../reducers/exam.reducer';
 import { ExamStatusAction } from '../actions/exam.actions';
+import { startRouteId } from '../../../app/app-routing.module';
 
-describe('Exam/Logic/' + PageStartEffects.name, () =>
+describe('Exam/Logic/' + RouterOutEffects.name, () =>
 {
-    let effects: PageStartEffects;
+    let effects: RouterOutEffects;
     let actions: Observable<any>;
     let store: Store<State>;
-    const routerAction = {
+
+    const routerAction: RouterNavigationAction<RouterStateSer> = {
         type: ROUTER_NAVIGATION,
         payload: {
             routerState: {
+                url: '/start',
                 root: {
-                    firstChild: {
-                        component: StartContainer
-                    }
+                    configPath: 'start',
+                    data: {
+                        uid: startRouteId
+                    },
+                    children: [],
+                    params: []
                 }
-            }
+            },
+            event: null
         }
     };
 
@@ -35,15 +44,18 @@ describe('Exam/Logic/' + PageStartEffects.name, () =>
             imports: [
                 StoreModule.forRoot<State, Action>(reducers,
                     initialState ? { initialState: initialState } : {}),
+                    EffectsModule.forRoot([]),
+                    RouterStoreSerModule,
             ],
             providers: [
-                PageStartEffects,
+                RouterOutEffects,
                 provideMockActions(() => actions),
-                { provide: MODULE_STORE_TOKEN, useExisting: Store }
+                { provide: MODULE_STORE_TOKEN, useExisting: Store },
+                { provide: Router, useValue: {} },
             ]
         });
 
-        effects = TestBed.get(PageStartEffects);
+        effects = TestBed.get(RouterOutEffects);
         store = TestBed.get(Store);
     }
 
@@ -51,17 +63,17 @@ describe('Exam/Logic/' + PageStartEffects.name, () =>
     {
         init(null);
         actions = hot('a', { a: routerAction });
-        const expected = cold('', {});
+        const expected = hot('', {});
 
         expect(effects.effect$).toBeObservable(expected);
     });
 
 
-    it('should emit one action', () =>
+   it('should emit one action', () =>
     {
         init({ exam: { ...examInitialState, status: ExamStatus.ENDED } });
         actions = hot('a', { a: routerAction });
-        const expected = cold('a', { a: new ExamStatusAction({ status: ExamStatus.OFF }) });
+        const expected = hot('a', { a: new ExamStatusAction({ status: ExamStatus.OFF }) });
 
         expect(effects.effect$).toBeObservable(expected);
     });

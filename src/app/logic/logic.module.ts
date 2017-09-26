@@ -4,31 +4,45 @@ import { StoreModule, ActionReducerMap, Action } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
+import { RouterStateSer, RouterStoreSerModule } from 'router-store-ser';
 
 import { reducer as userReducer, State as UserState } from './reducers/user.reducer';
-import { PageStartEffects } from './effects/page-start.effects';
+import { PageStartEffects } from './effects/router-start.effects';
+import { RouterStoreExtension } from '../../utils/router-state-extension';
 
 export interface State
 {
     user: UserState;
-    router: RouterReducerState;
+    routerReducer: RouterReducerState<RouterStateSer>;
 }
 
 const reducers: ActionReducerMap<State, Action> = {
     user: userReducer,
-    router: routerReducer,
+    routerReducer: routerReducer,
 };
 
 @NgModule({
     imports: [
         CommonModule,
         StoreModule.forRoot(reducers),
-        EffectsModule.forRoot([PageStartEffects]),
         StoreDevtoolsModule.instrument({
-            maxAge: 50 //  Retains last n states
+            maxAge: 50, //  Retains last n states
         }),
-        StoreRouterConnectingModule
+        EffectsModule.forRoot([
+            PageStartEffects
+        ]),
+        StoreRouterConnectingModule,
+        RouterStoreSerModule,
     ],
-    declarations: []
+    declarations: [],
+    providers: [
+        RouterStoreExtension
+    ]
 })
-export class LogicModule { }
+export class LogicModule
+{
+    constructor(
+        ext: RouterStoreExtension
+    ) { }
+}
+

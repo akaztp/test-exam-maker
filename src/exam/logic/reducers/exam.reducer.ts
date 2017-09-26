@@ -1,4 +1,4 @@
-﻿import { ActionReducer, Action } from '@ngrx/store';
+﻿import { Action } from '@ngrx/store';
 
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamInfo } from '../../models/exam-info';

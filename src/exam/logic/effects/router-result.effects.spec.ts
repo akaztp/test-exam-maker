@@ -1,31 +1,39 @@
-﻿import { TestBed } from '@angular/core/testing';
+﻿import { Router } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
 import { StoreModule, Store, Action } from '@ngrx/store';
-import { RouterNavigationAction, ROUTER_NAVIGATION } from '@ngrx/router-store';
+import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
+import { EffectsModule } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { hot, cold } from 'jasmine-marbles';
+import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
+import { RouterStoreSerModule, RouterStateSer } from 'router-store-ser';
 
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
-import { PageResultEffects } from './page-result.effects';
-import { ResultContainer } from '../../containers/result/result.container';
+import { RouterResultEffects } from './router-result.effects';
 import { ExamStatus, initialState as examInitialState } from '../reducers/exam.reducer';
-import { ExamStatusAction, ExamEndAction } from '../actions/exam.actions';
+import { ExamEndAction } from '../actions/exam.actions';
+import { resultRouteId } from '../../exam-routing.module';
 
-describe('Exam/Logic/' + PageResultEffects.name, () =>
+describe('Exam/Logic/' + RouterResultEffects.name, () =>
 {
-    let effects: PageResultEffects;
+    let effects: RouterResultEffects;
     let actions: Observable<any>;
     let store: Store<State>;
-    const routerAction = {
+    const routerAction: RouterNavigationAction<RouterStateSer> = {
         type: ROUTER_NAVIGATION,
         payload: {
             routerState: {
+                url: '/result',
                 root: {
-                    firstChild: {
-                        component: ResultContainer
-                    }
+                    configPath: 'result',
+                    data: {
+                        uid: resultRouteId
+                    },
+                    children: [],
+                    params: { },
                 }
-            }
+            },
+            event: null
         }
     };
 
@@ -35,15 +43,18 @@ describe('Exam/Logic/' + PageResultEffects.name, () =>
             imports: [
                 StoreModule.forRoot<State, Action>(reducers,
                     initialState ? { initialState: initialState } : {}),
-            ],
+                    EffectsModule.forRoot([]),
+                    RouterStoreSerModule
+                ],
             providers: [
-                PageResultEffects,
+                RouterResultEffects,
                 provideMockActions(() => actions),
-                { provide: MODULE_STORE_TOKEN, useExisting: Store }
+                { provide: MODULE_STORE_TOKEN, useExisting: Store },
+                { provide: Router, useValue: {} },
             ]
         });
 
-        effects = TestBed.get(PageResultEffects);
+        effects = TestBed.get(RouterResultEffects);
         store = TestBed.get(Store);
     }
 
@@ -51,7 +62,7 @@ describe('Exam/Logic/' + PageResultEffects.name, () =>
     {
         init({ exam: { ...examInitialState, status: ExamStatus.ENDED } });
         actions = hot('a', { a: routerAction });
-        const expected = cold('', {});
+        const expected = hot('', {});
 
         expect(effects.effect$).toBeObservable(expected);
     });
@@ -60,7 +71,7 @@ describe('Exam/Logic/' + PageResultEffects.name, () =>
     {
         init({ exam: { ...examInitialState, status: ExamStatus.TIME_ENDED } });
         actions = hot('a', { a: routerAction });
-        const expected = cold('', {});
+        const expected = hot('', {});
 
         expect(effects.effect$).toBeObservable(expected);
     });
@@ -69,7 +80,7 @@ describe('Exam/Logic/' + PageResultEffects.name, () =>
     {
         init({ exam: { ...examInitialState, status: ExamStatus.OFF } });
         actions = hot('a', { a: routerAction });
-        const expected = cold('a', { a: new ExamEndAction({ status: ExamStatus.ENDED }) });
+        const expected = hot('a', { a: new ExamEndAction({ status: ExamStatus.ENDED }) });
 
         expect(effects.effect$).toBeObservable(expected);
     });

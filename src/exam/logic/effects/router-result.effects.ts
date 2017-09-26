@@ -1,36 +1,39 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
-import { Actions, Effect, toPayload } from '@ngrx/effects';
-import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
+import { Actions, Effect } from '@ngrx/effects';
+import { ROUTER_NAVIGATION, RouterNavigationAction, RouterStateSerializer } from '@ngrx/router-store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/withLatestFrom';
 
-import { ResultContainer } from '../../containers/result/result.container';
 import { ExamEndAction } from '../actions/exam.actions';
 import { ExamStatus, State as ExamState } from '../reducers/exam.reducer';
 import { MODULE_STORE_TOKEN, State } from '../reducers';
+import { resultRouteId } from '../../exam-routing.module';
+import { RouterStateSerializer as CustomRouterStateSerializer, RouterStateSer } from 'router-store-ser';
 
 @Injectable()
-export class PageResultEffects
+export class RouterResultEffects
 {
     @Effect()
     public effect$: Observable<Action>;
 
     constructor(
-        private actions$: Actions,
+        protected actions$: Actions,
         @Inject(MODULE_STORE_TOKEN)
-        private store: Store<State>
+        protected store: Store<State>,
+        @Inject(RouterStateSerializer)
+        protected routerStateSerializer: CustomRouterStateSerializer
     )
     {
         const exam$: Store<ExamState> = this.store.select(state => state.exam);
 
-        this.effect$ = this.actions$.ofType<RouterNavigationAction>(ROUTER_NAVIGATION)
+        this.effect$ = this.actions$.ofType<RouterNavigationAction<RouterStateSer>>(ROUTER_NAVIGATION)
             .withLatestFrom(exam$, (action, exam) =>
             {
-                if (action.payload.routerState.root.firstChild.component === ResultContainer
-                    && exam.status !== ExamStatus.ENDED && exam.status !== ExamStatus.TIME_ENDED)
+                const node = this.routerStateSerializer.findNodeById(action.payload.routerState.root, resultRouteId);
+                if (node && exam.status !== ExamStatus.ENDED && exam.status !== ExamStatus.TIME_ENDED)
                     return action;
 
                 return null;

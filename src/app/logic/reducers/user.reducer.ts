@@ -1,4 +1,4 @@
-﻿import { ActionReducer, Action } from '@ngrx/store';
+﻿import { Action } from '@ngrx/store';
 
 import * as userActions from '../actions/user.actions';
 export enum UserStatus { NONE, LOGGED, UNAUTH, ERROR }

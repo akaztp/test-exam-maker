@@ -1,4 +1,4 @@
-﻿import { tick, flush, flushMicrotasks } from '@angular/core/testing';
+﻿import { flush } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 

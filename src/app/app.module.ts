@@ -1,11 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { StoreModule, ActionReducerMap, Action } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LogicModule } from './logic/logic.module';
-import { ExamModule } from '../exam/exam.module';
 import { StartContainer } from './containers/start/start.container';
 
 @NgModule({
@@ -15,11 +13,12 @@ import { StartContainer } from './containers/start/start.container';
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule,
         LogicModule,
-        ExamModule
+        AppRoutingModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule
+{
+}

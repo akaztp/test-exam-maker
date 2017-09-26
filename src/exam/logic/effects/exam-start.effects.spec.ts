@@ -1,29 +1,27 @@
 ﻿import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { StoreModule, Store, Action } from '@ngrx/store';
-import { RouterNavigationAction, ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
-import { IScheduler } from 'rxjs/Scheduler';
 import 'rxjs/add/observable/concat';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/do';
+import { NavigationGoAction } from 'router-store-ser';
 
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
-import { ExamStartEffects } from './exam-start.effects';
-import { StartContainer } from '../../../app/containers/start/start.container';
+import { StartEffects } from './exam-start.effects';
 import { ExamStatus, initialState as examInitialState } from '../reducers/exam.reducer';
 import { ExamStatusAction, ExamStartAction, ExamEndAction, ExamTimeAction } from '../actions/exam.actions';
 import { ExamTimerService } from '../../data/exam-timer.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamInfo } from '../../models/exam-info';
-import { deepEqual } from 'assert';
 import { expectObservableValues } from '../../../utils/jasmine-observables';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { resultRouteId } from '../../exam-routing.module';
 
-describe('Exam/Logic/' + ExamStartEffects.name, () =>
+describe('Exam/Logic/' + StartEffects.name, () =>
 {
-    let effects: ExamStartEffects;
+    let effects: StartEffects;
     let actions: Observable<any>;
     let store: Store<State>;
     let examTimerService: ExamTimerService;
@@ -40,14 +38,14 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
                 }),
             ],
             providers: [
-                ExamStartEffects,
+                StartEffects,
                 provideMockActions(() => actions.do(a => store.dispatch(a))),
                 { provide: MODULE_STORE_TOKEN, useExisting: Store },
                 ExamTimerService,
             ]
         });
 
-        effects = TestBed.get(ExamStartEffects);
+        effects = TestBed.get(StartEffects);
         store = TestBed.get(Store);
         examTimerService = TestBed.get(ExamTimerService);
     }
@@ -120,12 +118,17 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
     function buildExpected(timerStart: number, timerEnd: number = 0)
     {
         const expected: Array<Action> = [new ExamStatusAction({ status: ExamStatus.RUNNING })];
-
         for (; timerStart >= timerEnd; --timerStart)
             expected.push(new ExamTimeAction({ time: timerStart }));
 
         if (timerEnd === 0)
+        {
             expected.push(new ExamEndAction({ status: ExamStatus.TIME_ENDED }));
+            expected.push(new NavigationGoAction({
+                commands: ['../result'],
+                relativeRouteId: resultRouteId
+            }));
+        }
 
         return expected;
     }

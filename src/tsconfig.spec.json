@@ -1,6 +1,8 @@
 {
   "extends": "../tsconfig.json",
-  "compilerOptions": {
+  "compilerOptions": { 
+    "listFiles": true,
+    "pretty": true,
     "outDir": "../out-tsc/spec",
     "baseUrl": "./",
     "module": "commonjs",
