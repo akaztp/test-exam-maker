@@ -9,19 +9,20 @@ import 'rxjs/add/operator/do';
 import { NavigationGoAction } from 'router-store-ser';
 
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
-import { StartEffects } from './exam-start.effects';
+import { ExamStartEffects } from './exam-start.effects';
 import { ExamStatus, initialState as examInitialState } from '../reducers/exam.reducer';
 import { ExamStatusAction, ExamStartAction, ExamEndAction, ExamTimeAction } from '../actions/exam.actions';
 import { ExamTimerService } from '../../data/exam-timer.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamInfo } from '../../models/exam-info';
-import { expectObservableValues } from '../../../utils/jasmine-observables';
+import { matchObservable } from '../../utils/match-obs';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { resultRouteId } from '../../exam-routing.module';
+import { deepEqual } from '../../utils/deep-equal';
 
-describe('Exam/Logic/' + StartEffects.name, () =>
+describe('Exam/Logic/' + ExamStartEffects.name, () =>
 {
-    let effects: StartEffects;
+    let effects: ExamStartEffects;
     let actions: Observable<any>;
     let store: Store<State>;
     let examTimerService: ExamTimerService;
@@ -38,14 +39,14 @@ describe('Exam/Logic/' + StartEffects.name, () =>
                 }),
             ],
             providers: [
-                StartEffects,
+                ExamStartEffects,
                 provideMockActions(() => actions.do(a => store.dispatch(a))),
                 { provide: MODULE_STORE_TOKEN, useExisting: Store },
                 ExamTimerService,
             ]
         });
 
-        effects = TestBed.get(StartEffects);
+        effects = TestBed.get(ExamStartEffects);
         store = TestBed.get(Store);
         examTimerService = TestBed.get(ExamTimerService);
     }
@@ -66,11 +67,14 @@ describe('Exam/Logic/' + StartEffects.name, () =>
         {
             initExam(examDuration);
             actions = Observable.of(new ExamStartAction());
-            expectObservableValues(
-                effects.effect$.do(a => store.dispatch(a)),
-                buildExpected(examDuration),
-                done,
-                true);
+            matchObservable<Action>(
+                    effects.effect$.do(a => store.dispatch(a)),
+                    buildExpected(examDuration),
+                    true,
+                    -1,
+                    deepEqual)
+                .catch(fail)
+                .then(() => { done(); flush(); });
 
             tick(examDuration * 1000 + 1000);
             flush();
@@ -86,11 +90,14 @@ describe('Exam/Logic/' + StartEffects.name, () =>
                 Observable.of(new ExamStartAction()),
                 Observable.interval(2.5 * 1000).take(1).map(() => new ExamEndAction({ status: ExamStatus.ENDED }))
             );
-            expectObservableValues(
-                effects.effect$.do(a => store.dispatch(a)),
-                buildExpected(examDuration, examDuration - 2),
-                done,
-                true);
+            matchObservable<Action>(
+                    effects.effect$.do(a => store.dispatch(a)),
+                    buildExpected(examDuration, examDuration - 2),
+                    true,
+                    -1,
+                    deepEqual)
+                .catch(fail)
+                .then(() => { done(); flush(); });
 
             tick(examDuration * 1000 + 1000);
             flush();

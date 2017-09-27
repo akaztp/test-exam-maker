@@ -7,7 +7,7 @@ import { RouterOutEffects } from './logic/effects/router-out.effects';
 import { RouterResultEffects } from './logic/effects/router-result.effects';
 import { RouterStartEffects } from './logic/effects/router-start.effects';
 import { RouterQuestionCurrentEffects } from './logic/effects/router-question-current.effects';
-import { StartEffects } from './logic/effects/exam-start.effects';
+import { ExamStartEffects } from './logic/effects/exam-start.effects';
 
 import { State, MODULE_STORE_TOKEN, reducers } from './logic/reducers';
 
@@ -34,7 +34,7 @@ export function featureSelector(store: Store<any>): Store<State>
             RouterResultEffects,
             RouterStartEffects,
             RouterQuestionCurrentEffects,
-            StartEffects,
+            ExamStartEffects,
         ])
     ],
     declarations: [

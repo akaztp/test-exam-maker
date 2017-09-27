@@ -1,21 +1,22 @@
-﻿import { TestBed, fakeAsync, flush } from '@angular/core/testing';
+﻿import { TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
 import { StoreModule, Action, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs/Observable';
-import { expectObservableValues } from 'jasmine-rx-matcher';
+import { matchObservable } from '../../utils/match-obs';
 
 import { RouterOutEffects } from './router-out.effects';
 import { ExamStatus } from '../reducers/exam.reducer';
 import { ExamStatusAction, ExamEndAction, ExamScoreAction } from '../actions/exam.actions';
-import { EndEffects } from './exam-end.effects';
+import { ExamEndEffects } from './exam-end.effects';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamEvalService } from '../../data/exam-eval.service';
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
 import { ExamInfo } from '../../models/exam-info';
 import { Question } from '../../models/question';
 import { createExam1 } from '../../utils/exam-samples';
+import { deepEqual } from '../../utils/deep-equal';
 
-describe('Exam/Logic/' + EndEffects.name, () =>
+describe('Exam/Logic/' + ExamEndEffects.name, () =>
 {
     let store: Store<State>;
     let actions: Observable<any>;
@@ -35,14 +36,14 @@ describe('Exam/Logic/' + EndEffects.name, () =>
                     initialState ? { initialState: initialState } : {}),
             ],
             providers: [
-                EndEffects,
+                ExamEndEffects,
                 provideMockActions(() => actions.do(a => store.dispatch(a))),
                 { provide: MODULE_STORE_TOKEN, useExisting: Store },
                 { provide: ExamEvalService, useValue: serviceSpy }
             ]
         });
 
-        effects = TestBed.get(EndEffects);
+        effects = TestBed.get(ExamEndEffects);
         store = TestBed.get(Store);
         examEvalServiceSpy = TestBed.get(ExamEvalService);
     }
@@ -74,15 +75,14 @@ describe('Exam/Logic/' + EndEffects.name, () =>
                     new ExamScoreAction({ score: score }),
             ];
 
-            expectObservableValues<Action>(effects.effect$, expected, true)
-                .then(
-                    () => {
-                        expect(examEvalServiceSpy.evalQuestions).toHaveBeenCalledWith(exam, questions);
-                        done();
-                        flush();
-                    },
-                    (error) => fail(error)
-                );
+            matchObservable<Action>(effects.effect$, expected, true, -1, deepEqual)
+                .catch(fail)
+                .then(() => { expect(examEvalServiceSpy.evalQuestions).toHaveBeenCalledWith(exam, questions); flush();  })
+                .then(() => { done(); flush(); });
+
+            tick(1); // matchObservable uses a delay of 0 miliseconds
+            flush();
         })();
     });
+
 });

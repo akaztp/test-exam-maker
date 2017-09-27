@@ -18,7 +18,7 @@ import { AsyncDataSer } from '../../../utils/asyncData';
 import { resultRouteId } from '../../exam-routing.module';
 
 @Injectable()
-export class StartEffects
+export class ExamStartEffects
 {
     @Effect()
     public effect$: Observable<Action>;
@@ -30,7 +30,7 @@ export class StartEffects
         private examTimerService: ExamTimerService,
     )
     {
-        const instance: StartEffects = this;
+        const instance: ExamStartEffects = this;
         const exam$: Store<ExamState> = this.store.select(state => state.exam);
 
         this.effect$ = this.actions$.ofType<Action>(ACTION_EXAM_START)

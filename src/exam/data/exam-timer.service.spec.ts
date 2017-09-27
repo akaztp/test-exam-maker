@@ -1,5 +1,5 @@
 import { TestBed, inject, fakeAsync, flush, tick } from '@angular/core/testing';
-import { expectObservableValues } from 'jasmine-rx-matcher';
+import { matchObservable } from '../utils/match-obs';
 
 import { ExamTimerService } from './exam-timer.service';
 describe('Exam/Data/' + ExamTimerService.name, () =>
@@ -23,15 +23,11 @@ describe('Exam/Data/' + ExamTimerService.name, () =>
             inject([ExamTimerService], (service: ExamTimerService) =>
             {
                 const expectedValues = [5, 4, 3, 2, 1, 0];
-
                 const timer$ = service.getTimer(5);
-                expectObservableValues(timer$, expectedValues, true)
-                    .then(() =>
-                    {
-                        done();
-                        flush();
-                    },
-                    (error) => fail(error));
+                matchObservable(timer$, expectedValues, true)
+                    .catch(fail)
+                    .then(() => { done(); flush(); });
+
                 tick(10000);
                 flush();
 

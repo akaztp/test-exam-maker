@@ -18,7 +18,7 @@ import { MODULE_STORE_TOKEN, State } from '../reducers';
 import { AsyncDataSer } from '../../../utils/asyncData';
 
 @Injectable()
-export class EndEffects
+export class ExamEndEffects
 {
     @Effect()
     public effect$: Observable<Action>;
