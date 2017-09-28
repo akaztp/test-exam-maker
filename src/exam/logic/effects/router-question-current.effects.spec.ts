@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
 
 import { RouterQuestionCurrentEffects } from './router-question-current.effects';
 import { QuestionsCurrentAction } from '../actions/questions.actions';
@@ -80,7 +81,15 @@ describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
             })
         });
 
-        expect(effects.effect$).toBeObservable(expected);
+        expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
 
+    function failOnObsError(err, caught): Observable<any>
+    {
+        if (err instanceof Error)
+            fail(err.message + '\n' + err.stack);
+        else
+            fail(err.toString());
+        return Observable.empty();
+    }
 });

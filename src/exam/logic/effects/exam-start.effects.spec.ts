@@ -71,7 +71,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
                     effects.effect$.do(a => store.dispatch(a)),
                     buildExpected(examDuration),
                     true,
-                    -1,
+                    false,
                     deepEqual)
                 .catch(fail)
                 .then(() => { done(); flush(); });
@@ -94,7 +94,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
                     effects.effect$.do(a => store.dispatch(a)),
                     buildExpected(examDuration, examDuration - 2),
                     true,
-                    -1,
+                    false,
                     deepEqual)
                 .catch(fail)
                 .then(() => { done(); flush(); });

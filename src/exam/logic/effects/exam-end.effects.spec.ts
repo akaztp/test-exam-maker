@@ -75,9 +75,9 @@ describe('Exam/Logic/' + ExamEndEffects.name, () =>
                     new ExamScoreAction({ score: score }),
             ];
 
-            matchObservable<Action>(effects.effect$, expected, true, -1, deepEqual)
+            matchObservable<Action>(effects.effect$, expected, true, false, deepEqual)
                 .catch(fail)
-                .then(() => { expect(examEvalServiceSpy.evalQuestions).toHaveBeenCalledWith(exam, questions); flush();  })
+                .then(() => { expect(examEvalServiceSpy.evalQuestions).toHaveBeenCalledWith(exam, questions); })
                 .then(() => { done(); flush(); });
 
             tick(1); // matchObservable uses a delay of 0 miliseconds
