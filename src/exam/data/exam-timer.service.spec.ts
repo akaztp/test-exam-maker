@@ -1,7 +1,8 @@
-import { TestBed, inject, fakeAsync, flush, tick } from '@angular/core/testing';
-import { matchObservable } from '../utils/match-obs';
+import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
+import { matchObservable } from 'match-observable';
 
 import { ExamTimerService } from './exam-timer.service';
+
 describe('Exam/Data/' + ExamTimerService.name, () =>
 {
     beforeEach(() =>
@@ -16,23 +17,18 @@ describe('Exam/Data/' + ExamTimerService.name, () =>
         expect(service).toBeTruthy();
     }));
 
-    it('should generate a timer', (done) =>
+    it('should generate a timer', fakeAsync(() =>
     {
-        fakeAsync(() =>
+        inject([ExamTimerService], async (service: ExamTimerService) =>
         {
-            inject([ExamTimerService], (service: ExamTimerService) =>
-            {
-                const expectedValues = [5, 4, 3, 2, 1, 0];
-                const timer$ = service.getTimer(5);
-                matchObservable(timer$, expectedValues, true)
-                    .catch(fail)
-                    .then(() => { done(); flush(); });
+            const expectedValues = [5, 4, 3, 2, 1, 0];
+            const timer$ = service.getTimer(5);
+            let matchResult: string;
+            matchObservable(timer$, expectedValues, true)
+                .then(() => matchResult = null, (result) => matchResult = result);
 
-                tick(10000);
-                flush();
-
-            })();
+            tick(10000);
+            expect(matchResult).toBeNull();
         })();
-    });
-
+    }));
 });

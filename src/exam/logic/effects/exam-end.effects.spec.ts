@@ -1,8 +1,8 @@
-﻿import { TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
+﻿import { TestBed, fakeAsync, flush } from '@angular/core/testing';
 import { StoreModule, Action, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs/Observable';
-import { matchObservable } from '../../utils/match-obs';
+import { matchObservable } from 'match-observable';
 
 import { RouterOutEffects } from './router-out.effects';
 import { ExamStatus } from '../reducers/exam.reducer';
@@ -48,7 +48,7 @@ describe('Exam/Logic/' + ExamEndEffects.name, () =>
         examEvalServiceSpy = TestBed.get(ExamEvalService);
     }
 
-    it('should emit the correct actions.', (done) =>
+    it('should emit the correct actions.', () =>
     {
         fakeAsync(() =>
         {
@@ -74,14 +74,13 @@ describe('Exam/Logic/' + ExamEndEffects.name, () =>
                     new ExamScoreAction({ score: new AsyncDataSer<number>(null, true) }),
                     new ExamScoreAction({ score: score }),
             ];
-
+            let matchResult: string;
             matchObservable<Action>(effects.effect$, expected, true, false, deepEqual)
-                .catch(fail)
-                .then(() => { expect(examEvalServiceSpy.evalQuestions).toHaveBeenCalledWith(exam, questions); })
-                .then(() => { done(); flush(); });
-
-            tick(1); // matchObservable uses a delay of 0 miliseconds
+                .then(() => matchResult = null, (result) => matchResult = result);
             flush();
+            expect(matchResult).toBeNull();
+
+            expect(examEvalServiceSpy.evalQuestions).toHaveBeenCalledWith(exam, questions);
         })();
     });
 

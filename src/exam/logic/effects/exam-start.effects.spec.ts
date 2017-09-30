@@ -1,4 +1,4 @@
-﻿import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
+﻿import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { StoreModule, Store, Action } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { hot, cold } from 'jasmine-marbles';
@@ -7,6 +7,8 @@ import 'rxjs/add/observable/concat';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/do';
 import { NavigationGoAction } from 'router-store-ser';
+import { matchObservable } from 'match-observable';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
 import { ExamStartEffects } from './exam-start.effects';
@@ -15,8 +17,6 @@ import { ExamStatusAction, ExamStartAction, ExamEndAction, ExamTimeAction } from
 import { ExamTimerService } from '../../data/exam-timer.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamInfo } from '../../models/exam-info';
-import { matchObservable } from '../../utils/match-obs';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { resultRouteId } from '../../exam-routing.module';
 import { deepEqual } from '../../utils/deep-equal';
 
@@ -61,27 +61,26 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
     });
 
 
-    it('should emit timer actions until expired', (done) =>
+    it('should emit timer actions until expired', () =>
     {
         fakeAsync(() =>
         {
             initExam(examDuration);
             actions = Observable.of(new ExamStartAction());
+            let matchResult: string;
             matchObservable<Action>(
                     effects.effect$.do(a => store.dispatch(a)),
                     buildExpected(examDuration),
                     true,
                     false,
                     deepEqual)
-                .catch(fail)
-                .then(() => { done(); flush(); });
-
+                .then(() => matchResult = null, (result) => matchResult = result);
             tick(examDuration * 1000 + 1000);
-            flush();
+            expect(matchResult).toBeNull();
         })();
     });
 
-    it('should interrupt timer if exam ends', (done) =>
+    it('should interrupt timer if exam ends', () =>
     {
         fakeAsync(() =>
         {
@@ -90,17 +89,17 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
                 Observable.of(new ExamStartAction()),
                 Observable.interval(2.5 * 1000).take(1).map(() => new ExamEndAction({ status: ExamStatus.ENDED }))
             );
+            let matchResult: string;
             matchObservable<Action>(
                     effects.effect$.do(a => store.dispatch(a)),
                     buildExpected(examDuration, examDuration - 2),
                     true,
                     false,
                     deepEqual)
-                .catch(fail)
-                .then(() => { done(); flush(); });
+                .then(() => matchResult = null, (result) => matchResult = result);
 
             tick(examDuration * 1000 + 1000);
-            flush();
+            expect(matchResult).toBeNull();
         })();
     });
 
