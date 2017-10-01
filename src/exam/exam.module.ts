@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MdToolbarModule } from '@angular/material';
 import { StoreModule, Store, createFeatureSelector } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -16,6 +17,7 @@ import { ResultContainer } from './containers/result/result.container';
 
 import { ExamTimerService } from './data/exam-timer.service';
 import { ExamRoutingModule } from './exam-routing.module';
+import { WrapperComponent } from './containers/wrapper/wrapper.component';
 
 const featureName = 'exam';
 
@@ -35,11 +37,13 @@ export function featureSelector(store: Store<any>): Store<State>
             RouterStartEffects,
             RouterQuestionCurrentEffects,
             ExamStartEffects,
-        ])
+        ]),
+        MdToolbarModule,
     ],
     declarations: [
+        WrapperComponent,
         QuestionContainer,
-        ResultContainer
+        ResultContainer,
     ],
     exports: [
     ],

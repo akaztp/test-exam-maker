@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -9,10 +10,11 @@ import { StartContainer } from './containers/start/start.container';
 @NgModule({
     declarations: [
         AppComponent,
-        StartContainer
+        StartContainer,
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         LogicModule,
         AppRoutingModule,
     ],
