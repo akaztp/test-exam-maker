@@ -17,7 +17,8 @@ import { ResultContainer } from './containers/result/result.container';
 
 import { ExamTimerService } from './data/exam-timer.service';
 import { ExamRoutingModule } from './exam-routing.module';
-import { WrapperComponent } from './containers/wrapper/wrapper.component';
+import { WrapperContainer } from './containers/wrapper/wrapper.container';
+import { StartContainer } from './containers/start/start.container';
 
 const featureName = 'exam';
 
@@ -41,7 +42,8 @@ export function featureSelector(store: Store<any>): Store<State>
         MdToolbarModule,
     ],
     declarations: [
-        WrapperComponent,
+        WrapperContainer,
+        StartContainer,
         QuestionContainer,
         ResultContainer,
     ],

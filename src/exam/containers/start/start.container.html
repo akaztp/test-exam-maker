@@ -1,0 +1,6 @@
+<div *ngIf="!examInfoA || examInfoA.loading">Loading Exam...</div>
+<div *ngIf="examInfoA && !examInfoA.loading">Welcome to the exam {{examInfoA.data.name}}
+You have {{examInfoA.data.duration}} minutes to answer the X queations.
+Select the start button whenever you're ready.
+<button>Start</button>
+</div>

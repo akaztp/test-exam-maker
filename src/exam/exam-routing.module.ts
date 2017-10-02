@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { QuestionContainer } from './containers/question/question.container';
 import { ResultContainer } from './containers/result/result.container';
-import { WrapperComponent } from './containers/wrapper/wrapper.component';
+import { WrapperContainer } from './containers/wrapper/wrapper.container';
+import { StartContainer } from './containers/start/start.container';
 
 export const startRouteId = '3b44a794-3df8-4cb8-94aa-1cdb63d48f10';
 export const questionRouteId = '02b4240c-3647-490b-9072-e129fd948787';
@@ -14,12 +15,12 @@ export const resultRouteId = '6f0c35fe-95c6-4831-81dc-c7c669bd3102';
 export const routes: Routes = [
     {
         path: '',
-        component: WrapperComponent,
+        component: WrapperContainer,
         children: [
             { path: '', redirectTo: 'start' },
             {
                 path: 'start',
-                component: ResultContainer,
+                component: StartContainer,
                 data: {
                     uid: startRouteId
                 },
