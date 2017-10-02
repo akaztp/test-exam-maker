@@ -1,26 +1,26 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MdToolbarModule } from '@angular/material';
 
-import { WrapperComponent } from './wrapper.component';
+import { WrapperContainer } from './wrapper.container';
 
-describe('WrapperComponent', () => {
-  let component: WrapperComponent;
-  let fixture: ComponentFixture<WrapperComponent>;
+describe('Exam/Containers/' + WrapperContainer.name, () => {
+  let component: WrapperContainer;
+  let fixture: ComponentFixture<WrapperContainer>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
         imports: [
             MdToolbarModule,
         ],
-      declarations: [ WrapperComponent ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      declarations: [ WrapperContainer ],
+      schemas: [ NO_ERRORS_SCHEMA ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WrapperComponent);
+    fixture = TestBed.createComponent(WrapperContainer);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

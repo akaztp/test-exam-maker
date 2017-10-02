@@ -1,19 +1,30 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { APP_BASE_HREF } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MdToolbarModule } from '@angular/material';
 
 import { StartContainer } from './start.container';
+import { AppRoutingModule } from '../../app-routing.module';
 
-describe(StartContainer.name, () =>
+describe('App/Containers' + StartContainer.name, () =>
 {
     let component: StartContainer;
     let fixture: ComponentFixture<StartContainer>;
 
-    beforeEach(async(() =>
-    {
+    beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [StartContainer]
+            imports: [
+                AppRoutingModule,
+                MdToolbarModule,
+            ],
+          declarations: [ StartContainer ],
+          providers: [
+              { provide: APP_BASE_HREF, useValue: '/' }
+          ],
+          schemas: [ NO_ERRORS_SCHEMA ],
         })
-            .compileComponents();
-    }));
+        .compileComponents();
+      }));
 
     beforeEach(() =>
     {

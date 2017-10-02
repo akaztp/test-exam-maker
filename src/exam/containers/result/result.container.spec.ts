@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResultContainer } from './result.container';
 
-describe(ResultContainer.name, () =>
+describe('Exam/Containers/' + ResultContainer.name, () =>
 {
     let component: ResultContainer;
     let fixture: ComponentFixture<ResultContainer>;
