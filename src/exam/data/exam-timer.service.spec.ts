@@ -2,6 +2,7 @@ import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import { matchObservable } from 'match-observable';
 
 import { ExamTimerService } from './exam-timer.service';
+import { failOnObsError } from '../utils/jasmine-fail-observer';
 
 describe('Exam/Data/' + ExamTimerService.name, () =>
 {
@@ -24,7 +25,7 @@ describe('Exam/Data/' + ExamTimerService.name, () =>
             const expectedValues = [5, 4, 3, 2, 1, 0];
             const timer$ = service.getTimer(5);
             let matchResult: string;
-            matchObservable(timer$, expectedValues, true)
+            matchObservable(timer$.catch(failOnObsError), expectedValues, true)
                 .then(() => matchResult = null, (result) => matchResult = result);
 
             tick(10000);

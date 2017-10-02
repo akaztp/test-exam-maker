@@ -15,6 +15,7 @@ import { ExamInfo } from '../../models/exam-info';
 import { Question } from '../../models/question';
 import { createExam1 } from '../../utils/exam-samples';
 import { deepEqual } from '../../utils/deep-equal';
+import { failOnObsError } from '../../utils/jasmine-fail-observer';
 
 describe('Exam/Logic/' + ExamEndEffects.name, () =>
 {
@@ -75,7 +76,7 @@ describe('Exam/Logic/' + ExamEndEffects.name, () =>
                     new ExamScoreAction({ score: score }),
             ];
             let matchResult: string;
-            matchObservable<Action>(effects.effect$, expected, true, false, deepEqual)
+            matchObservable<Action>(effects.effect$.catch(failOnObsError), expected, true, false, deepEqual)
                 .then(() => matchResult = null, (result) => matchResult = result);
             flush();
             expect(matchResult).toBeNull();

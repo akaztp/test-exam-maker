@@ -8,9 +8,7 @@
     },
     "exclude": [
         "test.ts",
-        "./utils/jasmine-matchers.ts",
-        "./utils/jasmine-observables.ts",
-        "./utils/router-navigation-samples.ts",
+        "**/jasmine-*.ts",
         "**/*.spec.ts"
     ]
 }

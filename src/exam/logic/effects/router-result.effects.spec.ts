@@ -13,6 +13,7 @@ import { RouterResultEffects } from './router-result.effects';
 import { ExamStatus, initialState as examInitialState } from '../reducers/exam.reducer';
 import { ExamEndAction } from '../actions/exam.actions';
 import { resultRouteId } from '../../exam-routing.module';
+import { failOnObsError } from '../../utils/jasmine-fail-observer';
 
 describe('Exam/Logic/' + RouterResultEffects.name, () =>
 {
@@ -64,7 +65,7 @@ describe('Exam/Logic/' + RouterResultEffects.name, () =>
         actions = hot('a', { a: routerAction });
         const expected = hot('', {});
 
-        expect(effects.effect$).toBeObservable(expected);
+        expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
 
     it('should not emit actions when exam.status is TIME_ENDED', () =>
@@ -73,7 +74,7 @@ describe('Exam/Logic/' + RouterResultEffects.name, () =>
         actions = hot('a', { a: routerAction });
         const expected = hot('', {});
 
-        expect(effects.effect$).toBeObservable(expected);
+        expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
 
     it('should emit one action', () =>
@@ -82,6 +83,6 @@ describe('Exam/Logic/' + RouterResultEffects.name, () =>
         actions = hot('a', { a: routerAction });
         const expected = hot('a', { a: new ExamEndAction({ status: ExamStatus.ENDED }) });
 
-        expect(effects.effect$).toBeObservable(expected);
+        expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
 });

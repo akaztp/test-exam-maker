@@ -13,6 +13,7 @@ import { ExamStartAction } from '../actions/exam.actions';
 import { questionRouterState, examRouterState } from '../../utils/router-state-samples';
 import { ROUTER_ACTIVE } from '../../../utils/router-state-extension';
 import { startRouteId } from '../../exam-routing.module';
+import { failOnObsError } from '../../utils/jasmine-fail-observer';
 
 describe('Exam/Logic/' + RouterStartEffects.name, () =>
 {
@@ -52,7 +53,7 @@ describe('Exam/Logic/' + RouterStartEffects.name, () =>
             actions = hot('a', { a: routerAction });
             const expected = hot('', {});
 
-            expect(effects.effect$).toBeObservable(expected);
+            expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
         });
 
     it('should emit two actions', () =>
@@ -90,7 +91,7 @@ describe('Exam/Logic/' + RouterStartEffects.name, () =>
                         }),
                 });
 
-            expect(effects.effect$).toBeObservable(expected);
+            expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
         });
 
 });

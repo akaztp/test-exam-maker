@@ -5,6 +5,7 @@ import { ExamFetchService } from './exam-fetch.service';
 import { AsyncDataSer } from '../../utils/asyncData';
 import { createExam1 } from '../utils/exam-samples';
 import { ExamInfo } from '../models/exam-info';
+import { failOnObsError } from '../utils/jasmine-fail-observer';
 
 describe('Exam/Data/' + ExamFetchService.name, () =>
 {
@@ -31,7 +32,7 @@ describe('Exam/Data/' + ExamFetchService.name, () =>
             ];
             const examInfo$ = service.fetchExam('');
             let matchResult: string;
-            matchObservable(examInfo$, expectedValues, true)
+            matchObservable(examInfo$.catch(failOnObsError), expectedValues, true)
                 .then(() => matchResult = null, (result) => matchResult = result);
 
             tick(1000);

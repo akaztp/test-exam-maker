@@ -13,6 +13,7 @@ import { RouterOutEffects } from './router-out.effects';
 import { ExamStatus, initialState as examInitialState } from '../reducers/exam.reducer';
 import { ExamStatusAction } from '../actions/exam.actions';
 import { startRouteId } from '../../../app/app-routing.module';
+import { failOnObsError } from '../../utils/jasmine-fail-observer';
 
 describe('Exam/Logic/' + RouterOutEffects.name, () =>
 {
@@ -65,7 +66,7 @@ describe('Exam/Logic/' + RouterOutEffects.name, () =>
         actions = hot('a', { a: routerAction });
         const expected = hot('', {});
 
-        expect(effects.effect$).toBeObservable(expected);
+        expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
 
 
@@ -75,6 +76,6 @@ describe('Exam/Logic/' + RouterOutEffects.name, () =>
         actions = hot('a', { a: routerAction });
         const expected = hot('a', { a: new ExamStatusAction({ status: ExamStatus.OFF }) });
 
-        expect(effects.effect$).toBeObservable(expected);
+        expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
 });

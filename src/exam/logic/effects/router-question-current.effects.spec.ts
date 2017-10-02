@@ -13,6 +13,7 @@ import { QuestionsCurrentAction } from '../actions/questions.actions';
 import { RouterStateSer, RouterStoreSerModule } from 'router-store-ser';
 import { questionRouteId, questionParamNum } from '../../exam-routing.module';
 import { questionRouterState } from '../../utils/router-state-samples';
+import { failOnObsError } from '../../utils/jasmine-fail-observer';
 
 describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
 {
@@ -60,7 +61,7 @@ describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
         actions = hot('a', { a: routerAction });
         const expected = hot('', {});
 
-        expect(effects.effect$).toBeObservable(expected);
+        expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
 
     it('should emit one action', () =>
@@ -83,13 +84,4 @@ describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
 
         expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
-
-    function failOnObsError(err, caught): Observable<any>
-    {
-        if (err instanceof Error)
-            fail(err.message + '\n' + err.stack);
-        else
-            fail(err.toString());
-        return Observable.empty();
-    }
 });

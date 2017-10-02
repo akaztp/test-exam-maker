@@ -19,6 +19,7 @@ import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamInfo } from '../../models/exam-info';
 import { resultRouteId } from '../../exam-routing.module';
 import { deepEqual } from '../../utils/deep-equal';
+import { failOnObsError } from '../../utils/jasmine-fail-observer';
 
 describe('Exam/Logic/' + ExamStartEffects.name, () =>
 {
@@ -57,7 +58,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
         actions = hot('a', { a: new ExamStartAction() });
         const expected = cold('', {});
 
-        expect(effects.effect$).toBeObservable(expected);
+        expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
 
 
@@ -69,7 +70,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
             actions = Observable.of(new ExamStartAction());
             let matchResult: string;
             matchObservable<Action>(
-                    effects.effect$.do(a => store.dispatch(a)),
+                    effects.effect$.catch(failOnObsError).do(a => store.dispatch(a)),
                     buildExpected(examDuration),
                     true,
                     false,
@@ -91,7 +92,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
             );
             let matchResult: string;
             matchObservable<Action>(
-                    effects.effect$.do(a => store.dispatch(a)),
+                    effects.effect$.catch(failOnObsError).do(a => store.dispatch(a)),
                     buildExpected(examDuration, examDuration - 2),
                     true,
                     false,
