@@ -18,7 +18,7 @@ describe('Exam/Logic/' + RouterResultEffects.name, () =>
 {
     let effects: RouterResultEffects;
     let actions: Observable<any>;
-    let store: Store<State>;
+    let store$: Store<State>;
     const routerAction: RouterNavigationAction<RouterStateSer> = {
         type: ROUTER_NAVIGATION,
         payload: {
@@ -55,7 +55,7 @@ describe('Exam/Logic/' + RouterResultEffects.name, () =>
         });
 
         effects = TestBed.get(RouterResultEffects);
-        store = TestBed.get(Store);
+        store$ = TestBed.get(MODULE_STORE_TOKEN);
     }
 
     it('should not emit actions when exam.status is ENDED', () =>

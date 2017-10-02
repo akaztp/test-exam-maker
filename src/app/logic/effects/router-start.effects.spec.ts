@@ -13,7 +13,7 @@ import { PageStartEffects } from './router-start.effects';
 import { RouterStateSer, RouterStoreSerModule } from 'router-store-ser';
 import { startRouteId } from '../../app-routing.module';
 
-describe('Logic/' + PageStartEffects.name, () =>
+describe('App/Logic/' + PageStartEffects.name, () =>
 {
     let effects: PageStartEffects;
     let actions: Observable<any>;
