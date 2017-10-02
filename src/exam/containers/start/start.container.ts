@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State as ExamState } from '../../logic/reducers';
+import { State as ExamState, MODULE_STORE_TOKEN } from '../../logic/reducers';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamInfo } from '../../models/exam-info';
 import { CommonContainer } from '../../utils/common-container';
@@ -15,10 +15,11 @@ export class StartContainer extends CommonContainer{
     public examInfoA: AsyncDataSer<ExamInfo> = null;
 
     constructor(
-        protected store: Store<ExamState>
+        @Inject(MODULE_STORE_TOKEN)
+        protected store$: Store<ExamState>,
     ) {
         super();
-        this.disposableSubs.push(this.store.select((state) => state.exam.data).subscribe(this.nextExamInfo));
+        this.disposableSubs.push(this.store$.select((state) => state.exam.data).subscribe(this.nextExamInfo));
     }
 
     protected examInfoStoreSubs: Store<AsyncDataSer<ExamInfo>> = null;

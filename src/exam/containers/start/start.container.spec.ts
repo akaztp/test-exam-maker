@@ -1,25 +1,84 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule, Store, Action } from '@ngrx/store';
+// import { By } from '@angular/platform-browser';
 
-import { StartComponent } from './start.component';
+import { StartContainer } from './start.container';
+import { State as ExamState, reducers, MODULE_STORE_TOKEN } from '../../logic/reducers';
+import { ExamInfo } from '../../models/exam-info';
+import { ExamStatus } from '../../logic/reducers/exam.reducer';
+import { AsyncDataSer } from '../../../utils/asyncData';
 
-describe('StartComponent', () => {
-  let component: StartComponent;
-  let fixture: ComponentFixture<StartComponent>;
+describe('Exam/Containers/' + StartContainer.name, () =>
+{
+    let component: StartContainer;
+    let fixture: ComponentFixture<StartContainer>;
+    let store$: Store<ExamState>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ StartComponent ]
-    })
-    .compileComponents();
-  }));
+    function init(exam: AsyncDataSer<ExamInfo>)
+    {
+        async(() =>
+        {
+            TestBed.configureTestingModule({
+                imports: [
+                    StoreModule.forRoot<ExamState, Action>(reducers, {
+                        initialState: {
+                            exam: {
+                                data: exam,
+                                resultScore: new AsyncDataSer<number>(0),
+                                timeLeft: 0, // seconds
+                                status: ExamStatus.OFF,
+                            },
+                            questions: null
+                        }
+                    }),
+                ],
+                declarations: [StartContainer],
+                providers: [
+                    { provide: MODULE_STORE_TOKEN, useExisting: Store },
+                ],
+            })
+                .compileComponents();
+        })(() => {});
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(StartComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(StartContainer);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+        store$ = TestBed.get(MODULE_STORE_TOKEN);
+    }
+
+    it('should show loading the exam message', () =>
+    {
+        init(new AsyncDataSer<ExamInfo>(null, true));
+        expect(component).toBeTruthy();
+        expect(fixture.debugElement.query(de => de.references['loadingExam'])).toBeTruthy();
+        expect(fixture.debugElement.query(de => de.references['examLoaded'])).toBeNull();
+    });
+
+    it('should show the exam info', () =>
+    {
+        const examInfoA = new AsyncDataSer<ExamInfo>({
+            name: 'Test Exam',
+            description: 'Test Description',
+            passScore: 50,
+            totalScore: 100,
+            duration: 5, // seconds
+        } as ExamInfo);
+        init(examInfoA);
+        expect(component).toBeTruthy();
+        expect(fixture.debugElement.query(de => de.references['loadingExam'])).toBeNull();
+        expect(fixture.debugElement.query(de => de.references['examLoaded'])).toBeTruthy();
+
+        expect(
+            (fixture.debugElement.query(de => de.references['examName']).nativeElement as HTMLElement).innerText
+        ).toBe(examInfoA.data.name);
+
+        expect(
+            (fixture.debugElement.query(de => de.references['examDescription']).nativeElement as HTMLElement).innerText
+        ).toBe(examInfoA.data.description);
+
+        expect(
+            (fixture.debugElement.query(de => de.references['examDuration']).nativeElement as HTMLElement).innerText
+        ).toBe(examInfoA.data.duration.toString());
+    });
 });
