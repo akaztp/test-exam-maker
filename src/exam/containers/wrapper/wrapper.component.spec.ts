@@ -1,4 +1,6 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MdToolbarModule } from '@angular/material';
 
 import { WrapperComponent } from './wrapper.component';
 
@@ -8,7 +10,11 @@ describe('WrapperComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WrapperComponent ]
+        imports: [
+            MdToolbarModule,
+        ],
+      declarations: [ WrapperComponent ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     })
     .compileComponents();
   }));
