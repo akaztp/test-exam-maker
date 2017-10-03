@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/interval';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/startWith';
+import 'rxjs/add/observable/concat';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/delay';
 import { AsyncDataSer } from '../../utils/asyncData';
 import { createExam1 } from '../utils/exam-samples';
 import { ExamInfo } from '../models/exam-info';

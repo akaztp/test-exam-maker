@@ -19,6 +19,7 @@ import { ExamTimerService } from './data/exam-timer.service';
 import { ExamRoutingModule } from './exam-routing.module';
 import { WrapperContainer } from './containers/wrapper/wrapper.container';
 import { StartContainer } from './containers/start/start.container';
+import { ExamFetchService } from "./data/exam-fetch.service";
 
 const featureName = 'exam';
 
@@ -55,7 +56,8 @@ export function featureSelector(store: Store<any>): Store<State>
             useFactory: featureSelector,
             deps: [Store]
         },
-        ExamTimerService
+        ExamTimerService,
+        ExamFetchService
     ]
 })
 export class ExamModule { }
