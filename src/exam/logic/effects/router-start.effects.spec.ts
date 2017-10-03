@@ -23,7 +23,7 @@ import { ExamInfo } from '../../models/exam-info';
 import { matchObservable } from 'match-observable';
 import { deepEqual } from '../../utils/deep-equal';
 
-fdescribe('Exam/Logic/' + RouterStartEffects.name, () =>
+describe('Exam/Logic/' + RouterStartEffects.name, () =>
 {
     let effects: RouterStartEffects;
     let actions: Observable<any>;
