@@ -19,7 +19,7 @@ import { ExamTimerService } from './data/exam-timer.service';
 import { ExamRoutingModule } from './exam-routing.module';
 import { WrapperContainer } from './containers/wrapper/wrapper.container';
 import { StartContainer } from './containers/start/start.container';
-import { ExamFetchService } from "./data/exam-fetch.service";
+import { ExamFetchService } from './data/exam-fetch.service';
 
 const featureName = 'exam';
 
