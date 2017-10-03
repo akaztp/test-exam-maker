@@ -1,8 +1,8 @@
-<div *ngIf="!examInfoA || examInfoA.loading" #loadingExam>Loading Exam...</div>
-<div *ngIf="examInfoA && !examInfoA.loading" #examLoaded>
+<div *ngIf="examInfoA.loading" #loadingExam>Loading Exam...</div>
+<div *ngIf="!examInfoA.loading" #examLoaded>
     <p>Welcome to the exam <span #examName>{{examInfoA.data.name}}</span></p>
     <p #examDescription>{{examInfoA.data.description}}</p>
-    <p>You have <span #examDuration>{{examInfoA.data.duration}}</span> minutes to answer all que questions.
+    <p>You have <span #examDuration>{{duration}}</span> to answer all que questions.
         <br /> Select the start button whenever you're ready.</p>
-    <button>Start</button>
+    <button md-button>Start</button>
 </div>

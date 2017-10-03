@@ -57,12 +57,14 @@ describe('Exam/Containers/' + StartContainer.name, () =>
 
     it('should show the exam info', () =>
     {
+        const duration = 90;
+        const durationOutput = '1 min and 30 sec';
         const examInfoA = new AsyncDataSer<ExamInfo>({
             name: 'Test Exam',
             description: 'Test Description',
             passScore: 50,
             totalScore: 100,
-            duration: 5, // seconds
+            duration: duration, // seconds
         } as ExamInfo);
         init(examInfoA);
         expect(component).toBeTruthy();
@@ -79,6 +81,6 @@ describe('Exam/Containers/' + StartContainer.name, () =>
 
         expect(
             (fixture.debugElement.query(de => de.references['examDuration']).nativeElement as HTMLElement).innerText
-        ).toBe(examInfoA.data.duration.toString());
+        ).toBe(durationOutput);
     });
 });
