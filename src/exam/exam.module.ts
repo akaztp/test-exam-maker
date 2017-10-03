@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MdToolbarModule, MdButtonModule } from '@angular/material';
 import { StoreModule, Store, createFeatureSelector } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -40,8 +39,6 @@ export function featureSelector(store: Store<any>): Store<State>
             RouterQuestionCurrentEffects,
             ExamStartEffects,
         ]),
-        MdToolbarModule,
-        MdButtonModule,
     ],
     declarations: [
         WrapperContainer,
