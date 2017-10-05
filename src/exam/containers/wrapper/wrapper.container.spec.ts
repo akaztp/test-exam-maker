@@ -1,6 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MdToolbarModule } from '@angular/material';
 
 import { WrapperContainer } from './wrapper.container';
 
@@ -10,9 +9,6 @@ describe('Exam/Containers/' + WrapperContainer.name, () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-        imports: [
-            MdToolbarModule,
-        ],
       declarations: [ WrapperContainer ],
       schemas: [ NO_ERRORS_SCHEMA ],
     })

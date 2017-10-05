@@ -1,7 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { APP_BASE_HREF } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MdToolbarModule } from '@angular/material';
 
 import { StartContainer } from './start.container';
 import { AppRoutingModule } from '../../app-routing.module';
@@ -15,7 +14,6 @@ describe('App/Containers' + StartContainer.name, () =>
         TestBed.configureTestingModule({
             imports: [
                 AppRoutingModule,
-                MdToolbarModule,
             ],
           declarations: [ StartContainer ],
           providers: [

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MdToolbarModule, MdButtonModule } from '@angular/material';
 import { StoreModule, Store, createFeatureSelector } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { RouterOutEffects } from './logic/effects/router-out.effects';
 import { RouterResultEffects } from './logic/effects/router-result.effects';
@@ -31,6 +31,7 @@ export function featureSelector(store: Store<any>): Store<State>
 @NgModule({ id: 'ExamModule',
     imports: [
         CommonModule,
+        NgbModule,
         ExamRoutingModule,
         StoreModule.forFeature(featureName, reducers),
         EffectsModule.forFeature([
@@ -40,8 +41,6 @@ export function featureSelector(store: Store<any>): Store<State>
             RouterQuestionCurrentEffects,
             ExamStartEffects,
         ]),
-        MdToolbarModule,
-        MdButtonModule,
     ],
     declarations: [
         WrapperContainer,
