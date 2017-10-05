@@ -1,7 +1,7 @@
 # TestExamMaker
 
 ## Introduction
-This is a case study project for a series of articles I'm writing about developing webapps based on Redux. It is not finished yet, nor the articles. It is based on my recent blog article "[Web app architecture based on Redux](http://devblog.ztp.pt/web-app-architecture-based-on-redux/)" (also on [Medium]().)
+This is a case study project for a series of articles I'm writing about developing webapps based on Redux. It is not finished yet, nor the articles. It is based on my recent blog article "[Web app architecture based on Redux](http://devblog.ztp.pt/web-app-architecture-based-on-redux/)" (also on [Medium](https://medium.com/p/web-app-architecture-based-on-redux-1e16294c817a).)
 
 ## Project Subject
 The project is a webapp for making online exams or quizzes:
@@ -9,7 +9,8 @@ The project is a webapp for making online exams or quizzes:
 - Allow single and multi-option answers, no open/text answers
 - Time the examination using a server side timer
 - Allow the user to finish the exam earlier
-- At the end, evaluate the answers at the end
+- Evaluate answers at the end and give result
+- Mock the server on the client side
 
 ## Solution
 The project uses the following technologies:
