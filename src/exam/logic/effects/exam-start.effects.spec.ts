@@ -33,10 +33,11 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
     {
         TestBed.configureTestingModule({
             imports: [
-                StoreModule.forRoot<State, Action>(reducers,
-                    initialState ? { initialState: initialState } : {}),
+                StoreModule.forRoot<State, Action>(
+                    reducers,
+                    initialState ? { initialState } : {}),
                 StoreDevtoolsModule.instrument({
-                    maxAge: 50 //  Retains last n states
+                    maxAge: 50, //  Retain last n states
                 }),
             ],
             providers: [
@@ -44,7 +45,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
                 provideMockActions(() => actions.do(a => store.dispatch(a))),
                 { provide: MODULE_STORE_TOKEN, useExisting: Store },
                 ExamTimerService,
-            ]
+            ],
         });
 
         effects = TestBed.get(ExamStartEffects);
@@ -62,48 +63,42 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
     });
 
 
-    it('should emit timer actions until expired', () =>
+    it('should emit timer actions until expired', () => fakeAsync(() =>
     {
-        fakeAsync(() =>
-        {
-            initExam(examDuration);
-            actions = Observable.of(new ExamStartAction());
-            let matchResult: string;
-            matchObservable<Action>(
-                    effects.effect$.catch(failOnObsError).do(a => store.dispatch(a)),
-                    buildExpected(examDuration),
-                    true,
-                    false,
-                    deepEqual)
-                .then(() => matchResult = null, (result) => matchResult = result);
-            tick(examDuration * 1000 + 1000);
-            expect(matchResult).toBeNull();
-        })();
-    });
+        initExam(examDuration);
+        actions = Observable.of(new ExamStartAction());
+        let matchResult: string;
+        matchObservable<Action>(
+            effects.effect$.catch(failOnObsError).do(a => store.dispatch(a)),
+            buildExpected(examDuration),
+            true,
+            false,
+            deepEqual,
+        ).then(() => matchResult = null, result => matchResult = result);
 
-    it('should interrupt timer if exam ends', () =>
+        tick(examDuration * 1000 + 1000);
+        expect(matchResult).toBeNull();
+    })());
+
+    it('should interrupt timer if exam ends', () => fakeAsync(() =>
     {
-        fakeAsync(() =>
-        {
-            initExam(examDuration);
-            actions = Observable.concat(
-                Observable.of(new ExamStartAction()),
-                Observable.interval(2.5 * 1000).take(1).map(() => new ExamEndAction({ status: ExamStatus.ENDED }))
-            );
-            let matchResult: string;
-            matchObservable<Action>(
-                    effects.effect$.catch(failOnObsError).do(a => store.dispatch(a)),
-                    buildExpected(examDuration, examDuration - 2),
-                    true,
-                    false,
-                    deepEqual)
-                .then(() => matchResult = null, (result) => matchResult = result);
+        initExam(examDuration);
+        actions = Observable.concat(
+            Observable.of(new ExamStartAction()),
+            Observable.interval(2.5 * 1000).take(1).map(() => new ExamEndAction({ status: ExamStatus.ENDED })),
+        );
+        let matchResult: string;
+        matchObservable<Action>(
+            effects.effect$.catch(failOnObsError).do(a => store.dispatch(a)),
+            buildExpected(examDuration, examDuration - 2),
+            true,
+            false,
+            deepEqual,
+        ).then(() => matchResult = null, result => matchResult = result);
 
-            tick(examDuration * 1000 + 1000);
-            expect(matchResult).toBeNull();
-        })();
-    });
-
+        tick(examDuration * 1000 + 1000);
+        expect(matchResult).toBeNull();
+    })());
     /**
      *
      * @param duration Duration in the preset exam data
@@ -115,25 +110,25 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
                 ...examInitialState,
                 status: ExamStatus.READY,
                 data: new AsyncDataSer({
-                    duration: duration, // seconds
+                    duration, // seconds
                 } as ExamInfo, false),
-            }
+            },
         });
-
     }
 
     function buildExpected(timerStart: number, timerEnd: number = 0)
     {
-        const expected: Array<Action> = [new ExamStatusAction({ status: ExamStatus.RUNNING })];
-        for (; timerStart >= timerEnd; --timerStart)
-            expected.push(new ExamTimeAction({ time: timerStart }));
+        let start = timerStart;
+        const expected: Action[] = [new ExamStatusAction({ status: ExamStatus.RUNNING })];
+        for (; start >= timerEnd; --start)
+            expected.push(new ExamTimeAction({ time: start }));
 
         if (timerEnd === 0)
         {
             expected.push(new ExamEndAction({ status: ExamStatus.TIME_ENDED }));
             expected.push(new NavigationGoAction({
                 commands: ['../result'],
-                relativeRouteId: resultRouteId
+                relativeRouteId: resultRouteId,
             }));
         }
 

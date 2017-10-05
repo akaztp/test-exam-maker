@@ -1,0 +1,30 @@
+{
+    "rules": {
+        "directive-selector": [
+            true,
+            "attribute",
+            "app",
+            "camelCase"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            [
+                "app",
+                "exm"
+            ],
+            "kebab-case"
+        ],
+        "component-class-suffix": [
+            true,
+            "Component",
+            "Container"
+        ],
+        "pipe-naming": [
+            true,
+            "camelCase",
+            "app",
+            "exm"
+        ]
+    }
+}

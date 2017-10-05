@@ -9,7 +9,7 @@ describe('Exam/Data/' + ExamTimerService.name, () =>
     beforeEach(() =>
     {
         TestBed.configureTestingModule({
-            providers: [ExamTimerService]
+            providers: [ExamTimerService],
         });
     });
 
@@ -20,13 +20,13 @@ describe('Exam/Data/' + ExamTimerService.name, () =>
 
     it('should generate a timer', fakeAsync(() =>
     {
-        inject([ExamTimerService], async (service: ExamTimerService) =>
+        inject([ExamTimerService], (service: ExamTimerService) =>
         {
             const expectedValues = [5, 4, 3, 2, 1, 0];
             const timer$ = service.getTimer(5);
             let matchResult: string;
             matchObservable(timer$.catch(failOnObsError), expectedValues, true)
-                .then(() => matchResult = null, (result) => matchResult = result);
+                .then(() => matchResult = null, result => matchResult = result);
 
             tick(10000);
             expect(matchResult).toBeNull();

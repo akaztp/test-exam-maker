@@ -32,6 +32,7 @@
     "match-observable": "^1.0.2",
     "router-store-ser": "^1.0.1",
     "rxjs": "^5.4.3",
+    "tslint-config-airbnb": "^5.3.0",
     "zone.js": "^0.8.18"
   },
   "devDependencies": {

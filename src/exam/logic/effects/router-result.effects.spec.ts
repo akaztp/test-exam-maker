@@ -28,31 +28,33 @@ describe('Exam/Logic/' + RouterResultEffects.name, () =>
                 root: {
                     configPath: 'result',
                     data: {
-                        uid: resultRouteId
+                        uid: resultRouteId,
                     },
                     children: [],
-                    params: { },
-                }
+                    params: {},
+                },
             },
-            event: null
-        }
+            event: null,
+        },
     };
 
     function init(initialState)
     {
         TestBed.configureTestingModule({
             imports: [
-                StoreModule.forRoot<State, Action>(reducers,
-                    initialState ? { initialState: initialState } : {}),
-                    EffectsModule.forRoot([]),
-                    RouterStoreSerModule
-                ],
+                StoreModule.forRoot<State, Action>(
+                    reducers,
+                    initialState ? { initialState } : {},
+                ),
+                EffectsModule.forRoot([]),
+                RouterStoreSerModule,
+            ],
             providers: [
                 RouterResultEffects,
                 provideMockActions(() => actions),
                 { provide: MODULE_STORE_TOKEN, useExisting: Store },
                 { provide: Router, useValue: {} },
-            ]
+            ],
         });
 
         effects = TestBed.get(RouterResultEffects);

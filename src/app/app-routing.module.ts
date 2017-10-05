@@ -12,7 +12,7 @@ const appRoutes: Routes = [
         component: StartContainer,
         data: {
             uid: startRouteId,
-        }
+        },
     },
     {
         path: 'exam',
@@ -28,12 +28,11 @@ const appRoutes: Routes = [
                 enableTracing: true, // <-- debugging purposes only
                 // useHash: false,
                 preloadingStrategy: PreloadAllModules,
-            }
+            },
         ),
     ],
     exports: [
-        RouterModule
-    ]
+        RouterModule,
+    ],
 })
-export class AppRoutingModule {
- }
+export class AppRoutingModule {}

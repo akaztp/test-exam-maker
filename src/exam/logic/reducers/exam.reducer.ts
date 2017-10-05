@@ -27,18 +27,22 @@ export function reducer(state: State = initialState, action: Action): State
     {
         case examActions.ACTION_EXAM_STATUS:
             return { ...state, status: (action as examActions.ExamStatusAction).payload.status };
+
         case examActions.ACTION_EXAM_END:
             return { ...state, status: (action as examActions.ExamEndAction).payload.status || ExamStatus.ENDED };
+
         case examActions.ACTION_EXAM_DATA:
             {
                 let timeLeft = 0;
                 const adata: AsyncDataSer<ExamInfo> = (action as examActions.ExamDataAction).payload.data;
                 if (AsyncDataSer.hasData(adata, false))
                     timeLeft = adata.data.duration;
-                return { ...state, data: (action as examActions.ExamDataAction).payload.data, timeLeft: timeLeft };
+                return { ...state, timeLeft, data: (action as examActions.ExamDataAction).payload.data };
             }
+
         case examActions.ACTION_EXAM_TIME:
             return { ...state, timeLeft: (action as examActions.ExamTimeAction).payload.time };
+
         case examActions.ACTION_EXAM_SCORE:
             return { ...state, resultScore: (action as examActions.ExamScoreAction).payload.score };
     }

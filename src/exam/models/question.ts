@@ -17,5 +17,5 @@ export interface Question
     title: string;
     description: string;
     multichoice: boolean;
-    answers: Array<Answer>; // Answers must be ordered by answer.num increasingly
+    answers: Answer[]; // Answers must be ordered by answer.num increasingly
 }

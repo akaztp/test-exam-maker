@@ -9,9 +9,10 @@ describe('Exam/Containers/' + ResultContainer.name, () =>
 
     beforeEach(async(() =>
     {
-        TestBed.configureTestingModule({
-            declarations: [ResultContainer]
-        })
+        TestBed
+            .configureTestingModule({
+                declarations: [ResultContainer],
+            })
             .compileComponents();
     }));
 

@@ -10,19 +10,25 @@ describe('App/Containers' + StartContainer.name, () =>
     let component: StartContainer;
     let fixture: ComponentFixture<StartContainer>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                AppRoutingModule,
-            ],
-          declarations: [ StartContainer ],
-          providers: [
-              { provide: APP_BASE_HREF, useValue: '/' }
-          ],
-          schemas: [ NO_ERRORS_SCHEMA ],
-        })
-        .compileComponents();
-      }));
+    beforeEach(async(() =>
+    {
+        TestBed
+            .configureTestingModule({
+                imports: [
+                    AppRoutingModule,
+                ],
+                declarations: [
+                    StartContainer,
+                ],
+                providers: [
+                    { provide: APP_BASE_HREF, useValue: '/' },
+                ],
+                schemas: [
+                    NO_ERRORS_SCHEMA,
+                ],
+            })
+            .compileComponents();
+    }));
 
     beforeEach(() =>
     {

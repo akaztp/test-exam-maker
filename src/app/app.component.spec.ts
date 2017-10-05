@@ -7,14 +7,16 @@ describe('App/' + AppComponent.name, () =>
 {
     beforeEach(async(() =>
     {
-        TestBed.configureTestingModule({
-            declarations: [
-                AppComponent
-            ],
-            schemas: [
-                NO_ERRORS_SCHEMA
-            ],
-        }).compileComponents();
+        TestBed
+            .configureTestingModule({
+                declarations: [
+                    AppComponent,
+                ],
+                schemas: [
+                    NO_ERRORS_SCHEMA,
+                ],
+            })
+            .compileComponents();
     }));
 
     it('should create the app', async(() =>

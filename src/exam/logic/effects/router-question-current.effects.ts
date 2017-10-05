@@ -19,12 +19,12 @@ export class RouterQuestionCurrentEffects
     constructor(
         private actions$: Actions,
         @Inject(RouterStateSerializer)
-        protected routerStateSerializer: CustomRouterStateSerializer
+        protected routerStateSerializer: CustomRouterStateSerializer,
     )
     {
         this.effect$ = this.actions$.ofType<RouterNavigationAction<RouterStateSer>>(ROUTER_NAVIGATION)
             .map<RouterNavigationAction<RouterStateSer>, number>(
-                action =>
+                (action) =>
                 {
                     let num = NaN;
                     const node = this.routerStateSerializer.findNodeById(action.payload.routerState.root, questionRouteId);
@@ -33,9 +33,6 @@ export class RouterQuestionCurrentEffects
                     return num;
                 })
             .filter(num => !isNaN(num))
-            .map(num =>
-                new QuestionsCurrentAction({
-                    num: num
-                }));
+            .map(num => new QuestionsCurrentAction({ num }));
     }
 }

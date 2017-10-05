@@ -22,25 +22,25 @@ export const routes: Routes = [
                 path: 'start',
                 component: StartContainer,
                 data: {
-                    uid: startRouteId
+                    uid: startRouteId,
                 },
             },
             {
                 path: 'question/:' + questionParamNum,
                 component: QuestionContainer,
                 data: {
-                    uid: questionRouteId
+                    uid: questionRouteId,
                 },
             },
             {
                 path: 'result',
                 component: ResultContainer,
                 data: {
-                    uid: resultRouteId
+                    uid: resultRouteId,
                 },
-            }
+            },
         ],
-    }
+    },
 ];
 
 @NgModule({
@@ -48,7 +48,7 @@ export const routes: Routes = [
         RouterModule.forChild(routes),
     ],
     exports: [
-        RouterModule
+        RouterModule,
     ],
 })
 export class ExamRoutingModule { }

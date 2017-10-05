@@ -1,0 +1,40 @@
+{
+    "rules": {
+        "brace-style": [
+            true,
+            "allman",
+            {
+                "allowSingleLine": true
+            }
+        ], // airbnb 16.2 override
+        "ter-indent": [
+            true,
+            4,
+            {
+                "SwitchCase": 1,
+                "MemberExpression": 1,
+                "FunctionDeclaration": {
+                    "parameters": 1
+                },
+                "FunctionExpression": {
+                    "parameters": 1
+                },
+                "CallExpression": {
+                    "arguments": "first"
+                }
+            }
+        ], // airbnb 18.1 override
+        "max-line-length": [
+            true,
+            140
+          ], // airbnb 18.12 override
+        "align": [
+            true,
+            "statements",
+            "members",
+            "elements"
+        ], // arguments and parameters are handled by "ter-indent"
+        "no-increment-decrement": false,
+        "no-var-self": false
+    }
+}

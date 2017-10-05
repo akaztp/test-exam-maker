@@ -1,19 +1,15 @@
 ﻿import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 
-/* tslint:disable no-inferrable-types*/
-
 export class AsyncDataSer<T>
 {
-    public error: boolean = false;
-    public errorsData?: Array<ServerError> = null;
+    public error = false;
+    public errorsData?: ServerError[] = null;
 
     public constructor(
         public data: T,
         public loading: boolean = false,
-        public cursor: any = null)
-    {
-    }
+        public cursor: any = null) {}
 
     public static hasData(adata: AsyncDataSer<any>, orError: boolean = false): boolean
     {
@@ -40,12 +36,12 @@ export class AsyncDataSer<T>
         return newAdata;
     }
 
-    public static errored<T>(errors?: Array<any>, data: T = null): AsyncDataSer<T>
+    public static errored<T>(errors?: any[], data: T = null): AsyncDataSer<T>
     {
         const obs: AsyncDataSer<T> = new AsyncDataSer<T>(data);
         obs.error = true;
         if (errors && Array.isArray(errors))
-            obs.errorsData = errors.filter((error) => (error.name && error.name === 'ServerError'));
+            obs.errorsData = errors.filter(error => (error.name && error.name === 'ServerError'));
         return obs;
     }
 
@@ -67,14 +63,14 @@ export class ServerError
     public name: string;
     public message: string;
     public data: { code: ServerErrorCode };
-    public time_thrown: string;
+    public timeThrown: string;
 
     constructor(init: any)
     {
         this.name = init.name || 'ServerError';
         this.message = init.message || '';
         this.data = Object.assign<{ code: ServerErrorCode }, any>({ code: ServerErrorCode.UNKNOWN }, init.data);
-        this.time_thrown = init.time_thrown || new Date().toISOString();
+        this.timeThrown = init.timeThrown || new Date().toISOString();
     }
 
     public static isCode(e: ServerError, code: ServerErrorCode): boolean
@@ -82,7 +78,7 @@ export class ServerError
         return e.name && e.name === 'ServerError' && (e as ServerError).data.code === code;
     }
 
-    public static hasCode(errors: Array<ServerError>, code: ServerErrorCode): ServerError
+    public static hasCode(errors: ServerError[], code: ServerErrorCode): ServerError
     {
         return errors ? errors.find(e => ServerError.isCode(e, code)) : null;
     }

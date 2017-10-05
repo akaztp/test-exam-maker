@@ -18,25 +18,28 @@ describe('Exam/Containers/' + StartContainer.name, () =>
     {
         async(() =>
         {
-            TestBed.configureTestingModule({
-                imports: [
-                    StoreModule.forRoot<ExamState, Action>(reducers, {
-                        initialState: {
-                            exam: {
-                                data: exam,
-                                resultScore: new AsyncDataSer<number>(0),
-                                timeLeft: 0, // seconds
-                                status: ExamStatus.OFF,
+            TestBed
+                .configureTestingModule({
+                    imports: [
+                        StoreModule.forRoot<ExamState, Action>(reducers, {
+                            initialState: {
+                                exam: {
+                                    data: exam,
+                                    resultScore: new AsyncDataSer<number>(0),
+                                    timeLeft: 0, // seconds
+                                    status: ExamStatus.OFF,
+                                },
+                                questions: null,
                             },
-                            questions: null
-                        }
-                    }),
-                ],
-                declarations: [StartContainer],
-                providers: [
-                    { provide: MODULE_STORE_TOKEN, useExisting: Store },
-                ],
-            })
+                        }),
+                    ],
+                    declarations: [
+                        StartContainer,
+                    ],
+                    providers: [
+                        { provide: MODULE_STORE_TOKEN, useExisting: Store },
+                    ],
+                })
                 .compileComponents();
         })(() => {});
 
@@ -60,27 +63,28 @@ describe('Exam/Containers/' + StartContainer.name, () =>
         const duration = 90;
         const durationOutput = '1 min and 30 sec';
         const examInfoA = new AsyncDataSer<ExamInfo>({
+            duration, // seconds
             name: 'Test Exam',
             description: 'Test Description',
             passScore: 50,
             totalScore: 100,
-            duration: duration, // seconds
         } as ExamInfo);
+
         init(examInfoA);
         expect(component).toBeTruthy();
         expect(fixture.debugElement.query(de => de.references['loadingExam'])).toBeNull();
         expect(fixture.debugElement.query(de => de.references['examLoaded'])).toBeTruthy();
 
         expect(
-            (fixture.debugElement.query(de => de.references['examName']).nativeElement as HTMLElement).innerText
+            (fixture.debugElement.query(de => de.references['examName']).nativeElement as HTMLElement).innerText,
         ).toBe(examInfoA.data.name);
 
         expect(
-            (fixture.debugElement.query(de => de.references['examDescription']).nativeElement as HTMLElement).innerText
+            (fixture.debugElement.query(de => de.references['examDescription']).nativeElement as HTMLElement).innerText,
         ).toBe(examInfoA.data.description);
 
         expect(
-            (fixture.debugElement.query(de => de.references['examDuration']).nativeElement as HTMLElement).innerText
+            (fixture.debugElement.query(de => de.references['examDuration']).nativeElement as HTMLElement).innerText,
         ).toBe(durationOutput);
     });
 });

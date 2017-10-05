@@ -24,20 +24,23 @@ export class RouterResultEffects
         @Inject(MODULE_STORE_TOKEN)
         protected store: Store<State>,
         @Inject(RouterStateSerializer)
-        protected routerStateSerializer: CustomRouterStateSerializer
+        protected routerStateSerializer: CustomRouterStateSerializer,
     )
     {
         const exam$: Store<ExamState> = this.store.select(state => state.exam);
 
         this.effect$ = this.actions$.ofType<RouterNavigationAction<RouterStateSer>>(ROUTER_NAVIGATION)
-            .withLatestFrom(exam$, (action, exam) =>
-            {
-                const node = this.routerStateSerializer.findNodeById(action.payload.routerState.root, resultRouteId);
-                if (node && exam.status !== ExamStatus.ENDED && exam.status !== ExamStatus.TIME_ENDED)
-                    return action;
+            .withLatestFrom(
+                exam$,
+                (action, exam) =>
+                {
+                    const node = this.routerStateSerializer.findNodeById(action.payload.routerState.root, resultRouteId);
+                    if (node && exam.status !== ExamStatus.ENDED && exam.status !== ExamStatus.TIME_ENDED)
+                        return action;
 
-                return null;
-            })
+                    return null;
+                },
+            )
             .filter(action => action != null)
             .map(action => new ExamEndAction({ status: ExamStatus.ENDED }));
     }

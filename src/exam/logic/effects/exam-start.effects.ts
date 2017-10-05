@@ -38,10 +38,12 @@ export class ExamStartEffects
             .filter(data => data != null)
             .mergeMap(produceTimer);
 
+        return;
+
         function testReady(action, exam)
         {
             if (AsyncDataSer.hasData(exam.data, false) && exam.status === ExamStatus.READY)
-                return { action: action, state: exam };
+                return { action, state: exam };
             return null;
         }
 
@@ -62,11 +64,10 @@ export class ExamStartEffects
                         new ExamEndAction({ status: ExamStatus.TIME_ENDED }),
                         new NavigationGoAction({
                             commands: ['../result'],
-                            relativeRouteId: resultRouteId
+                            relativeRouteId: resultRouteId,
                         })]));
 
             return Observable.concat(running$, timer$, end$);
         }
     }
-
 }

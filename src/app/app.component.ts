@@ -4,6 +4,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    // tslint:disable-next-line:use-view-encapsulation
+    encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent  { }
+export class AppComponent {}

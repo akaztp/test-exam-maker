@@ -9,7 +9,7 @@ describe('Exam/Data/' + ExamEvalService.name, () =>
     beforeEach(() =>
     {
         TestBed.configureTestingModule({
-            providers: [ExamEvalService]
+            providers: [ExamEvalService],
         });
     });
 
@@ -27,19 +27,24 @@ describe('Exam/Data/' + ExamEvalService.name, () =>
 
             service.evalQuestions(exam, questions, solutions)
                 .then(checkResponse)
-                .then(() => {
-                    questions[0].answers.forEach((answer, idx) => {answer.checked = solutions[0].indexOf(idx) >= 0; });
+                .then(() =>
+                {
+                    questions[0].answers.forEach((answer, idx) =>
+                    {
+                        answer.checked = solutions[0].indexOf(idx) >= 0;
+                    });
                     expectedScore = 1.0 / questions.length * exam.totalScore;
                     return service.evalQuestions(exam, questions, solutions);
                 })
                 .then(checkResponse)
-                .then(() => {
+                .then(() =>
+                {
                     solveQuestions(questions, solutions);
                     expectedScore = exam.totalScore;
                     return service.evalQuestions(exam, questions, solutions);
                 })
                 .then(checkResponse)
-                .then(() => { done(); }, errorFail);
+                .then(done, errorFail);
 
             function checkResponse(score: AsyncDataSer<number>)
             {
@@ -47,7 +52,8 @@ describe('Exam/Data/' + ExamEvalService.name, () =>
                 expect(score.data).toBe(expectedScore);
             }
 
-            function errorFail(error: Error) {
+            function errorFail(error: Error)
+            {
                 fail('calling service ExamEvalService returned a failed promise: ' + error.message);
                 throw error;
             }

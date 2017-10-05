@@ -18,11 +18,9 @@ import { StartContainer } from './containers/start/start.container';
         BrowserAnimationsModule,
         LogicModule,
         AppRoutingModule,
-        NgbModule.forRoot()
+        NgbModule.forRoot(),
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
-export class AppModule
-{
-}
+export class AppModule {}

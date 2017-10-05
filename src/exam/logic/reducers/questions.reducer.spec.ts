@@ -5,22 +5,22 @@ import { deepEqualMatcher } from '../../../utils/jasmine-matchers';
 
 describe('Exam/logic/reducers/questions', () =>
 {
-    let questionsA: AsyncDataSer<Array<Question>> = null;
+    let questionsA: AsyncDataSer<Question[]> = null;
 
     beforeEach(() =>
     {
         jasmine.addMatchers(deepEqualMatcher);
-        const questions: Array<Question> = [
+        const questions: Question[] = [
             {
                 num: 0,
                 title: 'Test Question 1',
                 description: '',
                 multichoice: false,
                 answers: [
-                    { num: 0, text: 'Answer 1', checked: false, },
-                    { num: 1, text: 'Answer 2', checked: false, },
-                    { num: 2, text: 'Answer 3', checked: false, },
-                ]
+                    { num: 0, text: 'Answer 1', checked: false },
+                    { num: 1, text: 'Answer 2', checked: false },
+                    { num: 2, text: 'Answer 3', checked: false },
+                ],
             },
             {
                 num: 1,
@@ -28,10 +28,10 @@ describe('Exam/logic/reducers/questions', () =>
                 description: '',
                 multichoice: true,
                 answers: [
-                    { num: 0, text: 'Answer 1', checked: false, },
-                    { num: 1, text: 'Answer 2', checked: false, },
-                    { num: 2, text: 'Answer 3', checked: false, },
-                ]
+                    { num: 0, text: 'Answer 1', checked: false },
+                    { num: 1, text: 'Answer 2', checked: false },
+                    { num: 2, text: 'Answer 3', checked: false },
+                ],
             },
         ];
 
@@ -44,7 +44,7 @@ describe('Exam/logic/reducers/questions', () =>
         questionsA.data[answer.questionNum].answers[1].checked = true; // to check if it resets other answers
         questionsA.data[answer.questionNum].answers[2].checked = true; // to check if it resets other answers
 
-        const newQuestionsA: AsyncDataSer<Array<Question>> = reducer.setAnswer(questionsA, answer);
+        const newQuestionsA: AsyncDataSer<Question[]> = reducer.setAnswer(questionsA, answer);
 
         expect(newQuestionsA).not.toBe(questionsA); // should have mutated
         expect(newQuestionsA.data).not.toBe(questionsA.data); // should have mutated
@@ -58,9 +58,9 @@ describe('Exam/logic/reducers/questions', () =>
         })); // should have mutated but mantaining the lot
         expect(newQuestionsA.data[1].answers).not.toBe(questionsA.data[1].answers); // should have mutated
         (expect(newQuestionsA.data[1].answers) as any).toDeepEqual([
-            { num: 0, text: 'Answer 1', checked: true, },
-            { num: 1, text: 'Answer 2', checked: false, },
-            { num: 2, text: 'Answer 3', checked: false, },
+            { num: 0, text: 'Answer 1', checked: true },
+            { num: 1, text: 'Answer 2', checked: false },
+            { num: 2, text: 'Answer 3', checked: false },
         ]); // should have been set
     });
 
@@ -70,7 +70,7 @@ describe('Exam/logic/reducers/questions', () =>
         questionsA.data[answer.questionNum].answers[1].checked = true; // to check if it resets other answers
         questionsA.data[answer.questionNum].answers[2].checked = true; // to check if it resets other answers
 
-        const newQuestionsA: AsyncDataSer<Array<Question>> = reducer.setAnswer(questionsA, answer);
+        const newQuestionsA: AsyncDataSer<Question[]> = reducer.setAnswer(questionsA, answer);
 
         expect(newQuestionsA).not.toBe(questionsA); // should have mutated
         expect(newQuestionsA.data).not.toBe(questionsA.data); // should have mutated
@@ -84,9 +84,9 @@ describe('Exam/logic/reducers/questions', () =>
         })); // should have mutated but mantaining the lot
         expect(newQuestionsA.data[1].answers).not.toBe(questionsA.data[1].answers); // should have mutated
         (expect(newQuestionsA.data[1].answers) as any).toDeepEqual([
-            { num: 0, text: 'Answer 1', checked: true, },
-            { num: 1, text: 'Answer 2', checked: false, },
-            { num: 2, text: 'Answer 3', checked: false, },
+            { num: 0, text: 'Answer 1', checked: true },
+            { num: 1, text: 'Answer 2', checked: false },
+            { num: 2, text: 'Answer 3', checked: false },
         ]); // should have been set
     });
 

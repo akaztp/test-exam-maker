@@ -18,7 +18,7 @@ export class ExamFetchService
         return Observable.concat(
             Observable.of(new AsyncDataSer<ExamInfo>(null, true)),
             // can't use a simple .delay(500) because it is not compatible with fakeAsync() in the testing.
-            Observable.interval(500).take(1).map(_ => new AsyncDataSer<ExamInfo>(exam, false))
+            Observable.interval(500).take(1).map(_ => new AsyncDataSer<ExamInfo>(exam, false)),
         );
     }
 }

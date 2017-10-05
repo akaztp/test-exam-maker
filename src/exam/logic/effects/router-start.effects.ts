@@ -47,8 +47,7 @@ export class RouterStartEffects
                                         new QuestionsDataAction({ data: null }),
                                         new ExamStatusAction({ status: ExamStatus.READY }),
                                     ]);
-                                })
-                    );
+                                }));
                 });
     }
 }

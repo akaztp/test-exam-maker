@@ -11,7 +11,7 @@ export class UserStatusAction implements Action
 {
     readonly type = ACTION_USER_STATUS;
     constructor(
-        public payload: { status: UserStatus }
+        public payload: { status: UserStatus },
     ) { }
 }
 
@@ -19,7 +19,7 @@ export class UserInputAction implements Action
 {
     readonly type = ACTION_USER_INPUT;
     constructor(
-        public payload: { username: string }
+        public payload: { username: string },
     ) { }
 }
 
@@ -30,7 +30,7 @@ export class UserLoginAction implements Action
         public payload: {
             username: string,
             password: string,
-        }
+        },
     ) { }
 }
 

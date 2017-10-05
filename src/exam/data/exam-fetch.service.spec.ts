@@ -13,7 +13,7 @@ describe('Exam/Data/' + ExamFetchService.name, () =>
     beforeEach(() =>
     {
         TestBed.configureTestingModule({
-            providers: [ExamFetchService]
+            providers: [ExamFetchService],
         });
     });
 
@@ -24,17 +24,17 @@ describe('Exam/Data/' + ExamFetchService.name, () =>
 
     it('should generate a timer', fakeAsync(() =>
     {
-        inject([ExamFetchService], async (service: ExamFetchService) =>
+        inject([ExamFetchService], (service: ExamFetchService) =>
         {
             const { exam } = createExam1();
             const expectedValues = [
                 new AsyncDataSer<ExamInfo>(null, true),
-                new AsyncDataSer<ExamInfo>(exam, false)
+                new AsyncDataSer<ExamInfo>(exam, false),
             ];
             const examInfo$ = service.fetchExam('');
             let matchResult: string;
             matchObservable(examInfo$.catch(failOnObsError), expectedValues, true, false, deepEqual)
-                .then(() => matchResult = null, (result) => matchResult = result);
+                .then(() => matchResult = null, result => matchResult = result);
 
             tick(1000);
             expect(matchResult).toBeNull();

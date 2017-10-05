@@ -19,13 +19,13 @@ export class StartContainer extends CommonContainer
     constructor(
         @Inject(MODULE_STORE_TOKEN)
         protected store$: Store<ExamState>,
-        protected changeDetectorRef: ChangeDetectorRef
+        protected changeDetectorRef: ChangeDetectorRef,
     )
     {
         super();
         this.disposableSubs.push(
             this.store$
-                .select((state) => state.exam.data)
+                .select(state => state.exam.data)
                 .subscribe({ next: this.nextExamInfo, error: (e) => { throw e; } }));
     }
 

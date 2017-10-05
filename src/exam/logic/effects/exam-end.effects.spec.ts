@@ -26,22 +26,24 @@ describe('Exam/Logic/' + ExamEndEffects.name, () =>
 
     function init(initialState: State)
     {
-        const serviceSpy = jasmine.createSpyObj<ExamEvalService>('ExamEvalService',
+        const serviceSpy = jasmine.createSpyObj<ExamEvalService>(
+            'ExamEvalService',
             {
                 evalQuestions: Promise.resolve(new AsyncDataSer(0)),
             });
 
         TestBed.configureTestingModule({
             imports: [
-                StoreModule.forRoot<State, Action>(reducers,
-                    initialState ? { initialState: initialState } : {}),
+                StoreModule.forRoot<State, Action>(
+                    reducers,
+                    initialState ? { initialState } : {}),
             ],
             providers: [
                 ExamEndEffects,
                 provideMockActions(() => actions.do(a => store.dispatch(a))),
                 { provide: MODULE_STORE_TOKEN, useExisting: Store },
-                { provide: ExamEvalService, useValue: serviceSpy }
-            ]
+                { provide: ExamEvalService, useValue: serviceSpy },
+            ],
         });
 
         effects = TestBed.get(ExamEndEffects);
@@ -49,40 +51,37 @@ describe('Exam/Logic/' + ExamEndEffects.name, () =>
         examEvalServiceSpy = TestBed.get(ExamEvalService);
     }
 
-    it('should emit the correct actions.', () =>
+    it('should emit the correct actions.', () => fakeAsync(() =>
     {
-        fakeAsync(() =>
-        {
-            const { exam, questions } = createExam1();
+        const { exam, questions } = createExam1();
 
-            init({
-                exam: {
-                    data: new AsyncDataSer<ExamInfo>(exam, false),
-                    resultScore: new AsyncDataSer<number>(0),
-                    timeLeft: 0, // seconds
-                    status: ExamStatus.ENDED,
-                },
-                questions: {
-                    current: 0,
-                    data: new AsyncDataSer<Array<Question>>(questions, false),
-                },
-            });
+        init({
+            exam: {
+                data: new AsyncDataSer<ExamInfo>(exam, false),
+                resultScore: new AsyncDataSer<number>(0),
+                timeLeft: 0, // seconds
+                status: ExamStatus.ENDED,
+            },
+            questions: {
+                current: 0,
+                data: new AsyncDataSer<Question[]>(questions, false),
+            },
+        });
 
-            actions = Observable.of(new ExamEndAction({ status: ExamStatus.ENDED }));
-            const score = new AsyncDataSer<number>(0);
-            const expected =  [
-                    new ExamStatusAction({ status: ExamStatus.ENDED }),
-                    new ExamScoreAction({ score: new AsyncDataSer<number>(null, true) }),
-                    new ExamScoreAction({ score: score }),
-            ];
-            let matchResult: string;
-            matchObservable<Action>(effects.effect$.catch(failOnObsError), expected, true, false, deepEqual)
-                .then(() => matchResult = null, (result) => matchResult = result);
-            flush();
-            expect(matchResult).toBeNull();
+        actions = Observable.of(new ExamEndAction({ status: ExamStatus.ENDED }));
+        const score = new AsyncDataSer<number>(0);
+        const expected =  [
+            new ExamStatusAction({ status: ExamStatus.ENDED }),
+            new ExamScoreAction({ score: new AsyncDataSer<number>(null, true) }),
+            new ExamScoreAction({ score }),
+        ];
+        let matchResult: string;
+        matchObservable<Action>(effects.effect$.catch(failOnObsError), expected, true, false, deepEqual)
+            .then(() => matchResult = null, result => matchResult = result);
+        flush();
+        expect(matchResult).toBeNull();
 
-            expect(examEvalServiceSpy.evalQuestions).toHaveBeenCalledWith(exam, questions);
-        })();
-    });
+        expect(examEvalServiceSpy.evalQuestions).toHaveBeenCalledWith(exam, questions);
+    })());
 
 });

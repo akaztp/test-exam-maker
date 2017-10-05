@@ -24,13 +24,13 @@ describe('App/Logic/' + PageStartEffects.name, () =>
             imports: [
                 StoreModule.forRoot<{}, { type: any }>({}, {}), // dependency of RouterStoreSerModule
                 EffectsModule.forRoot([]),
-                RouterStoreSerModule
+                RouterStoreSerModule,
             ],
             providers: [
                 PageStartEffects,
                 provideMockActions(() => actions),
                 { provide: Router, useValue: {} }, // dependency of RouterStoreSerModule
-            ]
+            ],
         });
 
         effects = TestBed.get(PageStartEffects);
@@ -46,14 +46,14 @@ describe('App/Logic/' + PageStartEffects.name, () =>
                     root: {
                         configPath: 'start',
                         data: {
-                            uid: startRouteId
+                            uid: startRouteId,
                         },
                         children: [],
-                        params: []
-                    }
+                        params: [],
+                    },
                 },
-                event: null
-            }
+                event: null,
+            },
         };
 
         actions = hot('a', { a: routerAction });

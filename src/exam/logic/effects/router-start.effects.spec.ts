@@ -35,23 +35,26 @@ describe('Exam/Logic/' + RouterStartEffects.name, () =>
         TestBed.configureTestingModule(
             {
                 imports: [
-                    StoreModule.forRoot<{}, Action>({}, { }),
+                    StoreModule.forRoot<{}, Action>({}, {}),
                     EffectsModule.forRoot([]),
-                    RouterStoreSerModule
+                    RouterStoreSerModule,
                 ],
                 providers: [
                     RouterStartEffects,
                     provideMockActions(() => actions),
                     { provide: Router, useValue: {} },
                     {
-                        provide: ExamFetchService, useValue: jasmine.createSpyObj('ExamFetchService', {
-                            fetchExam: Observable.concat(
-                                Observable.of(new AsyncDataSer<ExamInfo>(null, true)),
-                                Observable.of(new AsyncDataSer<ExamInfo>(exam, false))
-                            )
-                        })
-                    }
-                ]
+                        provide: ExamFetchService,
+                        useValue: jasmine.createSpyObj(
+                            'ExamFetchService',
+                            {
+                                fetchExam: Observable.concat(
+                                    Observable.of(new AsyncDataSer<ExamInfo>(null, true)),
+                                    Observable.of(new AsyncDataSer<ExamInfo>(exam, false)),
+                                ),
+                            }),
+                    },
+                ],
             });
 
         effects = TestBed.get(RouterStartEffects);
@@ -60,14 +63,13 @@ describe('Exam/Logic/' + RouterStartEffects.name, () =>
 
     it('should emit no action', () =>
     {
-        const routerAction: RouterNavigationAction<RouterStateSer> =
-            {
-                type: ROUTER_ACTIVE as any,
-                payload: {
-                    routerState: questionRouterState(1), // just get a different route from the 'start' route
-                    event: null
-                }
-            };
+        const routerAction: RouterNavigationAction<RouterStateSer> = {
+            type: ROUTER_ACTIVE as any,
+            payload: {
+                routerState: questionRouterState(1), // just get a different route from the 'start' route
+                event: null,
+            },
+        };
 
         actions = cold('a', { a: routerAction });
         const expected = cold('', {});
@@ -84,23 +86,23 @@ describe('Exam/Logic/' + RouterStartEffects.name, () =>
             {
                 configPath: 'start',
                 data: {
-                    uid: startRouteId
+                    uid: startRouteId,
                 },
                 params: {},
                 children: [],
-            }];
+            },
+        ];
 
-        const routerAction: RouterNavigationAction<RouterStateSer> =
-            {
-                type: ROUTER_ACTIVE as any,
-                payload: {
-                    routerState: routerState,
-                    event: null
-                }
-            };
+        const routerAction: RouterNavigationAction<RouterStateSer> = {
+            type: ROUTER_ACTIVE as any,
+            payload: {
+                routerState,
+                event: null,
+            },
+        };
         actions = Observable.of(routerAction);
 
-        const expected: Array<Action> = [
+        const expected: Action[] = [
             new ExamStatusAction({ status: ExamStatus.OFF }),
             new ExamDataAction({ data: new AsyncDataSer(exam) }),
             new QuestionsDataAction({ data: null }),
@@ -108,12 +110,12 @@ describe('Exam/Logic/' + RouterStartEffects.name, () =>
         ];
         let matchResult: string;
         matchObservable<Action>(
-                effects.effect$.catch(failOnObsError),
-                expected,
-                true,
-                false,
-                deepEqual)
-            .then(() => matchResult = null, (result) => matchResult = result);
+            effects.effect$.catch(failOnObsError),
+            expected,
+            true,
+            false,
+            deepEqual,
+        ).then(() => matchResult = null, result => matchResult = result);
 
         flush();
         expect(matchResult).toBeNull();

@@ -16,8 +16,4 @@ export class ExamTimerService
     {
         return Observable.interval(1000).map(i => duration - i - 1).take(duration).startWith(duration);
     }
-
-    constructor(
-    ) { }
-
 }

@@ -26,13 +26,13 @@ describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
             imports: [
                 StoreModule.forRoot<{}, { type: any }>({}, {}),
                 EffectsModule.forRoot([]),
-                RouterStoreSerModule
+                RouterStoreSerModule,
             ],
             providers: [
                 RouterQuestionCurrentEffects,
                 provideMockActions(() => actions),
                 { provide: Router, useValue: {} },
-            ]
+            ],
         });
 
         effects = TestBed.get(RouterQuestionCurrentEffects);
@@ -48,14 +48,14 @@ describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
                     root: {
                         configPath: 'question/:' + questionParamNum,
                         data: {
-                            uid: questionRouteId
+                            uid: questionRouteId,
                         },
                         children: [],
                         params: { num: null },
-                    }
+                    },
                 },
-                event: null
-            }
+                event: null,
+            },
         };
 
         actions = hot('a', { a: routerAction });
@@ -71,15 +71,13 @@ describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
             type: ROUTER_NAVIGATION,
             payload: {
                 routerState: questionRouterState(num),
-                event: null
-            }
+                event: null,
+            },
         };
 
         actions = hot('a', { a: routerAction });
         const expected = hot('a', {
-            a: new QuestionsCurrentAction({
-                num: num
-            })
+            a: new QuestionsCurrentAction({ num }),
         });
 
         expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);

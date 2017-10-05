@@ -6,9 +6,9 @@ export const startRouterState: RouterStateSer = {
     root: {
         configPath: 'start',
         data: {
-            uid: startRouteId
+            uid: startRouteId,
         },
         children: [],
-        params: {}
-    }
+        params: {},
+    },
 };

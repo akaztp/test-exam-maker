@@ -15,7 +15,7 @@ export class ExamStatusAction implements Action
 {
     readonly type = ACTION_EXAM_STATUS;
     constructor(
-        public payload: { status: ExamStatus }
+        public payload: { status: ExamStatus },
     ) { }
 }
 
@@ -28,7 +28,7 @@ export class ExamEndAction implements Action
 {
     readonly type = ACTION_EXAM_END;
     constructor(
-        public payload: { status: ExamStatus }
+        public payload: { status: ExamStatus },
     ) { }
 }
 
@@ -36,7 +36,7 @@ export class ExamDataAction implements Action
 {
     readonly type = ACTION_EXAM_DATA;
     constructor(
-        public payload: { data: AsyncDataSer<ExamInfo> }
+        public payload: { data: AsyncDataSer<ExamInfo> },
     ) { }
 }
 
@@ -44,7 +44,7 @@ export class ExamTimeAction implements Action
 {
     readonly type = ACTION_EXAM_TIME;
     constructor(
-        public payload: { time: number }
+        public payload: { time: number },
     ) { }
 }
 
@@ -52,6 +52,6 @@ export class ExamScoreAction implements Action
 {
     readonly type = ACTION_EXAM_SCORE;
     constructor(
-        public payload: { score: AsyncDataSer<number> }
+        public payload: { score: AsyncDataSer<number> },
     ) { }
 }

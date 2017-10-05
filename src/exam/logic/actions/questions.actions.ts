@@ -11,7 +11,7 @@ export class QuestionsCurrentAction implements Action
 {
     readonly type = ACTION_QUESTIONS_CURRENT;
     constructor(
-        public payload: { num: number }
+        public payload: { num: number },
     ) { }
 }
 
@@ -19,7 +19,7 @@ export class QuestionsDataAction implements Action
 {
     readonly type = ACTION_QUESTIONS_DATA;
     constructor(
-        public payload: { data: AsyncDataSer<Array<Question>> }
+        public payload: { data: AsyncDataSer<Question[]> },
     ) { }
 }
 
@@ -27,6 +27,6 @@ export class QuestionsAnswerAction implements Action
 {
     readonly type = ACTION_QUESTIONS_ANSWER;
     constructor(
-        public payload: { questionNum: number, answerNum: number, checked: boolean }
+        public payload: { questionNum: number, answerNum: number, checked: boolean },
     ) { }
 }

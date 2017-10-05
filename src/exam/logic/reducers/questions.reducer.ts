@@ -7,7 +7,7 @@ import * as actions from '../actions/questions.actions';
 export interface State
 {
     current: number;
-    data: AsyncDataSer<Array<Question>>;  // Questions must be ordered by question.num increasingly
+    data: AsyncDataSer<Question[]>;  // Questions must be ordered by question.num increasingly
 }
 
 const initialState: State = {
@@ -36,13 +36,13 @@ export function reducer(state: State = initialState, action: Action): State
 }
 
 export function setAnswer(
-    questions: AsyncDataSer<Array<Question>>,
-    { questionNum, answerNum, checked }: { questionNum: number, answerNum: number, checked: boolean }
-): AsyncDataSer<Array<Question>>
+    questions: AsyncDataSer<Question[]>,
+    { questionNum, answerNum, checked }: { questionNum: number, answerNum: number, checked: boolean },
+): AsyncDataSer<Question[]>
 {
-    const newData: AsyncDataSer<Array<Question>> = {
+    const newData: AsyncDataSer<Question[]> = {
         ...questions,
-        data: questions.data.slice()
+        data: questions.data.slice(),
     };
 
     if (questionNum >= 0 && questionNum < newData.data.length)

@@ -32,22 +32,22 @@ export class ExamEndEffects
     {
         this.effect$ = this.actions$.ofType<ExamEndAction>(ACTION_EXAM_END)
             .mergeMap(
-            (action) => Observable.concat(
-                Observable.of(new ExamStatusAction({ status: action.payload.status })),
-                Observable.of(1)
-                    .withLatestFrom(this.store$, getExamData)
-                    .filter(a => a !== null)
-                    .mergeMap(
-                        ({ examInfo, questions }) =>
-                        {
-                            return Observable.concat(
-                                Observable
-                                    .of(new ExamScoreAction({ score: new AsyncDataSer<number>(null, true) })),
-                                Observable
-                                    .fromPromise(this.examEvalService.evalQuestions(examInfo, questions))
-                                    .map((adata) => new ExamScoreAction({ score: adata }))
-                            );
-                        })
+                action => Observable.concat(
+                    Observable.of(new ExamStatusAction({ status: action.payload.status })),
+                    Observable.of(1)
+                        .withLatestFrom(this.store$, getExamData)
+                        .filter(a => a !== null)
+                        .mergeMap(
+                            ({ examInfo, questions }) =>
+                            {
+                                return Observable.concat(
+                                    Observable
+                                        .of(new ExamScoreAction({ score: new AsyncDataSer<number>(null, true) })),
+                                    Observable
+                                        .fromPromise(this.examEvalService.evalQuestions(examInfo, questions))
+                                        .map(adata => new ExamScoreAction({ score: adata })),
+                                );
+                            }),
             ));
     }
 }

@@ -29,31 +29,33 @@ describe('Exam/Logic/' + RouterOutEffects.name, () =>
                 root: {
                     configPath: 'start',
                     data: {
-                        uid: startRouteId
+                        uid: startRouteId,
                     },
                     children: [],
-                    params: []
-                }
+                    params: [],
+                },
             },
-            event: null
-        }
+            event: null,
+        },
     };
 
     function init(initialState)
     {
         TestBed.configureTestingModule({
             imports: [
-                StoreModule.forRoot<State, Action>(reducers,
-                    initialState ? { initialState: initialState } : {}),
-                    EffectsModule.forRoot([]),
-                    RouterStoreSerModule,
+                StoreModule.forRoot<State, Action>(
+                    reducers,
+                    initialState ? { initialState } : {},
+                ),
+                EffectsModule.forRoot([]),
+                RouterStoreSerModule,
             ],
             providers: [
                 RouterOutEffects,
                 provideMockActions(() => actions),
                 { provide: MODULE_STORE_TOKEN, useExisting: Store },
                 { provide: Router, useValue: {} },
-            ]
+            ],
         });
 
         effects = TestBed.get(RouterOutEffects);
@@ -70,7 +72,7 @@ describe('Exam/Logic/' + RouterOutEffects.name, () =>
     });
 
 
-   it('should emit one action', () =>
+    it('should emit one action', () =>
     {
         init({ exam: { ...examInitialState, status: ExamStatus.ENDED } });
         actions = hot('a', { a: routerAction });

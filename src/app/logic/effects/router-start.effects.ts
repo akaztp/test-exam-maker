@@ -17,17 +17,16 @@ export class PageStartEffects
 {
     @Effect()
     public effect$: Observable<Action> = this.actions$.ofType(ROUTER_NAVIGATION)
-        .filter(
-            (action: RouterNavigationAction<RouterStateSer>) =>
-                !!this.routerStateSerializer.findNodeById(action.payload.routerState.root, startRouteId))
+        .filter((action: RouterNavigationAction<RouterStateSer>) => (
+            !!this.routerStateSerializer.findNodeById(action.payload.routerState.root, startRouteId)))
         .mergeMap(action => Observable.of(...[
             new UserStatusAction({ status: UserStatus.NONE }),
-            new UserInputAction({ username: '' })
+            new UserInputAction({ username: '' }),
         ]));
 
     constructor(
         protected actions$: Actions,
         @Inject(RouterStateSerializer)
-        protected routerStateSerializer: CustomRouterStateSerializer
+        protected routerStateSerializer: CustomRouterStateSerializer,
     ) { }
 }

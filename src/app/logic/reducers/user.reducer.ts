@@ -18,15 +18,17 @@ const initialState: State = {
 
 export function reducer(state: State = initialState, action: Action): State
 {
-    // console.log('User.reducer(): ', state, action);
     switch (action.type)
     {
         case userActions.ACTION_USER_STATUS:
             return { ...state, status: (action as userActions.UserStatusAction).payload.status };
+
         case userActions.ACTION_USER_INPUT:
             return { ...state, username: (action as userActions.UserInputAction).payload.username };
+
         case userActions.ACTION_USER_LOGIN:
             return { ...state, username: (action as userActions.UserLoginAction).payload.username };
+
         case userActions.ACTION_USER_DATA:
             return { ...state, data: (action as userActions.UserDataAction).payload.name };
     }

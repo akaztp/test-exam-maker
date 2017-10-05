@@ -17,8 +17,8 @@ export interface State
 }
 
 const reducers: ActionReducerMap<State, Action> = {
+    routerReducer,
     user: userReducer,
-    routerReducer: routerReducer,
 };
 
 @NgModule({
@@ -29,20 +29,19 @@ const reducers: ActionReducerMap<State, Action> = {
             maxAge: 50, //  Retains last n states
         }),
         EffectsModule.forRoot([
-            PageStartEffects
+            PageStartEffects,
         ]),
         StoreRouterConnectingModule,
         RouterStoreSerModule,
     ],
     declarations: [],
     providers: [
-        RouterStoreExtension
-    ]
+        RouterStoreExtension,
+    ],
 })
 export class LogicModule
 {
     constructor(
-        ext: RouterStoreExtension
-    ) { }
+        ext: RouterStoreExtension,
+    ) {}
 }
-
