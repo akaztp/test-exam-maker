@@ -17,7 +17,8 @@ TSLint Rules come from a variety of sources, by this order:
 
 ## My AirBnb styling overrides
 
-- [AibBnb 16.1](https://github.com/airbnb/javascript#blocks--braces): single line block statement do not need braces and no inline statements:
+- [AirBnb 3.8](https://github.com/airbnb/javascript#objects--rest-spread): Prefer the Object.assign() because it preserves type information
+- [AirBnb 16.1](https://github.com/airbnb/javascript#blocks--braces): single line block statement do not need braces and no inline statements:
 ```
 // good
 if (something === otherthing)
