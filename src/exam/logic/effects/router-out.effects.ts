@@ -13,6 +13,11 @@ import { MODULE_STORE_TOKEN, State } from '../reducers';
 import { resultRouteId, questionRouteId } from '../../exam-routing.module';
 import { RouterStateSerializer as CustomRouterStateSerializer, RouterStateSer } from 'router-store-ser';
 
+/**
+ * Business logic implementation:
+ * - ROUTER_NAVIGATION(outside exam)
+ *   - \>EXAM_STATUS(OFF), if needed
+ */
 @Injectable()
 export class RouterOutEffects
 {

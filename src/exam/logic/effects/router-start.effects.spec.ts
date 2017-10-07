@@ -49,7 +49,7 @@ describe('Exam/Logic/' + RouterStartEffects.name, () =>
                             'ExamFetchService',
                             {
                                 fetchExam: Observable.concat(
-                                    Observable.of(new AsyncDataSer<ExamInfo>(null, true)),
+                                    Observable.of(AsyncDataSer.loading<ExamInfo>()),
                                     Observable.of(new AsyncDataSer<ExamInfo>(exam, false)),
                                 ),
                             }),

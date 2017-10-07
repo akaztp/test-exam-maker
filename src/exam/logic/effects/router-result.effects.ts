@@ -13,6 +13,11 @@ import { MODULE_STORE_TOKEN, State } from '../reducers';
 import { resultRouteId } from '../../exam-routing.module';
 import { RouterStateSerializer as CustomRouterStateSerializer, RouterStateSer } from 'router-store-ser';
 
+/**
+ * Business logic implementation:
+ * - ROUTER_NAVIGATION(EXAM_RESULT)
+ *   - \>EXAM_END(ENDED), if needed (state.exam.status!=ENDED && !=TIME_ENDED)
+ */
 @Injectable()
 export class RouterResultEffects
 {

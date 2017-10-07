@@ -1,4 +1,10 @@
-﻿export function deepEqual(a: any, b: any): boolean
+﻿/**
+ * A deep equal comparison function. Non-object values are compared using double equal operator.
+ * Object values use the tripple equal operator.
+ * @param a
+ * @param b
+ */
+export function deepEqual(a: any, b: any): boolean
 {
     return levelEqual(a, b, deepEqual);
 }

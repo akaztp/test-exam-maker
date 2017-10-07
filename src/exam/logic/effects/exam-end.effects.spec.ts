@@ -72,7 +72,7 @@ describe('Exam/Logic/' + ExamEndEffects.name, () =>
         const score = new AsyncDataSer<number>(0);
         const expected =  [
             new ExamStatusAction({ status: ExamStatus.ENDED }),
-            new ExamScoreAction({ score: new AsyncDataSer<number>(null, true) }),
+            new ExamScoreAction({ score: AsyncDataSer.loading<number>() }),
             new ExamScoreAction({ score }),
         ];
         let matchResult: string;

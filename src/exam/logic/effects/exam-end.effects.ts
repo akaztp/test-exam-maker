@@ -17,6 +17,14 @@ import { ExamEvalService } from '../../data/exam-eval.service';
 import { MODULE_STORE_TOKEN, State } from '../reducers';
 import { AsyncDataSer } from '../../../utils/asyncData';
 
+/**
+ * Business logic implementation:
+ * - EXAM_END(status)
+ *   - \>EXAM_STATUS(status)
+ *   - \>EXAM_SCORE(null)
+ *   - Submit answers to service
+ *     - \>EXAM_SCORE(score)
+ */
 @Injectable()
 export class ExamEndEffects
 {
@@ -42,7 +50,7 @@ export class ExamEndEffects
                             {
                                 return Observable.concat(
                                     Observable
-                                        .of(new ExamScoreAction({ score: new AsyncDataSer<number>(null, true) })),
+                                        .of(new ExamScoreAction({ score: AsyncDataSer.loading<number>() })),
                                     Observable
                                         .fromPromise(this.examEvalService.evalQuestions(examInfo, questions))
                                         .map(adata => new ExamScoreAction({ score: adata })),

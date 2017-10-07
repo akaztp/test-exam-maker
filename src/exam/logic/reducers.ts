@@ -10,6 +10,10 @@ export interface State
     questions: QuestionsState;
 }
 
+/**
+ * This token is used for providing the store fragment that corresponds to this ngModule.
+ * So, on this module asking the injector for Store should always ask for this token.
+ */
 export const MODULE_STORE_TOKEN = new InjectionToken<Store<State>>('ModuleStore');
 
 export const reducers: ActionReducerMap<State, Action> = {

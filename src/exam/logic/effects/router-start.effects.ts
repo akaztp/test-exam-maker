@@ -17,6 +17,15 @@ import { ExamFetchService } from '../../data/exam-fetch.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { QuestionsDataAction } from '../actions/questions.actions';
 
+/**
+ * Business logic implementation:
+ * - ROUTER_NAVIGATION(EXAM_START)
+ *   - \>EXAM_STATUS(OFF)
+ *   - Fetch exam data, then:
+ *     - \>EXAM_DATA()
+ *     - \>QUESTIONS_DATA(empty)
+ *     - \>EXAM_STATUS(READY)
+ */
 @Injectable()
 export class RouterStartEffects
 {
@@ -37,7 +46,7 @@ export class RouterStartEffects
                 {
                     return Observable.concat(
                         Observable.of(new ExamStatusAction({ status: ExamStatus.OFF })),
-                        this.examFetchService.fetchExam('')
+                        this.examFetchService.fetchExam()
                             .filter(adata => AsyncDataSer.hasData(adata, true))
                             .mergeMap(
                                 (adata) =>

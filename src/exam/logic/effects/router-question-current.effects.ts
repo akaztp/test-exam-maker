@@ -10,6 +10,11 @@ import { QuestionsCurrentAction } from '../actions/questions.actions';
 import { questionRouteId, questionParamNum } from '../../exam-routing.module';
 import { RouterStateSerializer as CustomRouterStateSerializer, RouterStateSer } from 'router-store-ser';
 
+/**
+  * Business logic implementation:
+  * - ROUTER_NAVIGATION(EXAM_QUESTION, num), if(num!=null)
+  *   - \>QUESTIONS_CURRENT(num)
+ */
 @Injectable()
 export class RouterQuestionCurrentEffects
 {

@@ -17,6 +17,23 @@ import { ExamTimerService } from '../../data/exam-timer.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { resultRouteId } from '../../exam-routing.module';
 
+/**
+ * Business logic implementation:
+ * - EXAM_START()
+ *   - If (state.exam.status==READY):
+ *     - Fetch questions data
+ *       - \>QUESTIONS_DATA(),
+ *       - \>QUESTIONS_CURRENT(initial)
+ *     - \>EXAM_STATUS(RUNNING)
+ *     - Start timed exam for state.exam.duration
+ *     - Two seconds interval, while state.exam.status==RUNNING:
+ *       - Fetch exam expiration
+ *       - If expired:
+ *         - \>EXAM_END(TIME_ENDED)
+ *         - \>NAVIGATION_GO(EXAM_RESULT)
+ *       - If !expired:
+ *         - \>EXAM_TIME(timeLeft)
+ */
 @Injectable()
 export class ExamStartEffects
 {
@@ -56,7 +73,7 @@ export class ExamStartEffects
                 .map(num => new ExamTimeAction({ time: num }));
 
             const end$ = Observable
-                .of(0) // something different from null
+                .of(0) // just something different from null
                 .withLatestFrom(exam$, (a, s) => s.status === ExamStatus.RUNNING ? a : null)
                 .filter(a => a !== null)
                 .mergeMap(_ => Observable

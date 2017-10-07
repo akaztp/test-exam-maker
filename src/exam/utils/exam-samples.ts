@@ -1,11 +1,11 @@
 import { ExamInfo } from '../models/exam-info';
 import { Question, Answer } from '../models/question';
 
-export function createExam1(): { exam: ExamInfo, questions: Array<Question>, solutions: Array<Array<number>> }
+export function createExam1(): { exam: ExamInfo, questions: Question[], solutions: number[][] }
 {
     const solutions = [[1], [2]];
 
-    const questions: Array<Question> = [
+    const questions: Question[] = [
         createQuestion(
             1,
             'Produce white',
@@ -31,6 +31,7 @@ export function createExam1(): { exam: ExamInfo, questions: Array<Question>, sol
     ];
 
     const exam: ExamInfo = {
+        id: '1',
         name: 'Color mixing',
         description: 'An exam about color mixing, both additive and subtractive.',
         duration: 10 * 60,
@@ -38,10 +39,10 @@ export function createExam1(): { exam: ExamInfo, questions: Array<Question>, sol
         totalScore: 100,
     };
 
-    return { exam: exam, questions: questions, solutions: solutions };
+    return { exam, questions, solutions };
 }
 
-export function solveQuestions(questions: Array<Question>, solutions: Array<Array<number>>)
+export function solveQuestions(questions: Question[], solutions: number[][])
 {
     questions.forEach(
         (question, idx) =>
@@ -62,16 +63,16 @@ export function solveQuestions(questions: Array<Question>, solutions: Array<Arra
 
 function createAnswer(num: number, text: string): Answer
 {
-    return { num: num, text: text, checked: false };
+    return { num, text, checked: false };
 }
 
-function createQuestion(num: number, title: string, description: string, multichoice: boolean, answers: Array<Answer>): Question
+function createQuestion(num: number, title: string, description: string, multichoice: boolean, answers: Answer[]): Question
 {
     return {
-        num: num,
-        title: title,
-        description: description,
-        multichoice: multichoice,
-        answers: answers,
+        num,
+        title,
+        description,
+        multichoice,
+        answers,
     };
 }

@@ -3,6 +3,10 @@ import { Question } from '../models/question';
 import { ExamInfo } from '../models/exam-info';
 import { AsyncDataSer } from '../../utils/asyncData';
 
+/**
+ * This service takes an exam and its answers and evaluates its correctness using the server.
+ * The server for now is non-existing having the caller to provide the solutions to use in the evaluation.
+ */
 @Injectable()
 export class ExamEvalService
 {

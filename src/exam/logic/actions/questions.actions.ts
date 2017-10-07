@@ -7,6 +7,9 @@ export const ACTION_QUESTIONS_CURRENT = 'QUESTIONS_CURRENT';
 export const ACTION_QUESTIONS_DATA = 'QUESTIONS_DATA';
 export const ACTION_QUESTIONS_ANSWER = 'QUESTIONS_ANSWER';
 
+/**
+ * Emitted to set the current question for the current exam.
+ */
 export class QuestionsCurrentAction implements Action
 {
     readonly type = ACTION_QUESTIONS_CURRENT;
@@ -15,6 +18,9 @@ export class QuestionsCurrentAction implements Action
     ) { }
 }
 
+/**
+ * Emitted when data for the questions has arrived and must be stored on state.
+ */
 export class QuestionsDataAction implements Action
 {
     readonly type = ACTION_QUESTIONS_DATA;
@@ -23,6 +29,9 @@ export class QuestionsDataAction implements Action
     ) { }
 }
 
+/**
+ * Emitted when the user marks an answer.
+ */
 export class QuestionsAnswerAction implements Action
 {
     readonly type = ACTION_QUESTIONS_ANSWER;

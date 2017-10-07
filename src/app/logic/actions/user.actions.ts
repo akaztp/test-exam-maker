@@ -7,6 +7,9 @@ export const ACTION_USER_INPUT = 'USER_INPUT';
 export const ACTION_USER_LOGIN = 'USER_LOGIN';
 export const ACTION_USER_DATA = 'USER_DATA';
 
+/**
+ * Changes user status.
+ */
 export class UserStatusAction implements Action
 {
     readonly type = ACTION_USER_STATUS;
@@ -15,6 +18,9 @@ export class UserStatusAction implements Action
     ) { }
 }
 
+/**
+ * Emitted when user has changed the username input box.
+ */
 export class UserInputAction implements Action
 {
     readonly type = ACTION_USER_INPUT;
@@ -23,17 +29,22 @@ export class UserInputAction implements Action
     ) { }
 }
 
+/**
+ * Emitted when the user has requested a login.
+ */
 export class UserLoginAction implements Action
 {
     readonly type = ACTION_USER_LOGIN;
     constructor(
         public payload: {
             username: string,
-            password: string,
         },
     ) { }
 }
 
+/**
+ * Emitted when user data is made available (normally comming from server)
+ */
 export class UserDataAction implements Action
 {
     readonly type = ACTION_USER_DATA;

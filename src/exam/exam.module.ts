@@ -21,14 +21,24 @@ import { WrapperContainer } from './containers/wrapper/wrapper.container';
 import { StartContainer } from './containers/start/start.container';
 import { ExamFetchService } from './data/exam-fetch.service';
 
+/**
+ * Module name.
+ */
 const featureName = 'exam';
 
+/**
+ * Function to select the sub-store for this module from the global store.
+ * It is exported only because of AoT.
+ * See more on [[MODULE_STORE_TOKEN]].
+ * @param store
+ */
 export function featureSelector(store: Store<any>): Store<State>
 {
     return store.select<State>(createFeatureSelector<State>(featureName));
 }
 
-@NgModule({ id: 'ExamModule',
+@NgModule({
+    id: featureName,
     imports: [
         CommonModule,
         NgbModule,
@@ -54,10 +64,10 @@ export function featureSelector(store: Store<any>): Store<State>
         {
             provide: MODULE_STORE_TOKEN,
             useFactory: featureSelector,
-            deps: [Store]
+            deps: [Store],
         },
         ExamTimerService,
-        ExamFetchService
-    ]
+        ExamFetchService,
+    ],
 })
-export class ExamModule { }
+export class ExamModule {}

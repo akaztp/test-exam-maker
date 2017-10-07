@@ -26,11 +26,8 @@ export function reducer(state: State = initialState, action: Action): State
         case userActions.ACTION_USER_INPUT:
             return { ...state, username: (action as userActions.UserInputAction).payload.username };
 
-        case userActions.ACTION_USER_LOGIN:
-            return { ...state, username: (action as userActions.UserLoginAction).payload.username };
-
         case userActions.ACTION_USER_DATA:
-            return { ...state, data: (action as userActions.UserDataAction).payload.name };
+            return { ...state, name: (action as userActions.UserDataAction).payload.name };
     }
 
     return state;

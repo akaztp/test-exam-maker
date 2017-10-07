@@ -9,7 +9,8 @@
     "build": "ng build --prod --output-hashing=all",
     "test": "ng test",
     "lint": "tslint -p tsconfig.json -t verbose --type-check --force",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "docs": "typedoc --module commonjs --mode file --out ./docs --exclude node_modules --externalPattern **/node_modules/**/*.ts --excludeExternals src"    
   },
   "private": true,
   "dependencies": {
@@ -56,6 +57,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.3.0",
     "tslint": "~5.7.0",
+    "typedoc": "^0.9.0",
     "typescript": "~2.3.4"
   }
 }

@@ -23,21 +23,30 @@ export class StartContainer extends CommonContainer
     )
     {
         super();
+
         this.disposableSubs.push(
             this.store$
                 .select(state => state.exam.data)
-                .subscribe({ next: this.nextExamInfo, error: (e) => { throw e; } }));
+                .subscribe({ next: examInfo => this.nextExamInfo(examInfo), error: (e) => { throw e; } }));
     }
 
     protected examInfoStoreSubs: Store<AsyncDataSer<ExamInfo>> = null;
 
-    protected nextExamInfo = (examInfo: AsyncDataSer<ExamInfo>) =>
+    /**
+     * Process a new [[ExamInfo]] data incorporating it onto the view.
+     * @param examInfo
+     */
+    protected nextExamInfo(examInfo: AsyncDataSer<ExamInfo>)
     {
-        this.examInfoA = examInfo ? examInfo : new AsyncDataSer<ExamInfo>(null, true);
+        this.examInfoA = examInfo ? examInfo : AsyncDataSer.loading<ExamInfo>();
         this.duration = AsyncDataSer.hasData(this.examInfoA, false) ? this.convertSec2Min(this.examInfoA.data.duration) : '';
         this.changeDetectorRef.markForCheck();
     }
 
+    /**
+     * Produce a string representation of time using minutes and seconds from a absolute seconds number.
+     * @param secs
+     */
     protected convertSec2Min(secs: number): string
     {
         const min = Math.floor(secs / 60);

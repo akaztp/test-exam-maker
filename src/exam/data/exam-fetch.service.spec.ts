@@ -28,10 +28,10 @@ describe('Exam/Data/' + ExamFetchService.name, () =>
         {
             const { exam } = createExam1();
             const expectedValues = [
-                new AsyncDataSer<ExamInfo>(null, true),
+                AsyncDataSer.loading<ExamInfo>(),
                 new AsyncDataSer<ExamInfo>(exam, false),
             ];
-            const examInfo$ = service.fetchExam('');
+            const examInfo$ = service.fetchExam();
             let matchResult: string;
             matchObservable(examInfo$.catch(failOnObsError), expectedValues, true, false, deepEqual)
                 .then(() => matchResult = null, result => matchResult = result);

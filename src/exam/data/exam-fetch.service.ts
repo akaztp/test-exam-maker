@@ -12,11 +12,11 @@ import { ExamInfo } from '../models/exam-info';
 @Injectable()
 export class ExamFetchService
 {
-    public fetchExam(id: string): Observable<AsyncDataSer<ExamInfo>>
+    public fetchExam(): Observable<AsyncDataSer<ExamInfo>>
     {
         const { exam } = createExam1();
         return Observable.concat(
-            Observable.of(new AsyncDataSer<ExamInfo>(null, true)),
+            Observable.of(AsyncDataSer.loading<ExamInfo>()),
             // can't use a simple .delay(500) because it is not compatible with fakeAsync() in the testing.
             Observable.interval(500).take(1).map(_ => new AsyncDataSer<ExamInfo>(exam, false)),
         );

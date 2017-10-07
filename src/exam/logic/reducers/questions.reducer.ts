@@ -6,12 +6,12 @@ import * as actions from '../actions/questions.actions';
 
 export interface State
 {
-    current: number;
+    current: number; // starting at one
     data: AsyncDataSer<Question[]>;  // Questions must be ordered by question.num increasingly
 }
 
 const initialState: State = {
-    current: 0,
+    current: 1,
     data: null,
 };
 
@@ -21,8 +21,10 @@ export function reducer(state: State = initialState, action: Action): State
     {
         case actions.ACTION_QUESTIONS_CURRENT:
             return { ...state, current: (action as actions.QuestionsCurrentAction).payload.num };
+
         case actions.ACTION_QUESTIONS_DATA:
             return { ...state, data: (action as actions.QuestionsDataAction).payload.data };
+
         case actions.ACTION_QUESTIONS_ANSWER:
             {
                 let newState: State = state;
@@ -35,6 +37,11 @@ export function reducer(state: State = initialState, action: Action): State
     return state;
 }
 
+/**
+ * Sets an answer in the questions state data, producing a new questions state data.
+ * @param questions The questions state data.
+ * @param __namedParameters An object with the answer data.
+ */
 export function setAnswer(
     questions: AsyncDataSer<Question[]>,
     { questionNum, answerNum, checked }: { questionNum: number, answerNum: number, checked: boolean },
@@ -42,16 +49,16 @@ export function setAnswer(
 {
     const newData: AsyncDataSer<Question[]> = {
         ...questions,
-        data: questions.data.slice(),
+        data: [...questions.data],
     };
 
     if (questionNum >= 0 && questionNum < newData.data.length)
     {
-        const question: Question = Object.assign({}, newData.data[questionNum]);
+        const question = Object.assign({}, newData.data[questionNum]);
         newData.data[questionNum] = question;
         if (answerNum >= 0 && answerNum < question.answers.length)
         {
-            question.answers = question.answers.slice();
+            question.answers = [...question.answers];
 
             question.answers[answerNum] = Object.assign({}, question.answers[answerNum]);
             question.answers[answerNum].checked = checked;

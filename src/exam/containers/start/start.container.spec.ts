@@ -52,7 +52,7 @@ describe('Exam/Containers/' + StartContainer.name, () =>
 
     it('should show loading the exam message', () =>
     {
-        init(new AsyncDataSer<ExamInfo>(null, true));
+        init(AsyncDataSer.loading<ExamInfo>());
         expect(component).toBeTruthy();
         expect(fixture.debugElement.query(de => de.references['loadingExam'])).toBeTruthy();
         expect(fixture.debugElement.query(de => de.references['examLoaded'])).toBeNull();

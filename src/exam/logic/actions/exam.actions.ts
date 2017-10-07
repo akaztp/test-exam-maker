@@ -11,6 +11,9 @@ export const ACTION_EXAM_DATA = 'EXAM_DATA';
 export const ACTION_EXAM_TIME = 'EXAM_TIME';
 export const ACTION_EXAM_SCORE = 'EXAM_SCORE';
 
+/**
+ * Emitted for changing the status of the exam.
+ */
 export class ExamStatusAction implements Action
 {
     readonly type = ACTION_EXAM_STATUS;
@@ -19,11 +22,17 @@ export class ExamStatusAction implements Action
     ) { }
 }
 
+/**
+ * Emitted for starting answering the current exam.
+ */
 export class ExamStartAction implements Action
 {
     readonly type = ACTION_EXAM_START;
 }
 
+/**
+ * Emitted for terminating the current exam.
+ */
 export class ExamEndAction implements Action
 {
     readonly type = ACTION_EXAM_END;
@@ -32,6 +41,9 @@ export class ExamEndAction implements Action
     ) { }
 }
 
+/**
+ * Emitted when data for an exam arrives and must be stored in state.
+ */
 export class ExamDataAction implements Action
 {
     readonly type = ACTION_EXAM_DATA;
@@ -40,6 +52,9 @@ export class ExamDataAction implements Action
     ) { }
 }
 
+/**
+ * Emitted when the time for the exam to finish changes.
+ */
 export class ExamTimeAction implements Action
 {
     readonly type = ACTION_EXAM_TIME;
@@ -48,6 +63,9 @@ export class ExamTimeAction implements Action
     ) { }
 }
 
+/**
+ * Emitted when a score for the current exam is made available to be stored on state.
+ */
 export class ExamScoreAction implements Action
 {
     readonly type = ACTION_EXAM_SCORE;

@@ -12,6 +12,12 @@ import { UserStatus } from '../reducers/user.reducer';
 import { RouterStateSerializer as CustomRouterStateSerializer, RouterStateSer } from 'router-store-ser';
 import { startRouteId } from '../../app-routing.module';
 
+/**
+ * Business logic implementation:
+ * - ROUTER_NAVIGATION(START)
+ *   - \>USER_STATUS(NONE)
+ *   - \>USER_INPUT('')
+ */
 @Injectable()
 export class PageStartEffects
 {
