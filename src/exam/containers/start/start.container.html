@@ -1,8 +1,20 @@
-<div *ngIf="examInfoA.loading" #loadingExam>Loading Exam...</div>
-<div *ngIf="!examInfoA.loading" #examLoaded>
-    <p>Welcome to the exam <span #examName>{{examInfoA.data.name}}</span></p>
-    <p #examDescription>{{examInfoA.data.description}}</p>
-    <p>You have <span #examDuration>{{duration}}</span> to answer all que questions.
-        <br /> Select the start button whenever you're ready.</p>
-    <button>Start</button>
+<div class="row" *ngIf="!examInfoA.loading" #examLoaded>
+    <div class="col">
+        <h1>Welcome to the exam
+            <span #examName>{{examInfoA.data.name}}</span>
+        </h1>
+        <p #examDescription>{{examInfoA.data.description}}</p>
+        <p>You have
+            <span #examDuration>{{duration}}</span> to answer all que questions.
+            <br /> Select the start button whenever you're ready.</p>
+        <button type="button" class="btn btn-primary" (click)="onStart($event)" [disabled]="startDisabled">Start</button>
+
+    </div>
+</div>
+
+<div class="row" *ngIf="examInfoA.loading" #loadingExam>
+    <div class="col">
+        Loading Exam...<br />
+        <ngb-progressbar type="success" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
+    </div>
 </div>

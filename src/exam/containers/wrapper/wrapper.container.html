@@ -1,4 +1,2 @@
-<div>
-    <span>Online Exam</span>
-  </div>
+<div>{{(examInfo$ | async)?.data?.name}}</div>
 <router-outlet></router-outlet>

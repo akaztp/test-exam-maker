@@ -1,4 +1,17 @@
-<div>
-    <span>Online Exams</span>
+<div class="row">
+    <div class="col">
+        <h1>Online Exams</h1>
+    </div>
 </div>
-<a [routerLink]="['../exam']">Color Mixing</a>
+<div class="row">
+    <div class="col">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a [routerLink]="['../exam']">Color Mixing</a>
+            </li>
+            <li class="list-group-item disabled">Color Separation and Printing</li>
+            <li class="list-group-item disabled">Color Management</li>
+            <li class="list-group-item disabled">Color Effects</li>
+        </ul>
+    </div>
+</div>
