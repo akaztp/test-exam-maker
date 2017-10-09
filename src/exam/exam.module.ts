@@ -20,6 +20,7 @@ import { ExamRoutingModule } from './exam-routing.module';
 import { WrapperContainer } from './containers/wrapper/wrapper.container';
 import { StartContainer } from './containers/start/start.container';
 import { ExamFetchService } from './data/exam-fetch.service';
+import { QuestionsFetchService } from './data/questions-fetch.service';
 
 /**
  * Module name.
@@ -68,6 +69,7 @@ export function featureSelector(store: Store<any>): Store<State>
         },
         ExamTimerService,
         ExamFetchService,
+        QuestionsFetchService,
     ],
 })
 export class ExamModule {}
