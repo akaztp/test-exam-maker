@@ -1,3 +1,20 @@
-<p>
-  result works!
-</p>
+<div class="row" *ngIf="examInfoA && !examInfoA.loading">
+    <div class="col">
+        <h1>Results of exam
+            <span>{{examInfoA.data.name}}</span>
+        </h1>
+        <p>{{examInfoA.data.description}}</p>
+        <ng-container *ngIf="resultScore && !resultScore.loading && !resultScore.error">
+            <p>Your Score: {{resultScore.data}}</p>
+        </ng-container>
+        <ng-container *ngIf="!resultScore || resultScore.loading">
+            <p>Assessing exam results...
+                <br />
+                <ngb-progressbar type="success" [value]="100" [striped]="true" [animated]="true"></ngb-progressbar>
+            </p>
+        </ng-container>
+        <ng-container *ngIf="resultScore && resultScore.error">
+            <p>Error computing your exam score!</p>
+        </ng-container>
+    </div>
+</div>
