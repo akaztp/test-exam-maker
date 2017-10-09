@@ -6,7 +6,7 @@ import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/map';
 import { AsyncDataSer } from '../../utils/asyncData';
-import { createExam1 } from '../utils/exam-samples';
+import { createExam } from '../utils/exam-samples';
 import { ExamInfo } from '../models/exam-info';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class ExamFetchService
 {
     public fetchExam(): Observable<AsyncDataSer<ExamInfo>>
     {
-        const { exam } = createExam1();
+        const { exam } = createExam('1');
         return Observable.concat(
             Observable.of(AsyncDataSer.loading<ExamInfo>()),
             // can't use a simple .delay(500) because it is not compatible with fakeAsync() in the testing.

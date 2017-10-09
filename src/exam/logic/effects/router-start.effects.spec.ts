@@ -14,7 +14,7 @@ import { questionRouterState, examRouterState } from '../../utils/router-state-s
 import { ROUTER_ACTIVE } from '../../../utils/router-state-extension';
 import { startRouteId } from '../../exam-routing.module';
 import { ExamStatus } from '../reducers/exam.reducer';
-import { createExam1 } from '../../utils/exam-samples';
+import { createExam } from '../../utils/exam-samples';
 import { ExamFetchService } from '../../data/exam-fetch.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { QuestionsDataAction } from '../actions/questions.actions';
@@ -28,7 +28,7 @@ describe('Exam/Logic/' + RouterStartEffects.name, () =>
     let effects: RouterStartEffects;
     let actions: Observable<any>;
     let examFetchServiceSpy: jasmine.SpyObj<ExamFetchService> = null;
-    const { exam } = createExam1();
+    const { exam } = createExam('1');
 
     beforeEach(() =>
     {

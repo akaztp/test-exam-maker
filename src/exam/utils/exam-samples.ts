@@ -1,7 +1,7 @@
 import { ExamInfo } from '../models/exam-info';
 import { Question, Answer } from '../models/question';
 
-export function createExam1(): { exam: ExamInfo, questions: Question[], solutions: number[][] }
+export function createExam(id: string): { exam: ExamInfo, questions: Question[], solutions: number[][] }
 {
     const solutions = [[1], [2], [0, 4, 5]];
 
@@ -44,7 +44,7 @@ export function createExam1(): { exam: ExamInfo, questions: Question[], solution
     ];
 
     const exam: ExamInfo = {
-        id: '1',
+        id,
         name: 'Color mixing',
         description: 'An exam about color mixing, both additive and subtractive.',
         duration: 1 * 60,

@@ -51,8 +51,7 @@ export class ExamEndEffects
                                 return Observable.concat(
                                     Observable
                                         .of(new ExamScoreAction({ score: AsyncDataSer.loading<number>() })),
-                                    Observable
-                                        .fromPromise(this.examEvalService.evalQuestions(examInfo, questions))
+                                    this.examEvalService.evalQuestions(examInfo, questions)
                                         .map(adata => new ExamScoreAction({ score: adata })),
                                 );
                             }),

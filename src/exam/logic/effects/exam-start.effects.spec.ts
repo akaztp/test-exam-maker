@@ -23,7 +23,7 @@ import { failOnObsError } from '../../utils/jasmine-fail-observer';
 import { QuestionsDataAction, QuestionsCurrentAction } from '../actions/questions.actions';
 import { QuestionsFetchService } from '../../data/questions-fetch.service';
 import { Question } from '../../models/question';
-import { createExam1 } from '../../utils/exam-samples';
+import { createExam } from '../../utils/exam-samples';
 
 describe('Exam/Logic/' + ExamStartEffects.name, () =>
 {
@@ -33,7 +33,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
     let examTimerService: jasmine.SpyObj<ExamTimerService>;
     let questionsFetchService: jasmine.SpyObj<QuestionsFetchService>;
     const examDuration = 5; // seconds, expected observable below has this hardcoded
-    const { exam, questions } = createExam1();
+    const { exam, questions } = createExam('1');
 
     it('should not emit actions when exam.status != READY ', () =>
     {

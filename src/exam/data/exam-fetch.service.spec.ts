@@ -3,7 +3,7 @@ import { matchObservable } from 'match-observable';
 
 import { ExamFetchService } from './exam-fetch.service';
 import { AsyncDataSer } from '../../utils/asyncData';
-import { createExam1 } from '../utils/exam-samples';
+import { createExam } from '../utils/exam-samples';
 import { ExamInfo } from '../models/exam-info';
 import { failOnObsError } from '../utils/jasmine-fail-observer';
 import { deepEqual } from '../utils/deep-equal';
@@ -26,7 +26,7 @@ describe('Exam/Data/' + ExamFetchService.name, () =>
     {
         inject([ExamFetchService], (service: ExamFetchService) =>
         {
-            const { exam } = createExam1();
+            const { exam } = createExam('1');
             const expectedValues = [
                 AsyncDataSer.loading<ExamInfo>(),
                 new AsyncDataSer<ExamInfo>(exam, false),

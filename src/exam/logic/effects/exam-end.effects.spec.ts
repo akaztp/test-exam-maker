@@ -13,7 +13,7 @@ import { ExamEvalService } from '../../data/exam-eval.service';
 import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
 import { ExamInfo } from '../../models/exam-info';
 import { Question } from '../../models/question';
-import { createExam1 } from '../../utils/exam-samples';
+import { createExam } from '../../utils/exam-samples';
 import { deepEqual } from '../../utils/deep-equal';
 import { failOnObsError } from '../../utils/jasmine-fail-observer';
 
@@ -53,7 +53,7 @@ describe('Exam/Logic/' + ExamEndEffects.name, () =>
 
     it('should emit the correct actions.', () => fakeAsync(() =>
     {
-        const { exam, questions } = createExam1();
+        const { exam, questions } = createExam('1');
 
         init({
             exam: {

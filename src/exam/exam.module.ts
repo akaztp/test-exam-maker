@@ -21,6 +21,8 @@ import { WrapperContainer } from './containers/wrapper/wrapper.container';
 import { StartContainer } from './containers/start/start.container';
 import { ExamFetchService } from './data/exam-fetch.service';
 import { QuestionsFetchService } from './data/questions-fetch.service';
+import { ExamEndEffects } from './logic/effects/exam-end.effects';
+import { ExamEvalService } from './data/exam-eval.service';
 
 /**
  * Module name.
@@ -51,6 +53,7 @@ export function featureSelector(store: Store<any>): Store<State>
             RouterStartEffects,
             RouterQuestionCurrentEffects,
             ExamStartEffects,
+            ExamEndEffects,
         ]),
     ],
     declarations: [
@@ -69,6 +72,7 @@ export function featureSelector(store: Store<any>): Store<State>
         },
         ExamTimerService,
         ExamFetchService,
+        ExamEvalService,
         QuestionsFetchService,
     ],
 })
