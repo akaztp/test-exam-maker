@@ -78,9 +78,9 @@ export class QuestionContainer extends CommonContainer
                 .select(state => state.exam)
                 .subscribe({
                     next:
-                        (examInfo) =>
+                        (exam) =>
                         {
-                            this.timeLeft = examInfo.timeLeft;
+                            this.timeLeft = exam.timeLeft;
                             this.changeDetectorRef.markForCheck();
                         },
                     error: (e) => { throw e; } }));
