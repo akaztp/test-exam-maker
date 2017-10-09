@@ -10,7 +10,7 @@ examState.root.children = [
         data: null,
         params: {},
         children: [],
-    }
+    },
 ];
 export function examRouterState(): RouterStateSer
 {
@@ -24,12 +24,12 @@ export function questionRouterState(num: number): RouterStateSer
 
     const parent: RouterNodeSer = state.root.children[0]; // get to the 'exam' state level
     parent.children = [{
-            configPath: 'question',
-            data: {
-                uid: questionRouteId
-            },
-            params: {},
-            children: [],
+        configPath: 'question',
+        data: {
+            uid: questionRouteId,
+        },
+        params: {},
+        children: [],
     }];
 
     if (num === undefined || num === null || isNaN(num))

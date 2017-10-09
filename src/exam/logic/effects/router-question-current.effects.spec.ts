@@ -1,8 +1,8 @@
 ﻿import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
-import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
+import { Action, Store, StoreModule } from '@ngrx/store';
+import { ROUTER_NAVIGATION, RouterNavigationAction, RouterStateSerializer } from '@ngrx/router-store';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
@@ -10,48 +10,36 @@ import 'rxjs/add/operator/catch';
 
 import { RouterQuestionCurrentEffects } from './router-question-current.effects';
 import { QuestionsCurrentAction } from '../actions/questions.actions';
-import { RouterStateSer, RouterStoreSerModule } from 'router-store-ser';
-import { questionRouteId, questionParamNum } from '../../exam-routing.module';
+import { RouterStateSer, RouterStoreSerModule, NavigationGoAction,
+     RouterStateSerializer as CustomRouterStateSerializer } from 'router-store-ser';
+import { startRouteId } from '../../exam-routing.module';
 import { questionRouterState } from '../../utils/router-state-samples';
 import { failOnObsError } from '../../utils/jasmine-fail-observer';
+import { MODULE_STORE_TOKEN, State, reducers } from '../reducers';
+import { ExamStatus } from '../reducers/exam.reducer';
+import { moduleNavigationCommands } from '../../module-config';
 
 describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
 {
     let effects: RouterQuestionCurrentEffects;
     let actions: Observable<any>;
 
-    beforeEach(() =>
-    {
-        TestBed.configureTestingModule({
-            imports: [
-                StoreModule.forRoot<{}, { type: any }>({}, {}),
-                EffectsModule.forRoot([]),
-                RouterStoreSerModule,
-            ],
-            providers: [
-                RouterQuestionCurrentEffects,
-                provideMockActions(() => actions),
-                { provide: Router, useValue: {} },
-            ],
-        });
-
-        effects = TestBed.get(RouterQuestionCurrentEffects);
-    });
-
     it('should emit no action', () =>
     {
+        init(ExamStatus.OFF);
+
         const routerAction: RouterNavigationAction<RouterStateSer> = {
             type: ROUTER_NAVIGATION,
             payload: {
                 routerState: {
-                    url: '/question',
+                    url: 'start',
                     root: {
-                        configPath: 'question/:' + questionParamNum,
+                        configPath: 'start',
                         data: {
-                            uid: questionRouteId,
+                            uid: startRouteId,
                         },
                         children: [],
-                        params: { num: null },
+                        params: {},
                     },
                 },
                 event: null,
@@ -64,8 +52,10 @@ describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
         expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
 
-    it('should emit one action', () =>
+    it('should emit one action when on state RUNNING', () =>
     {
+        init(ExamStatus.RUNNING);
+
         const num = 5;
         const routerAction: RouterNavigationAction<RouterStateSer> = {
             type: ROUTER_NAVIGATION,
@@ -82,4 +72,95 @@ describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
 
         expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
     });
+
+    it('should emit one action when on state ENDED or TIME_ENDED', () =>
+    {
+        const status: ExamStatus[] = [ExamStatus.ENDED, ExamStatus.TIME_ENDED];
+        status.forEach(
+            (s) =>
+            {
+                init(s);
+                const num = 5;
+                const routerAction: RouterNavigationAction<RouterStateSer> = {
+                    type: ROUTER_NAVIGATION,
+                    payload: {
+                        routerState: questionRouterState(num),
+                        event: null,
+                    },
+                };
+
+                actions = hot('a', { a: routerAction });
+                const expected = hot('a', {
+                    a: new NavigationGoAction({
+                        commands: [...moduleNavigationCommands, 'result'],
+                    }),
+                });
+
+                expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
+            });
+    });
+
+    it('should emit one action when on other states', () =>
+    {
+        expect(Object.keys(ExamStatus).length).toBe(5 * 2); // the number of values in the enum * 2
+
+        const status: ExamStatus[] = [ExamStatus.OFF, ExamStatus.READY];
+        status.forEach(
+            (s) =>
+            {
+                init(s);
+                const num = 5;
+                const routerAction: RouterNavigationAction<RouterStateSer> = {
+                    type: ROUTER_NAVIGATION,
+                    payload: {
+                        routerState: questionRouterState(num),
+                        event: null,
+                    },
+                };
+
+                actions = hot('a', { a: routerAction });
+                const expected = hot('a', {
+                    a: new NavigationGoAction({
+                        commands: [...moduleNavigationCommands, 'start'],
+                    }),
+                });
+
+                expect(effects.effect$.catch(failOnObsError)).toBeObservable(expected);
+            });
+
+    });
+
+    function init(status: ExamStatus)
+    {
+        TestBed
+            .resetTestingModule()
+            .configureTestingModule({
+                imports: [
+                    StoreModule.forRoot<State, Action>(
+                        reducers,
+                        {
+                            initialState: {
+                                exam: {
+                                    status,
+                                    data: null,
+                                    resultScore: null,
+                                    timeLeft: 0,
+                                },
+                                questions: null,
+                            },
+                        }),
+                    EffectsModule.forRoot([]),
+                    RouterStoreSerModule,
+                ],
+                providers: [
+                    RouterQuestionCurrentEffects,
+                    provideMockActions(() => actions),
+                    { provide: MODULE_STORE_TOKEN, useExisting: Store },
+                    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
+                    { provide: Router, useValue: null },
+                ],
+            });
+
+        effects = TestBed.get(RouterQuestionCurrentEffects);
+    }
 });

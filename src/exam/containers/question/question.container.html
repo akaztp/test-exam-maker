@@ -1,9 +1,9 @@
 <div class="row" *ngIf="!examInfoA.loading" #examLoaded>
     <div class="col" *ngIf="question">
         <p>Question {{questionNum}} of {{numQuestions}}</p>
-        <h1 #questionTitle>{{question.title}}</h1>
+        <h1>{{question.title}}</h1>
         <p>Time left: {{timeLeft}}</p>
-        <p #questionDescription>{{question.description}}</p>
+        <p>{{question.description}}</p>
         <ul *ngFor="let answer of question.answers" class="list-unstyled">
             <li>
                 <label>

@@ -12,7 +12,7 @@ describe('Exam/logic/reducers/questions', () =>
         jasmine.addMatchers(deepEqualMatcher);
         const questions: Question[] = [
             {
-                num: 0,
+                num: 1,
                 title: 'Test Question 1',
                 description: '',
                 multichoice: false,
@@ -23,7 +23,7 @@ describe('Exam/logic/reducers/questions', () =>
                 ],
             },
             {
-                num: 1,
+                num: 2,
                 title: 'Test Question 2',
                 description: '',
                 multichoice: true,
@@ -40,9 +40,8 @@ describe('Exam/logic/reducers/questions', () =>
 
     it('changes multichoice answer', () =>
     {
-        const answer = { questionNum: 1, answerNum: 0, checked: true };
-        questionsA.data[answer.questionNum].answers[1].checked = true; // to check if it resets other answers
-        questionsA.data[answer.questionNum].answers[2].checked = true; // to check if it resets other answers
+        const answer = { questionNum: 2, answerNum: 0, checked: true };
+        questionsA.data[1].answers[1].checked = true; // to check if it does not reset other answers
 
         const newQuestionsA: AsyncDataSer<Question[]> = reducer.setAnswer(questionsA, answer);
 
@@ -59,7 +58,7 @@ describe('Exam/logic/reducers/questions', () =>
         expect(newQuestionsA.data[1].answers).not.toBe(questionsA.data[1].answers); // should have mutated
         (expect(newQuestionsA.data[1].answers) as any).toDeepEqual([
             { num: 0, text: 'Answer 1', checked: true },
-            { num: 1, text: 'Answer 2', checked: false },
+            { num: 1, text: 'Answer 2', checked: true },
             { num: 2, text: 'Answer 3', checked: false },
         ]); // should have been set
     });
@@ -67,23 +66,23 @@ describe('Exam/logic/reducers/questions', () =>
     it('changes single choice answer', () =>
     {
         const answer = { questionNum: 1, answerNum: 0, checked: true };
-        questionsA.data[answer.questionNum].answers[1].checked = true; // to check if it resets other answers
-        questionsA.data[answer.questionNum].answers[2].checked = true; // to check if it resets other answers
+        questionsA.data[0].answers[1].checked = true; // to check if it resets other answers
+        questionsA.data[0].answers[2].checked = true; // to check if it resets other answers
 
         const newQuestionsA: AsyncDataSer<Question[]> = reducer.setAnswer(questionsA, answer);
 
         expect(newQuestionsA).not.toBe(questionsA); // should have mutated
         expect(newQuestionsA.data).not.toBe(questionsA.data); // should have mutated
-        expect(newQuestionsA.data[0]).toBe(questionsA.data[0]); // should not have mutated
-        expect(newQuestionsA.data[1]).not.toBe(questionsA.data[1]); // should have mutated
-        expect(newQuestionsA.data[1]).toEqual(jasmine.objectContaining({
-            num: newQuestionsA.data[1].num,
-            title: newQuestionsA.data[1].title,
-            description: newQuestionsA.data[1].description,
-            multichoice: newQuestionsA.data[1].multichoice,
+        expect(newQuestionsA.data[1]).toBe(questionsA.data[1]); // should not have mutated
+        expect(newQuestionsA.data[0]).not.toBe(questionsA.data[0]); // should have mutated
+        expect(newQuestionsA.data[0]).toEqual(jasmine.objectContaining({
+            num: newQuestionsA.data[0].num,
+            title: newQuestionsA.data[0].title,
+            description: newQuestionsA.data[0].description,
+            multichoice: newQuestionsA.data[0].multichoice,
         })); // should have mutated but mantaining the lot
-        expect(newQuestionsA.data[1].answers).not.toBe(questionsA.data[1].answers); // should have mutated
-        (expect(newQuestionsA.data[1].answers) as any).toDeepEqual([
+        expect(newQuestionsA.data[0].answers).not.toBe(questionsA.data[0].answers); // should have mutated
+        (expect(newQuestionsA.data[0].answers) as any).toDeepEqual([
             { num: 0, text: 'Answer 1', checked: true },
             { num: 1, text: 'Answer 2', checked: false },
             { num: 2, text: 'Answer 3', checked: false },

@@ -5,8 +5,8 @@ import { CommonContainer } from '../../utils/common-container';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { Question } from '../../models/question';
 import { NavigationGoAction } from 'router-store-ser';
-import { questionRouteId } from '../../exam-routing.module';
 import { QuestionsAnswerAction } from '../../logic/actions/questions.actions';
+import { moduleNavigationCommands } from '../../module-config';
 
 @Component({
     selector: 'exm-question',
@@ -23,16 +23,14 @@ export class QuestionContainer extends CommonContainer
     public onGo(event: Event, dir: number)
     {
         this.store$.dispatch(new NavigationGoAction({
-            commands: ['../../question/', this.questionNum + dir],
-            relativeRouteId: questionRouteId,
+            commands: [...moduleNavigationCommands, 'question', this.questionNum + dir],
         }));
     }
 
     public onSubmit(event: Event)
     {
         this.store$.dispatch(new NavigationGoAction({
-            commands: ['../../result/'],
-            relativeRouteId: questionRouteId,
+            commands: [...moduleNavigationCommands, 'result'],
         }));
     }
 
