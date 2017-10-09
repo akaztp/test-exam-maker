@@ -7,7 +7,7 @@ import { createExam, solveQuestions } from '../utils/exam-samples';
 import { deepEqual } from '../utils/deep-equal';
 import { failOnObsError } from '../utils/jasmine-fail-observer';
 
-fdescribe('Exam/Data/' + ExamEvalService.name, () =>
+describe('Exam/Data/' + ExamEvalService.name, () =>
 {
     beforeEach(() =>
     {
