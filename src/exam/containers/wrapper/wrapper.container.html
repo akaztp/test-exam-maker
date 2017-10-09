@@ -1,2 +1,4 @@
-<div #examName>{{(examInfo$ | async)?.data?.name}}</div>
-<router-outlet></router-outlet>
+<ng-container *ngIf="examInfoA && !examInfoA.loading">
+    <p>Exam:&nbsp;<span #examName>{{examInfoA.data?.name}}</span></p>
+    <router-outlet></router-outlet>
+</ng-container>

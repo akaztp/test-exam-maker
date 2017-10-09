@@ -52,10 +52,10 @@ export function setAnswer(
         data: [...questions.data],
     };
 
-    if (questionNum >= 0 && questionNum < newData.data.length)
+    if (questionNum > 0 && questionNum <= newData.data.length)
     {
-        const question = Object.assign({}, newData.data[questionNum]);
-        newData.data[questionNum] = question;
+        const question = Object.assign({}, newData.data[questionNum - 1]);
+        newData.data[questionNum - 1] = question;
         if (answerNum >= 0 && answerNum < question.answers.length)
         {
             question.answers = [...question.answers];
@@ -63,7 +63,7 @@ export function setAnswer(
             question.answers[answerNum] = Object.assign({}, question.answers[answerNum]);
             question.answers[answerNum].checked = checked;
 
-            if (question.multichoice && checked)
+            if (!question.multichoice && checked)
                 for (let i = question.answers.length - 1; i >= 0; i--)
                 {
                     const answer = question.answers[i];
@@ -75,10 +75,10 @@ export function setAnswer(
                 }
         }
         else
-            console.warn('reducer. For action ' + actions.ACTION_QUESTIONS_ANSWER + '. answerNum is out of range.');
+            console.warn('reducer. For action ' + actions.ACTION_QUESTIONS_ANSWER + '. answerNum is out of range:', answerNum);
     }
     else
-        console.warn('reducer. For action ' + actions.ACTION_QUESTIONS_ANSWER + '. questionNum is out of range.');
+        console.warn('reducer. For action ' + actions.ACTION_QUESTIONS_ANSWER + '. questionNum is out of range: ', questionNum);
 
     return newData;
 }

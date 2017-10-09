@@ -3,7 +3,7 @@ import { Question, Answer } from '../models/question';
 
 export function createExam1(): { exam: ExamInfo, questions: Question[], solutions: number[][] }
 {
-    const solutions = [[1], [2]];
+    const solutions = [[1], [2], [0, 4, 5]];
 
     const questions: Question[] = [
         createQuestion(
@@ -27,6 +27,19 @@ export function createExam1(): { exam: ExamInfo, questions: Question[], solution
                 createAnswer(1, 'cyan, magenta, blue'),
                 createAnswer(2, 'cyan, yellow, magenta'),
                 createAnswer(3, 'yellow, magenta'),
+            ]),
+        createQuestion(
+            3,
+            'Warm Colors',
+            'Mark all color that are warm colors:',
+            true,
+            [
+                createAnswer(0, 'red'),
+                createAnswer(1, 'blue'),
+                createAnswer(2, 'cyan'),
+                createAnswer(3, 'green'),
+                createAnswer(4, 'yellow'),
+                createAnswer(5, 'orange'),
             ]),
     ];
 

@@ -1,10 +1,7 @@
-import { Component, Inject } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, Inject, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { CommonContainer } from '../../utils/common-container';
-import { ExamInfo } from '../../models/exam-info';
-import { AsyncDataSer } from '../../../utils/asyncData';
 import { State as ExamState, MODULE_STORE_TOKEN } from '../../logic/reducers';
 
 @Component({
@@ -14,16 +11,12 @@ import { State as ExamState, MODULE_STORE_TOKEN } from '../../logic/reducers';
 })
 export class WrapperContainer extends CommonContainer
 {
-    public examInfo$: Observable<AsyncDataSer<ExamInfo>> = null;
-
     constructor(
         @Inject(MODULE_STORE_TOKEN)
         protected store$: Store<ExamState>,
+        protected changeDetectorRef: ChangeDetectorRef,
     )
     {
-        super();
-
-        this.examInfo$ = this.store$.select(state => state.exam.data);
+        super(store$, changeDetectorRef);
     }
-
 }

@@ -1,3 +1,28 @@
-<p>
-  question works!
-</p>
+<div class="row" *ngIf="!examInfoA.loading" #examLoaded>
+    <div class="col" *ngIf="question">
+        <p>Question {{questionNum}} of {{numQuestions}}</p>
+        <h1 #questionTitle>{{question.title}}</h1>
+        <p>Time left: {{timeLeft}}</p>
+        <p #questionDescription>{{question.description}}</p>
+        <ul *ngFor="let answer of question.answers" class="list-unstyled">
+            <li>
+                <label>
+                    <input type="checkbox" *ngIf="question.multichoice"
+                        (click)="onChangeAnswer($event, answer.num)"
+                        [checked]="answer.checked" />
+                    <input type="radio" *ngIf="!question.multichoice" name="answer"
+                        (click)="onChangeAnswer($event, answer.num)"
+                        [checked]="answer.checked" />
+                    {{answer.text}}</label></li>
+        </ul>
+        <button type="button" class="btn btn-primary"
+            (click)="onGo($event, -1)"
+            [disabled]="questionNum <= 1">Previous</button>
+        <button type="button" class="btn btn-primary"
+            (click)="onGo($event, 1)"
+            [disabled]="questionNum >= numQuestions">Next</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-Danger"
+            (click)="onSubmit($event)">Submit Exam</button>
+        
+    </div>
+</div>
