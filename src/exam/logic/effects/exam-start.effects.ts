@@ -14,8 +14,10 @@ import { ExamStatusAction, ExamEndAction, ExamTimeAction, ACTION_EXAM_START } fr
 import { ExamStatus, State as ExamState } from '../reducers/exam.reducer';
 import { MODULE_STORE_TOKEN, State } from '../reducers';
 import { ExamTimerService } from '../../data/exam-timer.service';
+import { QuestionsFetchService } from '../../data/questions-fetch.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
-import { resultRouteId } from '../../exam-routing.module';
+import { startRouteId, questionRouteId } from '../../exam-routing.module';
+import { QuestionsDataAction, QuestionsCurrentAction } from '../actions/questions.actions';
 
 /**
  * Business logic implementation:
@@ -25,6 +27,7 @@ import { resultRouteId } from '../../exam-routing.module';
  *       - \>QUESTIONS_DATA(),
  *       - \>QUESTIONS_CURRENT(initial)
  *     - \>EXAM_STATUS(RUNNING)
+ *     - \>NAVIGATION_GO(EXAM_QUESTION, 1)
  *     - Start timed exam for state.exam.duration
  *     - Two seconds interval, while state.exam.status==RUNNING:
  *       - Fetch exam expiration
@@ -41,32 +44,48 @@ export class ExamStartEffects
     public effect$: Observable<Action>;
 
     constructor(
-        private actions$: Actions,
+        protected actions$: Actions,
         @Inject(MODULE_STORE_TOKEN)
-        private store: Store<State>,
-        private examTimerService: ExamTimerService,
+        protected store: Store<State>,
+        protected examTimerService: ExamTimerService,
+        protected questionsFetchService: QuestionsFetchService,
     )
     {
         const instance: ExamStartEffects = this;
         const exam$: Store<ExamState> = this.store.select(state => state.exam);
 
         this.effect$ = this.actions$.ofType<Action>(ACTION_EXAM_START)
-            .withLatestFrom<Action, ExamState, { action: Action, state: ExamState }>(exam$, testReady)
-            .filter(data => data != null)
-            .mergeMap(produceTimer);
+            .withLatestFrom(exam$, testReady)
+            .filter(exam => exam != null && AsyncDataSer.hasData(exam.data, false))
+            .mergeMap<ExamState, Action>(
+                (state) =>
+                {
+                    return Observable.concat(
+                        questionsFetchService.fetchQuestions(state.data.data)
+                            .map(questions => new QuestionsDataAction({ data: questions })),
+                        Observable.of(new QuestionsCurrentAction({ num: 1 })),
+                        produceTimer(state),
+                    );
+                });
 
         return;
 
-        function testReady(action, exam)
+        function testReady(action: Action, exam: ExamState)
         {
             if (AsyncDataSer.hasData(exam.data, false) && exam.status === ExamStatus.READY)
-                return { action, state: exam };
+                return exam;
             return null;
         }
 
-        function produceTimer({ action, state })
+        function produceTimer(state: ExamState)
         {
-            const running$ = Observable.of(new ExamStatusAction({ status: ExamStatus.RUNNING }));
+            const running$ = Observable.of(...[
+                new ExamStatusAction({ status: ExamStatus.RUNNING }),
+                new NavigationGoAction({
+                    commands: ['../question/1'],
+                    relativeRouteId: startRouteId,
+                }),
+            ]);
 
             const timer$ = instance.examTimerService.getTimer(state.data.data.duration)
                 .takeUntil(exam$.filter(s => s.status !== ExamStatus.RUNNING))
@@ -80,8 +99,8 @@ export class ExamStartEffects
                     .of(...[
                         new ExamEndAction({ status: ExamStatus.TIME_ENDED }),
                         new NavigationGoAction({
-                            commands: ['../result'],
-                            relativeRouteId: resultRouteId,
+                            commands: ['../../result'],
+                            relativeRouteId: questionRouteId,
                         })]));
 
             return Observable.concat(running$, timer$, end$);

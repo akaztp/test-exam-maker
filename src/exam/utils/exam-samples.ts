@@ -34,7 +34,7 @@ export function createExam1(): { exam: ExamInfo, questions: Question[], solution
         id: '1',
         name: 'Color mixing',
         description: 'An exam about color mixing, both additive and subtractive.',
-        duration: 10 * 60,
+        duration: 1 * 60,
         passScore: 50,
         totalScore: 100,
     };
