@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, Action } from '@ngrx/store';
 // import { By } from '@angular/platform-browser';
 
@@ -7,6 +7,7 @@ import { State as ExamState, reducers, MODULE_STORE_TOKEN } from '../../logic/re
 import { ExamInfo } from '../../models/exam-info';
 import { ExamStatus } from '../../logic/reducers/exam.reducer';
 import { AsyncDataSer } from '../../../utils/asyncData';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe('Exam/Containers/' + StartContainer.name, () =>
 {
@@ -16,11 +17,15 @@ describe('Exam/Containers/' + StartContainer.name, () =>
 
     function init(exam: AsyncDataSer<ExamInfo>)
     {
-        async(() =>
+        return initTestBed()
+            .then(getContext);
+
+        function initTestBed()
         {
-            TestBed
+            return TestBed
                 .configureTestingModule({
                     imports: [
+                        NgbModule.forRoot(),
                         StoreModule.forRoot<ExamState, Action>(reducers, {
                             initialState: {
                                 exam: {
@@ -33,32 +38,39 @@ describe('Exam/Containers/' + StartContainer.name, () =>
                             },
                         }),
                     ],
-                    declarations: [
-                        StartContainer,
-                    ],
+                    declarations: [StartContainer],
                     providers: [
                         { provide: MODULE_STORE_TOKEN, useExisting: Store },
                     ],
                 })
                 .compileComponents();
-        })(() => {});
+        }
 
-        fixture = TestBed.createComponent(StartContainer);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+        function getContext()
+        {
+            fixture = TestBed.createComponent(StartContainer);
+            component = fixture.componentInstance;
+            fixture.detectChanges();
 
-        store$ = TestBed.get(MODULE_STORE_TOKEN);
+            store$ = TestBed.get(MODULE_STORE_TOKEN);
+
+        }
+
     }
 
-    it('should show loading the exam message', () =>
+    it('should show loading the exam message', (done) =>
     {
-        init(AsyncDataSer.loading<ExamInfo>());
-        expect(component).toBeTruthy();
-        expect(fixture.debugElement.query(de => de.references['loadingExam'])).toBeTruthy();
-        expect(fixture.debugElement.query(de => de.references['examLoaded'])).toBeNull();
+        init(AsyncDataSer.loading<ExamInfo>()).then(
+            () =>
+            {
+                expect(component).toBeTruthy();
+                expect(fixture.debugElement.query(de => de.references['loadingExam'])).toBeTruthy();
+                expect(fixture.debugElement.query(de => de.references['examLoaded'])).toBeNull();
+                done();
+            });
     });
 
-    it('should show the exam info', () =>
+    it('should show the exam info', (done) =>
     {
         const duration = 90;
         const durationOutput = '1 min and 30 sec';
@@ -70,21 +82,25 @@ describe('Exam/Containers/' + StartContainer.name, () =>
             totalScore: 100,
         } as ExamInfo);
 
-        init(examInfoA);
-        expect(component).toBeTruthy();
-        expect(fixture.debugElement.query(de => de.references['loadingExam'])).toBeNull();
-        expect(fixture.debugElement.query(de => de.references['examLoaded'])).toBeTruthy();
+        init(examInfoA).then(
+            () =>
+            {
+                expect(fixture.debugElement.query(de => de.references['loadingExam'])).toBeNull();
+                expect(fixture.debugElement.query(de => de.references['examLoaded'])).toBeTruthy();
 
-        expect(
-            (fixture.debugElement.query(de => de.references['examName']).nativeElement as HTMLElement).innerText,
-        ).toBe(examInfoA.data.name);
+                expect(
+                    (fixture.debugElement.query(de => de.references['examName']).nativeElement as HTMLElement).innerText,
+                ).toBe(examInfoA.data.name);
 
-        expect(
-            (fixture.debugElement.query(de => de.references['examDescription']).nativeElement as HTMLElement).innerText,
-        ).toBe(examInfoA.data.description);
+                expect(
+                    (fixture.debugElement.query(de => de.references['examDescription']).nativeElement as HTMLElement).innerText,
+                ).toBe(examInfoA.data.description);
 
-        expect(
-            (fixture.debugElement.query(de => de.references['examDuration']).nativeElement as HTMLElement).innerText,
-        ).toBe(durationOutput);
+                expect(
+                    (fixture.debugElement.query(de => de.references['examDuration']).nativeElement as HTMLElement).innerText,
+                ).toBe(durationOutput);
+
+                done();
+            });
     });
 });
