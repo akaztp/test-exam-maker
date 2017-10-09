@@ -29,7 +29,7 @@ describe('Exam/Logic/' + ExamEndEffects.name, () =>
         const serviceSpy = jasmine.createSpyObj<ExamEvalService>(
             'ExamEvalService',
             {
-                evalQuestions: Promise.resolve(new AsyncDataSer(0)),
+                evalQuestions: Observable.of(new AsyncDataSer<number>(0)),
             });
 
         TestBed.configureTestingModule({
