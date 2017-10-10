@@ -6,6 +6,82 @@ $h3-font-size: 1.25rem !default;
 $h4-font-size: 1rem !default;
 $h5-font-size: 1rem !default;
 $h6-font-size: 1rem !default;
+$spacer: 2rem;
 
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
 
-@import '~bootstrap/scss/bootstrap.scss';
+$grid-gutter-width: $spacer * 2;
+$theme-colors: (
+    primary: $blue,
+    secondary: $gray-300,
+    success: $green,
+    info: $cyan,
+    warning: $yellow,
+    danger: $red,
+    light: $gray-100,
+    dark: $gray-800
+  );
+
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/print";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+// @import "~bootstrap/scss/images";
+// @import "~bootstrap/scss/code";
+@import "~bootstrap/scss/grid";
+// @import "~bootstrap/scss/tables";
+// @import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/buttons";
+// @import "~bootstrap/scss/transitions";
+// @import "~bootstrap/scss/dropdown";
+// @import "~bootstrap/scss/button-group";
+// @import "~bootstrap/scss/input-group";
+// @import "~bootstrap/scss/custom-forms";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
+// @import "~bootstrap/scss/card";
+// @import "~bootstrap/scss/breadcrumb";
+// @import "~bootstrap/scss/pagination";
+// @import "~bootstrap/scss/badge";
+// @import "~bootstrap/scss/jumbotron";
+// @import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/progress";
+// @import "~bootstrap/scss/media";
+// @import "~bootstrap/scss/list-group";
+// @import "~bootstrap/scss/close";
+// @import "~bootstrap/scss/modal";
+// @import "~bootstrap/scss/tooltip";
+// @import "~bootstrap/scss/popover";
+// @import "~bootstrap/scss/carousel";
+@import "~bootstrap/scss/utilities";
+
+.layout-main {
+    @extend .bg-secondary;
+    @extend .text-dark;
+    @extend .pb-3;
+}
+
+.layout-header {
+    @extend .bg-primary;
+    @extend .text-light;
+    @extend .px-0;
+}
+
+.layout-body {
+    @extend .pt-1;
+
+    .layout-sub-header {
+        color: $gray-600;
+    }
+}
+
+.timer {
+    font-size: 150%;
+}
+
+// Bootstrap Overrides
+
+.navbar-brand {
+    line-height: 1.0;
+}

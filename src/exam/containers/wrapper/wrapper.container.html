@@ -1,4 +1,8 @@
 <ng-container *ngIf="examInfoA && !examInfoA.loading">
-    <p>Exam:&nbsp;<span #examName>{{examInfoA.data?.name}}</span></p>
+    <div class="row layout-sub-header">
+        <div class="col">
+            <p>Exam:&nbsp;<span #examName>{{examInfoA.data?.name}}</span></p>
+        </div>
+    </div>
     <router-outlet></router-outlet>
 </ng-container>
