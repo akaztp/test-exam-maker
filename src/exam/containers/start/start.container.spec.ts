@@ -8,6 +8,7 @@ import { ExamInfo } from '../../models/exam-info';
 import { ExamStatus } from '../../logic/reducers/exam.reducer';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Sec2TimePipe } from "../../pipes/sec2time.pipe";
 
 describe('Exam/Containers/' + StartContainer.name, () =>
 {
@@ -38,7 +39,10 @@ describe('Exam/Containers/' + StartContainer.name, () =>
                             },
                         }),
                     ],
-                    declarations: [StartContainer],
+                    declarations: [
+                        StartContainer,
+                        Sec2TimePipe,
+                    ],
                     providers: [
                         { provide: MODULE_STORE_TOKEN, useExisting: Store },
                     ],
@@ -73,7 +77,7 @@ describe('Exam/Containers/' + StartContainer.name, () =>
     it('should show the exam info', (done) =>
     {
         const duration = 90;
-        const durationOutput = '1 min and 30 sec';
+        const durationOutput = '1m 30s';
         const examInfoA = new AsyncDataSer<ExamInfo>({
             duration, // seconds
             name: 'Test Exam',

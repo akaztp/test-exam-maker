@@ -23,6 +23,7 @@ import { ExamFetchService } from './data/exam-fetch.service';
 import { QuestionsFetchService } from './data/questions-fetch.service';
 import { ExamEndEffects } from './logic/effects/exam-end.effects';
 import { ExamEvalService } from './data/exam-eval.service';
+import { Sec2TimePipe } from './pipes/sec2time.pipe';
 
 /**
  * Module name.
@@ -61,6 +62,7 @@ export function featureSelector(store: Store<any>): Store<State>
         StartContainer,
         QuestionContainer,
         ResultContainer,
+        Sec2TimePipe,
     ],
     exports: [
     ],

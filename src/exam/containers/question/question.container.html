@@ -5,7 +5,7 @@
         </div>
         <div class="col-6 text-right">
                 <div>Question {{questionNum}} of {{numQuestions}}</div>
-                <div class="timer">Time left: {{timeLeft}}</div>
+                <div class="timer">Time left: {{timeLeft | exmSec2Time}}</div>
             </div>
         </div>
     <div class="row">

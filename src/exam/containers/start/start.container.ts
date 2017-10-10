@@ -28,15 +28,4 @@ export class StartContainer extends CommonContainer
     {
         super(store$, changeDetectorRef);
     }
-
-    /**
-     * Produce a string representation of time using minutes and seconds from a absolute seconds number.
-     * @param secs
-     */
-    public convertSec2Min(secs: number): string
-    {
-        const min = Math.floor(secs / 60);
-        const sec = secs - min * 60;
-        return min + ' min' + (sec > 0 ? ' and ' + sec + ' sec' : '');
-    }
 }

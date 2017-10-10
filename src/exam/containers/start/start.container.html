@@ -5,7 +5,7 @@
         </h1>
         <p #examDescription>{{examInfoA.data.description}}</p>
         <p>You have
-            <span #examDuration>{{convertSec2Min(examInfoA.data.duration)}}</span> to answer all que questions.
+            <span #examDuration>{{examInfoA.data.duration | exmSec2Time}}</span> to answer all que questions.
             <br /> Select the start button whenever you're ready.</p>
         <button type="button" class="btn btn-primary" (click)="onStart($event)" [disabled]="startDisabled">Start</button>
 
