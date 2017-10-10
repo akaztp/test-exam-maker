@@ -1,5 +1,7 @@
 # TestExamMaker
 
+![Screen capture](./screen-capture.png)
+
 ## Introduction
 This is a case study project for a series of articles I'm writing about developing webapps based on [Redux](http://redux.js.org/). It is not finished yet, nor the articles. It is based on my recent blog article "[Web app architecture based on Redux](http://devblog.ztp.pt/web-app-architecture-based-on-redux/)" (also on [Medium](https://medium.com/p/web-app-architecture-based-on-redux-1e16294c817a)).
 
@@ -42,7 +44,8 @@ Linting is enabled and rules are modularized.
 - Redux actions. **Done**.
 - Redux reducers. **Done**.
 - Redux effects and data services. **Done**.
-- Containers, components, styling. **In progress**.
+- Containers, components, styling. **Done**.
+- General Review. **In progress**.
 
 ## Development server
 Run `npm run serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
