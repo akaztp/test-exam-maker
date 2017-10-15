@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State as ExamState, MODULE_STORE_TOKEN } from '../../logic/reducers';
 import { CommonContainer } from '../../utils/common-container';
@@ -12,6 +12,7 @@ import { moduleNavigationCommands } from '../../module-config';
     selector: 'exm-question',
     templateUrl: './question.container.html',
     styleUrls: ['./question.container.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuestionContainer extends CommonContainer
 {

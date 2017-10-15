@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { CommonContainer } from '../../utils/common-container';
@@ -9,6 +9,7 @@ import { AsyncDataSer } from '../../../utils/asyncData';
     selector: 'exm-result',
     templateUrl: './result.container.html',
     styleUrls: ['./result.container.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResultContainer  extends CommonContainer
 {
