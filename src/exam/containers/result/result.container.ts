@@ -23,18 +23,16 @@ export class ResultContainer  extends CommonContainer
     {
         super(store$, changeDetectorRef);
 
-        this.disposableSubs.push(
-            this.store$
-                .select(state => state.exam)
-                .subscribe({
-                    next:
-                        (exam) =>
-                        {
-                            this.resultScore = exam.resultScore;
-                            this.changeDetectorRef.markForCheck();
-                        },
-                    error: (e) => { throw e; } }));
-
+        this.store$
+            .select(state => state.exam)
+            .takeUntil(this.componentDestroyed$)
+            .subscribe({
+                next:
+                    (exam) =>
+                    {
+                        this.resultScore = exam.resultScore;
+                        this.changeDetectorRef.markForCheck();
+                    },
+                error: (e) => { throw e; } });
     }
-
 }

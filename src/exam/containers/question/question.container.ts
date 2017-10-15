@@ -52,9 +52,10 @@ export class QuestionContainer extends CommonContainer
     {
         super(store$, changeDetectorRef);
 
-        this.disposableSubs.push(
-            store$.select(s => s.questions)
-                .subscribe(
+        store$
+            .select(s => s.questions)
+            .takeUntil(this.componentDestroyed$)
+            .subscribe(
                     (questions) =>
                     {
                         this.questionNum = questions.current;
@@ -71,19 +72,18 @@ export class QuestionContainer extends CommonContainer
 
                         changeDetectorRef.markForCheck();
                     },
-            ),
-        );
+                );
 
-        this.disposableSubs.push(
-            this.store$
-                .select(state => state.exam)
-                .subscribe({
-                    next:
-                        (exam) =>
-                        {
-                            this.timeLeft = exam.timeLeft;
-                            this.changeDetectorRef.markForCheck();
-                        },
-                    error: (e) => { throw e; } }));
+        this.store$
+            .select(state => state.exam)
+            .takeUntil(this.componentDestroyed$)
+            .subscribe({
+                next:
+                    (exam) =>
+                    {
+                        this.timeLeft = exam.timeLeft;
+                        this.changeDetectorRef.markForCheck();
+                    },
+                error: (e) => { throw e; } });
     }
 }

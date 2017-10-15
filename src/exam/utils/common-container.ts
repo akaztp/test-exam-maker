@@ -1,5 +1,5 @@
 import { OnDestroy, ChangeDetectorRef, Inject } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 import { Store } from '@ngrx/store';
 
 import { AsyncDataSer } from '../../utils/asyncData';
@@ -12,7 +12,7 @@ export class CommonContainer implements OnDestroy
 
     public ngOnDestroy()
     {
-        this.disposableSubs.forEach(s => s.unsubscribe());
+        this.componentDestroyed$.complete();
     }
 
     constructor(
@@ -21,13 +21,13 @@ export class CommonContainer implements OnDestroy
         protected changeDetectorRef: ChangeDetectorRef,
     )
     {
-        this.disposableSubs.push(
-            this.store$
-                .select(state => state.exam.data)
-                .subscribe({ next: examInfo => this.nextExamInfo(examInfo), error: (e) => { throw e; } }));
+        this.store$
+            .select(state => state.exam.data)
+            .takeUntil(this.componentDestroyed$)
+            .subscribe({ next: examInfo => this.nextExamInfo(examInfo), error: (e) => { throw e; } });
     }
 
-    protected disposableSubs: Subscription[] = [];
+    protected componentDestroyed$: Subject<void> = new Subject<void>();
 
     /**
      * Process a new [[ExamInfo]] data incorporating it onto the view.
