@@ -42,6 +42,7 @@ const reducers: ActionReducerMap<State, Action> = {
 export class LogicModule
 {
     constructor(
+        // just instantiate it, so it will be dispatching actions
         ext: RouterStoreExtension,
     ) {}
 }
