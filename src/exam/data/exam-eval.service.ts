@@ -25,7 +25,7 @@ export class ExamEvalService
             Observable.of(AsyncDataSer.loading<number>()),
             // can't use a simple .delay(500) because it is not compatible with fakeAsync() in the testing.
             Observable.interval(500).take(1).map(
-                _ => new AsyncDataSer<number>(correctQuestions.length / questions.length * exam.totalScore),
+                _ => new AsyncDataSer<number>(truncateDecimals(correctQuestions.length / questions.length * exam.totalScore, 2)),
             ),
         );
 
@@ -33,6 +33,12 @@ export class ExamEvalService
         {
             return question.answers.every(
                 (answer, i) => answer.checked === (solutions[idx].indexOf(i) >= 0));
+        }
+
+        function truncateDecimals(num: number, decimals: number): number
+        {
+            const p = Math.pow(10.0, decimals);
+            return Math.round(num * p) / p;
         }
     }
 }

@@ -34,7 +34,7 @@ describe('Exam/Data/' + ExamEvalService.name, () =>
                 {
                     answer.checked = solutions[0].indexOf(idx) >= 0;
                 });
-            testForScore(1.0 / questions.length * exam.totalScore);
+            testForScore(Math.round(100 * 1.0 / questions.length * exam.totalScore) / 100.0);
 
             solveQuestions(questions, solutions);
             testForScore(exam.totalScore);
