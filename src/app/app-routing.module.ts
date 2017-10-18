@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
-import { StartContainer } from './containers/start/start.container';
+import { StartComponent } from './components/start/start.component';
 
 export const startRouteId = '1551915f-b5c9-4b3d-91c3-6abe16d5b459';
 export const examRouterCommands = ['exam'];
@@ -10,7 +10,7 @@ const appRoutes: Routes = [
     { path: '', redirectTo: '/start', pathMatch: 'full' },
     {
         path: 'start',
-        component: StartContainer,
+        component: StartComponent,
         data: {
             uid: startRouteId,
         },

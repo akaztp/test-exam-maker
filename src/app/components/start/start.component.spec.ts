@@ -2,13 +2,13 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { APP_BASE_HREF } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StartContainer } from './start.container';
+import { StartComponent } from './start.component';
 import { AppRoutingModule } from '../../app-routing.module';
 
-describe('App/Containers' + StartContainer.name, () =>
+describe('App/Containers' + StartComponent.name, () =>
 {
-    let component: StartContainer;
-    let fixture: ComponentFixture<StartContainer>;
+    let component: StartComponent;
+    let fixture: ComponentFixture<StartComponent>;
 
     beforeEach(async(() =>
     {
@@ -18,7 +18,7 @@ describe('App/Containers' + StartContainer.name, () =>
                     AppRoutingModule,
                 ],
                 declarations: [
-                    StartContainer,
+                    StartComponent,
                 ],
                 providers: [
                     { provide: APP_BASE_HREF, useValue: '/' },
@@ -32,7 +32,7 @@ describe('App/Containers' + StartContainer.name, () =>
 
     beforeEach(() =>
     {
-        fixture = TestBed.createComponent(StartContainer);
+        fixture = TestBed.createComponent(StartComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

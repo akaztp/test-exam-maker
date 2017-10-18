@@ -6,12 +6,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LogicModule } from './logic/logic.module';
-import { StartContainer } from './containers/start/start.container';
+import { StartComponent } from './components/start/start.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        StartContainer,
+        StartComponent,
     ],
     imports: [
         BrowserModule,
