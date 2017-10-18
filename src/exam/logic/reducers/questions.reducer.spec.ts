@@ -1,7 +1,6 @@
 ﻿import { AsyncDataSer } from '../../../utils/asyncData';
 import { Question } from '../../models/question';
 import * as reducer from './questions.reducer';
-import { deepEqualMatcher } from '../../../utils/jasmine-matchers';
 
 describe('Exam/logic/reducers/questions', () =>
 {
@@ -9,7 +8,6 @@ describe('Exam/logic/reducers/questions', () =>
 
     beforeEach(() =>
     {
-        jasmine.addMatchers(deepEqualMatcher);
         const questions: Question[] = [
             {
                 num: 1,
@@ -56,7 +54,7 @@ describe('Exam/logic/reducers/questions', () =>
             multichoice: newQuestionsA.data[1].multichoice,
         })); // should have mutated but mantaining the lot
         expect(newQuestionsA.data[1].answers).not.toBe(questionsA.data[1].answers); // should have mutated
-        (expect(newQuestionsA.data[1].answers) as any).toDeepEqual([
+        (expect(newQuestionsA.data[1].answers) as any).toEqual([
             { num: 0, text: 'Answer 1', checked: true },
             { num: 1, text: 'Answer 2', checked: true },
             { num: 2, text: 'Answer 3', checked: false },
@@ -82,7 +80,7 @@ describe('Exam/logic/reducers/questions', () =>
             multichoice: newQuestionsA.data[0].multichoice,
         })); // should have mutated but mantaining the lot
         expect(newQuestionsA.data[0].answers).not.toBe(questionsA.data[0].answers); // should have mutated
-        (expect(newQuestionsA.data[0].answers) as any).toDeepEqual([
+        (expect(newQuestionsA.data[0].answers) as any).toEqual([
             { num: 0, text: 'Answer 1', checked: true },
             { num: 1, text: 'Answer 2', checked: false },
             { num: 2, text: 'Answer 3', checked: false },

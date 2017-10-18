@@ -1,9 +1,10 @@
-﻿export function deepEqual(a: any, b: any): boolean
-{
-    return levelEqual(a, b, deepEqual);
-}
-
-function levelEqual(a: any, b: any, comparator: (a, b) => boolean): boolean
+﻿/**
+ * A naif deep equal comparison function. Non-object values are compared using double equal operator.
+ * Object values use the tripple equal operator. Other values use the double equal operator.
+ * @param a
+ * @param b
+ */
+export function deepEqual(a: any, b: any): boolean
 {
     const typea = typeof a;
     if (typea !== typeof b)
@@ -21,5 +22,5 @@ function levelEqual(a: any, b: any, comparator: (a, b) => boolean): boolean
     const keysa = Object.keys(a);
     if (keysa.length !== Object.keys(b).length)
         return false;
-    return keysa.findIndex(k => !comparator(a[k], b[k])) === -1;
+    return keysa.findIndex(k => !deepEqual(a[k], b[k])) === -1;
 }
