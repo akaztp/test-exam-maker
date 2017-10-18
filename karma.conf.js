@@ -8,7 +8,9 @@ module.exports = function (config)
 		frameworks: ['jasmine', '@angular/cli'],
 		plugins: [
 			require('karma-jasmine'),
-			require('karma-webdriver-launcher'),
+			// require('karma-chrome-launcher'), // for launching browser
+            // require('karma-webdriver-launcher'), // for acessing an existing browser with debugger enabled
+            // no launcher to connect the browser manually
 			require('karma-jasmine-html-reporter'),
 			require('karma-coverage-istanbul-reporter'),
 			require('@angular/cli/plugins/karma')
