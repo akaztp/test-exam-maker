@@ -28,9 +28,6 @@ export function reducer(state: State = initialState, action: Action): State
         case examActions.ACTION_EXAM_STATUS:
             return { ...state, status: (action as examActions.ExamStatusAction).payload.status };
 
-        case examActions.ACTION_EXAM_END:
-            return { ...state, status: (action as examActions.ExamEndAction).payload.status || ExamStatus.ENDED };
-
         case examActions.ACTION_EXAM_DATA:
             {
                 let timeLeft = 0;
