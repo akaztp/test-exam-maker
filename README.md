@@ -4,6 +4,10 @@
 
 ## Introduction
 This is a case study project for a series of articles I'm writing about developing webapps based on [Redux](http://redux.js.org/). It is not finished yet, nor the articles. It is based on my recent blog article "[Web app architecture based on Redux](http://devblog.ztp.pt/web-app-architecture-based-on-redux/)" (also on [Medium](https://medium.com/p/web-app-architecture-based-on-redux-1e16294c817a)).
+The articles:
+- [Case Study pt.1: Planning business logic using Redux](https://medium.com/@akaztp/case-study-pt-1-planning-business-logic-using-redux-e8c7807e89bf)
+- Case Study pt.2: Implementing Redux on Angular (to be published)
+- Case Study pt.3: Testing Redux Effects on Angular (to be published)
 
 ## Project Subject
 The project is a webapp for making online exams or quizzes:
