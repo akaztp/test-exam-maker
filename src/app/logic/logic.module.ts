@@ -13,6 +13,7 @@ import { RouterStoreExtension } from '../../utils/router-state-extension';
 export interface State
 {
     user: UserState;
+    // next property name must be exactly as states, because @ngrx/router-store expects it
     routerReducer: RouterReducerState<RouterStateSer>;
 }
 
