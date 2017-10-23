@@ -6,20 +6,16 @@ import { StoreRouterConnectingModule, routerReducer, RouterReducerState } from '
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSer, RouterStoreSerModule } from 'router-store-ser';
 
-import { reducer as userReducer, State as UserState } from './reducers/user.reducer';
-import { PageStartEffects } from './effects/router-start.effects';
 import { RouterStoreExtension } from '../../utils/router-state-extension';
 
 export interface State
 {
-    user: UserState;
     // next property name must be exactly as states, because @ngrx/router-store expects it
     routerReducer: RouterReducerState<RouterStateSer>;
 }
 
 const reducers: ActionReducerMap<State, Action> = {
     routerReducer,
-    user: userReducer,
 };
 
 @NgModule({
@@ -30,7 +26,6 @@ const reducers: ActionReducerMap<State, Action> = {
             maxAge: 50, //  Retains last n states
         }),
         EffectsModule.forRoot([
-            PageStartEffects,
         ]),
         StoreRouterConnectingModule,
         RouterStoreSerModule,
