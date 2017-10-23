@@ -12,7 +12,7 @@ import { ExamStatusAction, ExamDataAction } from '../actions/exam.actions';
 import { startRouteId } from '../../exam-routing.module';
 import { ROUTER_ACTIVE } from '../../../utils/router-state-extension';
 import { RouterStateSerializer as CustomRouterStateSerializer, RouterStateSer } from 'router-store-ser';
-import { ExamStatus } from '../reducers/exam.reducer';
+import { ExamStatus } from '../state/exam.state';
 import { ExamFetchService } from '../../data/exam-fetch.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { QuestionsDataAction } from '../actions/questions.actions';

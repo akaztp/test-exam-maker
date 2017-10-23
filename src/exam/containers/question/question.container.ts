@@ -1,6 +1,6 @@
 import { Component, Inject, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State as ExamState, MODULE_STORE_TOKEN } from '../../logic/reducers';
+import { State, MODULE_STORE_TOKEN } from '../../logic/state/state';
 import { CommonContainer } from '../../utils/common-container';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { Question } from '../../models/question';
@@ -46,7 +46,7 @@ export class QuestionContainer extends CommonContainer
 
     constructor(
         @Inject(MODULE_STORE_TOKEN)
-        protected store$: Store<ExamState>,
+        protected store$: Store<State>,
         protected changeDetectorRef: ChangeDetectorRef,
     )
     {

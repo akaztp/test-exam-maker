@@ -11,13 +11,13 @@ import 'rxjs/add/observable/concat';
 import { NavigationGoAction } from 'router-store-ser';
 
 import { ExamStatusAction, ExamEndAction, ExamTimeAction, ACTION_EXAM_START } from '../actions/exam.actions';
-import { ExamStatus, State as ExamState } from '../reducers/exam.reducer';
-import { MODULE_STORE_TOKEN, State } from '../reducers';
+import { ExamStatus, State as ExamState } from '../state/exam.state';
 import { ExamTimerService } from '../../data/exam-timer.service';
 import { QuestionsFetchService } from '../../data/questions-fetch.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { startRouteId, questionRouteId } from '../../exam-routing.module';
 import { QuestionsDataAction, QuestionsCurrentAction } from '../actions/questions.actions';
+import { State, MODULE_STORE_TOKEN } from "../state/state";
 
 /**
  * Business logic implementation:
@@ -46,13 +46,13 @@ export class ExamStartEffects
     constructor(
         protected actions$: Actions,
         @Inject(MODULE_STORE_TOKEN)
-        protected store: Store<State>,
+        protected store$: Store<State>,
         protected examTimerService: ExamTimerService,
         protected questionsFetchService: QuestionsFetchService,
     )
     {
         const instance: ExamStartEffects = this;
-        const exam$: Store<ExamState> = this.store.select(state => state.exam);
+        const exam$: Store<ExamState> = this.store$.select(state => state.exam);
 
         this.effect$ = this.actions$.ofType<Action>(ACTION_EXAM_START)
             .withLatestFrom(exam$, testReady)

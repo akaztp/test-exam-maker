@@ -4,16 +4,17 @@ import { StoreModule, Action, Store } from '@ngrx/store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { WrapperContainer } from './wrapper.container';
-import { State as ExamState, reducers, MODULE_STORE_TOKEN } from '../../logic/reducers';
+import { reducersMap} from '../../logic/logic.module';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamInfo } from '../../models/exam-info';
-import { ExamStatus } from '../../logic/reducers/exam.reducer';
+import { ExamStatus } from '../../logic/state/exam.state';
+import { State, MODULE_STORE_TOKEN } from '../../logic/state/state';
 
 describe('Exam/Containers/' + WrapperContainer.name, () =>
 {
     let component: WrapperContainer;
     let fixture: ComponentFixture<WrapperContainer>;
-    let store$: Store<ExamState>;
+    let store$: Store<State>;
 
     it('should show loading the exam message', (done) =>
     {
@@ -45,7 +46,7 @@ describe('Exam/Containers/' + WrapperContainer.name, () =>
                 .configureTestingModule({
                     imports: [
                         NgbModule.forRoot(),
-                        StoreModule.forRoot<ExamState, Action>(reducers, {
+                        StoreModule.forRoot<State, Action>(reducersMap, {
                             initialState: {
                                 exam: {
                                     data: exam,

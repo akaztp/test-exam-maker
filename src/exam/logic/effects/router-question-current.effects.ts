@@ -9,9 +9,9 @@ import 'rxjs/add/operator/map';
 
 import { QuestionsCurrentAction } from '../actions/questions.actions';
 import { questionRouteId, questionParamNum } from '../../exam-routing.module';
-import { MODULE_STORE_TOKEN, State } from '../reducers';
-import { ExamStatus } from '../reducers/exam.reducer';
+import { ExamStatus } from '../state/exam.state';
 import { moduleNavigationCommands } from '../../module-config';
+import { State, MODULE_STORE_TOKEN } from '../state/state';
 
 /**
   * Business logic implementation:
@@ -32,12 +32,12 @@ export class RouterQuestionCurrentEffects
     constructor(
         private actions$: Actions,
         @Inject(MODULE_STORE_TOKEN)
-        protected store: Store<State>,
+        protected store$: Store<State>,
         @Inject(RouterStateSerializer)
         protected routerStateSerializer: CustomRouterStateSerializer,
     )
     {
-        const examStatus$: Store<ExamStatus> = this.store.select(state => state.exam.status);
+        const examStatus$: Store<ExamStatus> = this.store$.select(state => state.exam.status);
 
         this.effect$ = this.actions$.ofType<RouterNavigationAction<RouterStateSer>>(ROUTER_NAVIGATION)
             .map<RouterNavigationAction<RouterStateSer>, number>(

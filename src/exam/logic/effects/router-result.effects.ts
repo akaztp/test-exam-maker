@@ -8,10 +8,10 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/withLatestFrom';
 
 import { ExamEndAction } from '../actions/exam.actions';
-import { ExamStatus, State as ExamState } from '../reducers/exam.reducer';
-import { MODULE_STORE_TOKEN, State } from '../reducers';
+import { ExamStatus, State as ExamState } from '../state/exam.state';
 import { resultRouteId } from '../../exam-routing.module';
 import { RouterStateSerializer as CustomRouterStateSerializer, RouterStateSer } from 'router-store-ser';
+import { State, MODULE_STORE_TOKEN } from '../state/state';
 
 /**
  * Business logic implementation:
@@ -27,12 +27,12 @@ export class RouterResultEffects
     constructor(
         protected actions$: Actions,
         @Inject(MODULE_STORE_TOKEN)
-        protected store: Store<State>,
+        protected store$: Store<State>,
         @Inject(RouterStateSerializer)
         protected routerStateSerializer: CustomRouterStateSerializer,
     )
     {
-        const exam$: Store<ExamState> = this.store.select(state => state.exam);
+        const exam$: Store<ExamState> = this.store$.select(state => state.exam);
 
         this.effect$ = this.actions$.ofType<RouterNavigationAction<RouterStateSer>>(ROUTER_NAVIGATION)
             .withLatestFrom(

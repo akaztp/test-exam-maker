@@ -13,7 +13,7 @@ import { ExamStatusAction, ExamDataAction } from '../actions/exam.actions';
 import { questionRouterState, examRouterState } from '../../utils/router-state-samples';
 import { ROUTER_ACTIVE } from '../../../utils/router-state-extension';
 import { startRouteId } from '../../exam-routing.module';
-import { ExamStatus } from '../reducers/exam.reducer';
+import { ExamStatus } from '../state/exam.state';
 import { createExam } from '../../utils/exam-samples';
 import { ExamFetchService } from '../../data/exam-fetch.service';
 import { AsyncDataSer } from '../../../utils/asyncData';

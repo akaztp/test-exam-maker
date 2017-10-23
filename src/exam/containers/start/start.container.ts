@@ -1,6 +1,6 @@
 import { Component, Inject, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { State as ExamState, MODULE_STORE_TOKEN } from '../../logic/reducers';
+import { State, MODULE_STORE_TOKEN } from '../../logic/state/state';
 import { CommonContainer } from '../../utils/common-container';
 import { ExamStartAction } from '../../logic/actions/exam.actions';
 
@@ -22,7 +22,7 @@ export class StartContainer extends CommonContainer
 
     constructor(
         @Inject(MODULE_STORE_TOKEN)
-        protected store$: Store<ExamState>,
+        protected store$: Store<State>,
         protected changeDetectorRef: ChangeDetectorRef,
     )
     {

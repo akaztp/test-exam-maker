@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule, Store, Action } from '@ngrx/store';
-// import { By } from '@angular/platform-browser';
 
 import { StartContainer } from './start.container';
-import { State as ExamState, reducers, MODULE_STORE_TOKEN } from '../../logic/reducers';
+import { reducersMap } from '../../logic/logic.module';
 import { ExamInfo } from '../../models/exam-info';
-import { ExamStatus } from '../../logic/reducers/exam.reducer';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Sec2TimePipe } from "../../pipes/sec2time.pipe";
+import { Sec2TimePipe } from '../../pipes/sec2time.pipe';
+import { State, MODULE_STORE_TOKEN } from '../../logic/state/state';
+import { ExamStatus } from '../../logic/state/exam.state';
 
 describe('Exam/Containers/' + StartContainer.name, () =>
 {
     let component: StartContainer;
     let fixture: ComponentFixture<StartContainer>;
-    let store$: Store<ExamState>;
+    let store$: Store<State>;
 
     function init(exam: AsyncDataSer<ExamInfo>)
     {
@@ -27,7 +27,7 @@ describe('Exam/Containers/' + StartContainer.name, () =>
                 .configureTestingModule({
                     imports: [
                         NgbModule.forRoot(),
-                        StoreModule.forRoot<ExamState, Action>(reducers, {
+                        StoreModule.forRoot<State, Action>(reducersMap, {
                             initialState: {
                                 exam: {
                                     data: exam,

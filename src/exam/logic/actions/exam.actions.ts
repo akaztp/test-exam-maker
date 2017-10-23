@@ -1,6 +1,6 @@
 ﻿import { Action } from '@ngrx/store';
 
-import { ExamStatus } from '../reducers/exam.reducer';
+import { ExamStatus } from '../state/exam.state';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamInfo } from '../../models/exam-info';
 

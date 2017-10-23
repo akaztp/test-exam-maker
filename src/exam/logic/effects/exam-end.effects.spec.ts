@@ -5,12 +5,13 @@ import { Observable } from 'rxjs/Observable';
 import { matchObservable } from 'match-observable';
 
 import { RouterOutEffects } from './router-out.effects';
-import { ExamStatus } from '../reducers/exam.reducer';
-import { ExamStatusAction, ExamEndAction, ExamScoreAction } from '../actions/exam.actions';
 import { ExamEndEffects } from './exam-end.effects';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamEvalService } from '../../data/exam-eval.service';
-import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
+import { reducersMap } from '../logic.module';
+import { State, MODULE_STORE_TOKEN } from '../state/state';
+import { ExamStatus } from '../state/exam.state';
+import { ExamStatusAction, ExamEndAction, ExamScoreAction } from '../actions/exam.actions';
 import { ExamInfo } from '../../models/exam-info';
 import { Question } from '../../models/question';
 import { createExam } from '../../utils/exam-samples';
@@ -19,7 +20,7 @@ import { failOnObsError } from '../../utils/jasmine-fail-observer';
 
 describe('Exam/Logic/' + ExamEndEffects.name, () =>
 {
-    let store: Store<State>;
+    let store$: Store<State>;
     let actions: Observable<any>;
     let effects: RouterOutEffects;
     let examEvalServiceSpy: jasmine.SpyObj<ExamEvalService> = null;
@@ -35,19 +36,19 @@ describe('Exam/Logic/' + ExamEndEffects.name, () =>
         TestBed.configureTestingModule({
             imports: [
                 StoreModule.forRoot<State, Action>(
-                    reducers,
+                    reducersMap,
                     initialState ? { initialState } : {}),
             ],
             providers: [
                 ExamEndEffects,
-                provideMockActions(() => actions.do(a => store.dispatch(a))),
+                provideMockActions(() => actions.do(a => store$.dispatch(a))),
                 { provide: MODULE_STORE_TOKEN, useExisting: Store },
                 { provide: ExamEvalService, useValue: serviceSpy },
             ],
         });
 
         effects = TestBed.get(ExamEndEffects);
-        store = TestBed.get(Store);
+        store$ = TestBed.get(Store);
         examEvalServiceSpy = TestBed.get(ExamEvalService);
     }
 

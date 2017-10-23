@@ -21,7 +21,7 @@ export class RouterStoreExtension
     constructor(
         router: Router,
         stateSerializer: RouterStateSerializer<RouterStateSnapshot>,
-        store: Store<{ routerReducer: RouterReducerState }>,
+        store$: Store<{ routerReducer: RouterReducerState }>,
     )
     {
         router.events.subscribe(
@@ -33,7 +33,7 @@ export class RouterStoreExtension
 
         router.events
             .filter(event => event instanceof NavigationEnd)
-            .withLatestFrom(store.select<RouterReducerState>(state => state.routerReducer))
+            .withLatestFrom(store$.select<RouterReducerState>(state => state.routerReducer))
             .subscribe(
                 ([event, routerReducer]: [NavigationEnd, RouterReducerState]) =>
                 {
@@ -42,7 +42,7 @@ export class RouterStoreExtension
                     if (routerReducer.navigationId === event.id)
                     {
                         const routerStateSer = stateSerializer.serialize(router.routerState.snapshot);
-                        store.dispatch({
+                        store$.dispatch({
                             type: ROUTER_ACTIVE as any,
                             payload: {
                                 routerState: routerStateSer,

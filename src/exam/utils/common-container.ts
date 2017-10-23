@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { AsyncDataSer } from '../../utils/asyncData';
 import { ExamInfo } from '../models/exam-info';
-import { State as ExamState, MODULE_STORE_TOKEN } from '../logic/reducers';
+import { State, MODULE_STORE_TOKEN } from '../logic/state/state';
 
 export class CommonContainer implements OnDestroy
 {
@@ -17,7 +17,7 @@ export class CommonContainer implements OnDestroy
 
     constructor(
         @Inject(MODULE_STORE_TOKEN)
-        protected store$: Store<ExamState>,
+        protected store$: Store<State>,
         protected changeDetectorRef: ChangeDetectorRef,
     )
     {

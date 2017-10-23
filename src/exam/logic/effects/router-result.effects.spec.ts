@@ -8,12 +8,13 @@ import { hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
 import { RouterStoreSerModule, RouterStateSer } from 'router-store-ser';
 
-import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
+import { reducersMap } from '../logic.module';
 import { RouterResultEffects } from './router-result.effects';
-import { ExamStatus, initialState as examInitialState } from '../reducers/exam.reducer';
+import { ExamStatus, initialState as examInitialState } from '../state/exam.state';
 import { ExamEndAction } from '../actions/exam.actions';
 import { resultRouteId } from '../../exam-routing.module';
 import { failOnObsError } from '../../utils/jasmine-fail-observer';
+import { State, MODULE_STORE_TOKEN } from '../state/state';
 
 describe('Exam/Logic/' + RouterResultEffects.name, () =>
 {
@@ -43,7 +44,7 @@ describe('Exam/Logic/' + RouterResultEffects.name, () =>
         TestBed.configureTestingModule({
             imports: [
                 StoreModule.forRoot<State, Action>(
-                    reducers,
+                    reducersMap,
                     initialState ? { initialState } : {},
                 ),
                 EffectsModule.forRoot([]),

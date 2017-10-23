@@ -15,9 +15,10 @@ import { RouterStateSer, RouterStoreSerModule, NavigationGoAction,
 import { startRouteId } from '../../exam-routing.module';
 import { questionRouterState } from '../../utils/router-state-samples';
 import { failOnObsError } from '../../utils/jasmine-fail-observer';
-import { MODULE_STORE_TOKEN, State, reducers } from '../reducers';
-import { ExamStatus } from '../reducers/exam.reducer';
+import { ExamStatus } from '../state/exam.state';
 import { moduleNavigationCommands } from '../../module-config';
+import { MODULE_STORE_TOKEN, State } from '../state/state';
+import { reducersMap } from '../logic.module';
 
 describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
 {
@@ -137,7 +138,7 @@ describe('Exam/Logic/' + RouterQuestionCurrentEffects.name, () =>
             .configureTestingModule({
                 imports: [
                     StoreModule.forRoot<State, Action>(
-                        reducers,
+                        reducersMap,
                         {
                             initialState: {
                                 exam: {

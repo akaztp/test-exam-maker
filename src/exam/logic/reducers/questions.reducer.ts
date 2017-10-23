@@ -3,17 +3,7 @@
 import { Question } from '../../models/question';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import * as actions from '../actions/questions.actions';
-
-export interface State
-{
-    current: number; // starting at one
-    data: AsyncDataSer<Question[]>;  // Questions must be ordered by question.num increasingly
-}
-
-const initialState: State = {
-    current: 1,
-    data: null,
-};
+import { State, initialState } from '../state/questions.state';
 
 export function reducer(state: State = initialState, action: Action): State
 {

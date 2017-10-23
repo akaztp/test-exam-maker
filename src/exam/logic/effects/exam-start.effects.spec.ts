@@ -10,9 +10,9 @@ import { NavigationGoAction } from 'router-store-ser';
 import { matchObservable } from 'match-observable';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { reducers, State, MODULE_STORE_TOKEN } from '../reducers';
+import { reducersMap } from '../logic.module';
 import { ExamStartEffects } from './exam-start.effects';
-import { ExamStatus, initialState as examInitialState } from '../reducers/exam.reducer';
+import { ExamStatus, initialState as examInitialState } from '../state/exam.state';
 import { ExamStatusAction, ExamStartAction, ExamEndAction, ExamTimeAction } from '../actions/exam.actions';
 import { ExamTimerService } from '../../data/exam-timer.service';
 import { AsyncDataSer } from '../../../utils/asyncData';
@@ -24,12 +24,13 @@ import { QuestionsDataAction, QuestionsCurrentAction } from '../actions/question
 import { QuestionsFetchService } from '../../data/questions-fetch.service';
 import { Question } from '../../models/question';
 import { createExam } from '../../utils/exam-samples';
+import { State, MODULE_STORE_TOKEN } from '../state/state';
 
 describe('Exam/Logic/' + ExamStartEffects.name, () =>
 {
     let effects: ExamStartEffects;
     let actions: Observable<any>;
-    let store: Store<State>;
+    let store$: Store<State>;
     let examTimerService: jasmine.SpyObj<ExamTimerService>;
     let questionsFetchService: jasmine.SpyObj<QuestionsFetchService>;
     const examDuration = 5; // seconds, expected observable below has this hardcoded
@@ -53,7 +54,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
         actions = Observable.of(new ExamStartAction());
         let matchResult: string;
         matchObservable<Action>(
-            effects.effect$.catch(failOnObsError).do(a => store.dispatch(a)),
+            effects.effect$.catch(failOnObsError).do(a => store$.dispatch(a)),
             buildExpected(examDuration),
             true,
             false,
@@ -76,7 +77,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
         );
         let matchResult: string;
         matchObservable<Action>(
-            effects.effect$.catch(failOnObsError).do(a => store.dispatch(a)),
+            effects.effect$.catch(failOnObsError).do(a => store$.dispatch(a)),
             buildExpected(examDuration, examDuration - 2),
             true,
             false,
@@ -92,7 +93,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
         TestBed.configureTestingModule({
             imports: [
                 StoreModule.forRoot<State, Action>(
-                    reducers,
+                    reducersMap,
                     initialState ? { initialState } : {}),
                 StoreDevtoolsModule.instrument({
                     maxAge: 50, //  Retain last n states
@@ -100,7 +101,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
             ],
             providers: [
                 ExamStartEffects,
-                provideMockActions(() => actions.do(a => store.dispatch(a))),
+                provideMockActions(() => actions.do(a => store$.dispatch(a))),
                 { provide: MODULE_STORE_TOKEN, useExisting: Store },
                 {
                     provide: ExamTimerService,
@@ -114,7 +115,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
         });
 
         effects = TestBed.get(ExamStartEffects);
-        store = TestBed.get(Store);
+        store$ = TestBed.get(Store);
         examTimerService = TestBed.get(ExamTimerService);
         questionsFetchService = TestBed.get(QuestionsFetchService);
     }

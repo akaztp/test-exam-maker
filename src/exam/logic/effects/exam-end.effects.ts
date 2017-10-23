@@ -2,19 +2,12 @@
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-// import 'rxjs/add/operator/filter';
-// import 'rxjs/add/operator/mergeMap';
-// import 'rxjs/add/operator/withLatestFrom';
-// import 'rxjs/add/operator/takeUntil';
-// import 'rxjs/add/operator/skip';
 import 'rxjs/add/observable/concat';
 import 'rxjs/add/observable/fromPromise';
 
 import { ACTION_EXAM_END, ExamStatusAction, ExamEndAction, ExamScoreAction } from '../actions/exam.actions';
-// import { ExamStatusAction, ExamEndAction, ExamTimeAction, ACTION_EXAM_START } from '../actions/exam.actions';
-// import { ExamStatus, State as ExamState } from '../reducers/exam.reducer';
 import { ExamEvalService } from '../../data/exam-eval.service';
-import { MODULE_STORE_TOKEN, State } from '../reducers';
+import { State, MODULE_STORE_TOKEN } from '../state/state';
 import { AsyncDataSer } from '../../../utils/asyncData';
 
 /**
