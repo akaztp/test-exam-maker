@@ -11,6 +11,6 @@ import { examRouterCommands } from '../app/app-routing.module';
 export const featureName = 'exam';
 
 /**
- * The Router.navigate() commands that lead to this module routing.
+ * The Router.navigate() commands that lead to this module routing. That is this module's placement in the URL.
  */
 export const moduleNavigationCommands = examRouterCommands;

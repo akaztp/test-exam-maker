@@ -1,5 +1,4 @@
 ﻿import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule, ActionReducerMap, Action, Store, createFeatureSelector } from '@ngrx/store';
 
@@ -32,7 +31,6 @@ export function featureSelector(store$: Store<any>): Store<State>
 
 @NgModule({
     imports: [
-        CommonModule,
         StoreModule.forFeature(featureName, reducersMap),
         EffectsModule.forFeature([
             RouterOutEffects,

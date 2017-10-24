@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { StoreModule, ActionReducerMap, Action } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule, routerReducer, RouterReducerState } from '@ngrx/router-store';
@@ -10,7 +9,7 @@ import { RouterStoreExtension } from '../../utils/router-state-extension';
 
 export interface State
 {
-    // next property name must be exactly as states, because @ngrx/router-store expects it
+    // next property name must be exactly as stated, because @ngrx/router-store expects it
     routerReducer: RouterReducerState<RouterStateSer>;
 }
 
@@ -20,7 +19,6 @@ const reducers: ActionReducerMap<State, Action> = {
 
 @NgModule({
     imports: [
-        CommonModule,
         StoreModule.forRoot(reducers),
         StoreDevtoolsModule.instrument({
             maxAge: 50, //  Retains last n states
