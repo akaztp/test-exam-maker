@@ -4,19 +4,13 @@ import { ExamStatus } from '../state/exam.state';
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { ExamInfo } from '../../models/exam-info';
 
-export const ACTION_EXAM_STATUS = 'EXAM_STATUS';
-export const ACTION_EXAM_START = 'EXAM_START';
-export const ACTION_EXAM_END = 'EXAM_END';
-export const ACTION_EXAM_DATA = 'EXAM_DATA';
-export const ACTION_EXAM_TIME = 'EXAM_TIME';
-export const ACTION_EXAM_SCORE = 'EXAM_SCORE';
-
 /**
  * Emitted for changing the status of the exam.
  */
 export class ExamStatusAction implements Action
 {
-    readonly type = ACTION_EXAM_STATUS;
+    public readonly type = ExamStatusAction.type;
+    public static type = 'EXAM_STATUS';
     constructor(
         public payload: { status: ExamStatus },
     ) { }
@@ -27,7 +21,8 @@ export class ExamStatusAction implements Action
  */
 export class ExamStartAction implements Action
 {
-    readonly type = ACTION_EXAM_START;
+    public readonly type = ExamStartAction.type;
+    public static type = 'EXAM_START';
 }
 
 /**
@@ -35,7 +30,8 @@ export class ExamStartAction implements Action
  */
 export class ExamEndAction implements Action
 {
-    readonly type = ACTION_EXAM_END;
+    public readonly type = ExamEndAction.type;
+    public static type = 'EXAM_END';
     constructor(
         public payload: { status: ExamStatus },
     ) { }
@@ -46,7 +42,8 @@ export class ExamEndAction implements Action
  */
 export class ExamDataAction implements Action
 {
-    readonly type = ACTION_EXAM_DATA;
+    public readonly type = ExamDataAction.type;
+    public static type = 'EXAM_DATA';
     constructor(
         public payload: { data: AsyncDataSer<ExamInfo> },
     ) { }
@@ -57,7 +54,8 @@ export class ExamDataAction implements Action
  */
 export class ExamTimeAction implements Action
 {
-    readonly type = ACTION_EXAM_TIME;
+    public readonly type = ExamTimeAction.type;
+    public static type = 'EXAM_TIME';
     constructor(
         public payload: { time: number },
     ) { }
@@ -68,7 +66,8 @@ export class ExamTimeAction implements Action
  */
 export class ExamScoreAction implements Action
 {
-    readonly type = ACTION_EXAM_SCORE;
+    public readonly type = ExamScoreAction.type;
+    public static type = 'EXAM_SCORE';
     constructor(
         public payload: { score: AsyncDataSer<number> },
     ) { }

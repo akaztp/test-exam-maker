@@ -9,13 +9,13 @@ export function reducer(state: State = initialState, action: Action): State
 {
     switch (action.type)
     {
-        case actions.ACTION_QUESTIONS_CURRENT:
+        case actions.QuestionsCurrentAction.type:
             return { ...state, current: (action as actions.QuestionsCurrentAction).payload.num };
 
-        case actions.ACTION_QUESTIONS_DATA:
+        case actions.QuestionsDataAction.type:
             return { ...state, data: (action as actions.QuestionsDataAction).payload.data };
 
-        case actions.ACTION_QUESTIONS_ANSWER:
+        case actions.QuestionsAnswerAction.type:
             {
                 let newState: State = state;
                 if (AsyncDataSer.hasData(state.data, false))
@@ -65,10 +65,10 @@ export function setAnswer(
                 }
         }
         else
-            console.warn('reducer. For action ' + actions.ACTION_QUESTIONS_ANSWER + '. answerNum is out of range:', answerNum);
+            console.warn('Reducer for action ' + actions.QuestionsAnswerAction.type + '. answerNum is out of range:', answerNum);
     }
     else
-        console.warn('reducer. For action ' + actions.ACTION_QUESTIONS_ANSWER + '. questionNum is out of range: ', questionNum);
+        console.warn('Reducer for action ' + actions.QuestionsAnswerAction.type + '. questionNum is out of range: ', questionNum);
 
     return newData;
 }

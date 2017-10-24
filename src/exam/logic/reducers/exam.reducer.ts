@@ -9,10 +9,10 @@ export function reducer(state: State = initialState, action: Action): State
 {
     switch (action.type)
     {
-        case examActions.ACTION_EXAM_STATUS:
+        case examActions.ExamStatusAction.type:
             return { ...state, status: (action as examActions.ExamStatusAction).payload.status };
 
-        case examActions.ACTION_EXAM_DATA:
+        case examActions.ExamDataAction.type:
             {
                 let timeLeft = 0;
                 const adata: AsyncDataSer<ExamInfo> = (action as examActions.ExamDataAction).payload.data;
@@ -21,10 +21,10 @@ export function reducer(state: State = initialState, action: Action): State
                 return { ...state, timeLeft, data: (action as examActions.ExamDataAction).payload.data };
             }
 
-        case examActions.ACTION_EXAM_TIME:
+        case examActions.ExamTimeAction.type:
             return { ...state, timeLeft: (action as examActions.ExamTimeAction).payload.time };
 
-        case examActions.ACTION_EXAM_SCORE:
+        case examActions.ExamScoreAction.type:
             return { ...state, resultScore: (action as examActions.ExamScoreAction).payload.score };
     }
 

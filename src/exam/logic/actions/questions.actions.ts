@@ -3,16 +3,13 @@
 import { AsyncDataSer } from '../../../utils/asyncData';
 import { Question } from '../../models/question';
 
-export const ACTION_QUESTIONS_CURRENT = 'QUESTIONS_CURRENT';
-export const ACTION_QUESTIONS_DATA = 'QUESTIONS_DATA';
-export const ACTION_QUESTIONS_ANSWER = 'QUESTIONS_ANSWER';
-
 /**
  * Emitted to set the current question for the current exam.
  */
 export class QuestionsCurrentAction implements Action
 {
-    readonly type = ACTION_QUESTIONS_CURRENT;
+    public readonly type = QuestionsCurrentAction.type;
+    public static type = 'QUESTIONS_CURRENT';
     constructor(
         public payload: { num: number },
     ) { }
@@ -23,7 +20,8 @@ export class QuestionsCurrentAction implements Action
  */
 export class QuestionsDataAction implements Action
 {
-    readonly type = ACTION_QUESTIONS_DATA;
+    public readonly type = QuestionsDataAction.type;
+    public static type = 'QUESTIONS_DATA';
     constructor(
         public payload: { data: AsyncDataSer<Question[]> },
     ) { }
@@ -34,7 +32,8 @@ export class QuestionsDataAction implements Action
  */
 export class QuestionsAnswerAction implements Action
 {
-    readonly type = ACTION_QUESTIONS_ANSWER;
+    public readonly type = QuestionsAnswerAction.type;
+    public static type = 'QUESTIONS_ANSWER';
     constructor(
         public payload: { questionNum: number, answerNum: number, checked: boolean },
     ) { }

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/concat';
 import 'rxjs/add/observable/fromPromise';
 
-import { ACTION_EXAM_END, ExamStatusAction, ExamEndAction, ExamScoreAction } from '../actions/exam.actions';
+import { ExamStatusAction, ExamEndAction, ExamScoreAction } from '../actions/exam.actions';
 import { ExamEvalService } from '../../data/exam-eval.service';
 import { State, MODULE_STORE_TOKEN } from '../state/state';
 import { AsyncDataSer } from '../../../utils/asyncData';
@@ -31,7 +31,7 @@ export class ExamEndEffects
         private examEvalService: ExamEvalService,
     )
     {
-        this.effect$ = this.actions$.ofType<ExamEndAction>(ACTION_EXAM_END)
+        this.effect$ = this.actions$.ofType<ExamEndAction>(ExamEndAction.type)
             .mergeMap(
                 action => Observable.concat(
                     Observable.of(new ExamStatusAction({ status: action.payload.status })),
