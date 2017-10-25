@@ -61,7 +61,8 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
             deepEqual,
         ).then(() => matchResult = null, result => matchResult = result);
 
-        tick(examDuration * 1000 + 1000);
+        tick(examDuration * 1000 + 4000);
+        tick(1000);
         expect(matchResult).toBeNull();
     })());
 
@@ -73,7 +74,7 @@ describe('Exam/Logic/' + ExamStartEffects.name, () =>
 
         actions = Observable.concat(
             Observable.of(new ExamStartAction()),
-            Observable.interval(2.5 * 1000).take(1).map(() => new ExamEndAction({ status: ExamStatus.ENDED })),
+            Observable.interval(2.5 * 1000).take(1).map(() => new ExamStatusAction({ status: ExamStatus.ENDED })),
         );
         let matchResult: string;
         matchObservable<Action>(

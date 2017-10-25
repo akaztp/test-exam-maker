@@ -35,8 +35,9 @@ export class ExamEndEffects
             .mergeMap(
                 action => Observable.concat(
                     Observable.of(new ExamStatusAction({ status: action.payload.status })),
-                    Observable.of(1)
-                        .withLatestFrom(this.store$, getExamData)
+                    this.store$
+                        .take(1)
+                        .map(getExamData)
                         .filter(a => a !== null)
                         .mergeMap(
                             ({ examInfo, questions }) =>
@@ -52,7 +53,7 @@ export class ExamEndEffects
     }
 }
 
-function getExamData(_, storeState: State)
+function getExamData(storeState: State)
 {
     if (!storeState.exam || !AsyncDataSer.hasData(storeState.exam.data, false)
         || !storeState.questions || !AsyncDataSer.hasData(storeState.questions.data, false))

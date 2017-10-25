@@ -6,6 +6,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/takeLast';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/observable/concat';
 import { NavigationGoAction } from 'router-store-ser';
@@ -91,10 +92,9 @@ export class ExamStartEffects
                 .takeUntil(exam$.filter(s => s.status !== ExamStatus.RUNNING))
                 .map(num => new ExamTimeAction({ time: num }));
 
-            const end$ = Observable
-                .of(0) // just something different from null
-                .withLatestFrom(exam$, (a, s) => s.status === ExamStatus.RUNNING ? a : null)
-                .filter(a => a !== null)
+            const end$ = exam$ // this works because concat() only subscribes end$ after timer$ completes
+                .take(1)
+                .filter(s => s.status === ExamStatus.RUNNING) // timer ended to the end without interruption
                 .mergeMap(_ => Observable
                     .of(...[
                         new ExamEndAction({ status: ExamStatus.TIME_ENDED }),
