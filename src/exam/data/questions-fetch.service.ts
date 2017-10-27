@@ -8,11 +8,12 @@ import 'rxjs/add/operator/map';
 import { AsyncDataSer } from '../../utils/asyncData';
 import { createExam } from '../utils/exam-samples';
 import { Question } from '../models/question';
+import { ExamInfo } from '../models/exam-info';
 
 @Injectable()
 export class QuestionsFetchService
 {
-    public fetchQuestions(examInfo): Observable<AsyncDataSer<Question[]>>
+    public fetchQuestions(examInfo: ExamInfo): Observable<AsyncDataSer<Question[]>>
     {
         const { questions } = createExam('1');
         return Observable.concat(
