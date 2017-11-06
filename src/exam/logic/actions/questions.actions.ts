@@ -9,7 +9,7 @@ import { Question } from '../../models/question';
 export class QuestionsCurrentAction implements Action
 {
     public readonly type = QuestionsCurrentAction.type;
-    public static type = 'QUESTIONS_CURRENT';
+    public static readonly type = 'QUESTIONS_CURRENT';
     constructor(
         public payload: { num: number },
     ) { }
@@ -21,7 +21,7 @@ export class QuestionsCurrentAction implements Action
 export class QuestionsDataAction implements Action
 {
     public readonly type = QuestionsDataAction.type;
-    public static type = 'QUESTIONS_DATA';
+    public static readonly type = 'QUESTIONS_DATA';
     constructor(
         public payload: { data: AsyncDataSer<Question[]> },
     ) { }
@@ -33,7 +33,7 @@ export class QuestionsDataAction implements Action
 export class QuestionsAnswerAction implements Action
 {
     public readonly type = QuestionsAnswerAction.type;
-    public static type = 'QUESTIONS_ANSWER';
+    public static readonly type = 'QUESTIONS_ANSWER';
     constructor(
         public payload: { questionNum: number, answerNum: number, checked: boolean },
     ) { }

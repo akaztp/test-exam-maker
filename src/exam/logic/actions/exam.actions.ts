@@ -10,7 +10,7 @@ import { ExamInfo } from '../../models/exam-info';
 export class ExamStatusAction implements Action
 {
     public readonly type = ExamStatusAction.type;
-    public static type = 'EXAM_STATUS';
+    public static readonly type = 'EXAM_STATUS';
     constructor(
         public payload: { status: ExamStatus },
     ) { }
@@ -22,7 +22,7 @@ export class ExamStatusAction implements Action
 export class ExamStartAction implements Action
 {
     public readonly type = ExamStartAction.type;
-    public static type = 'EXAM_START';
+    public static readonly type = 'EXAM_START';
 }
 
 /**
@@ -31,7 +31,7 @@ export class ExamStartAction implements Action
 export class ExamEndAction implements Action
 {
     public readonly type = ExamEndAction.type;
-    public static type = 'EXAM_END';
+    public static readonly type = 'EXAM_END';
     constructor(
         public payload: { status: ExamStatus },
     ) { }
@@ -43,7 +43,7 @@ export class ExamEndAction implements Action
 export class ExamDataAction implements Action
 {
     public readonly type = ExamDataAction.type;
-    public static type = 'EXAM_DATA';
+    public static readonly type = 'EXAM_DATA';
     constructor(
         public payload: { data: AsyncDataSer<ExamInfo> },
     ) { }
@@ -55,7 +55,7 @@ export class ExamDataAction implements Action
 export class ExamTimeAction implements Action
 {
     public readonly type = ExamTimeAction.type;
-    public static type = 'EXAM_TIME';
+    public static readonly type = 'EXAM_TIME';
     constructor(
         public payload: { time: number },
     ) { }
@@ -67,7 +67,7 @@ export class ExamTimeAction implements Action
 export class ExamScoreAction implements Action
 {
     public readonly type = ExamScoreAction.type;
-    public static type = 'EXAM_SCORE';
+    public static readonly type = 'EXAM_SCORE';
     constructor(
         public payload: { score: AsyncDataSer<number> },
     ) { }
