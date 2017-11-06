@@ -19,6 +19,8 @@ import { AsyncDataSer } from '../../../utils/asyncData';
 import { startRouteId, questionRouteId } from '../../exam-routing.module';
 import { QuestionsDataAction, QuestionsCurrentAction } from '../actions/questions.actions';
 import { State, MODULE_STORE_TOKEN } from '../state/state';
+import { ExamInfo } from '../../models/exam-info';
+import { Question } from '../../models/question';
 
 /**
  * Business logic implementation:
@@ -55,55 +57,86 @@ export class ExamStartEffects
         const instance: ExamStartEffects = this;
         const exam$: Store<ExamState> = this.store$.select(state => state.exam);
 
-        this.effect$ = this.actions$.ofType<Action>(ExamStartAction.type)
-            .withLatestFrom(exam$, testReady)
-            .filter(exam => exam != null && AsyncDataSer.hasData(exam.data, false))
-            .mergeMap<ExamState, Action>(
-                (state) =>
-                {
-                    return Observable.concat(
-                        questionsFetchService.fetchQuestions(state.data.data)
-                            .map(questions => new QuestionsDataAction({ data: questions })),
-                        Observable.of(new QuestionsCurrentAction({ num: 1 })),
-                        produceTimer(state),
-                    );
-                });
-
+        this.effect$ = examStartEffectsCore(this.actions$, exam$, instance.examTimerService.getTimer, questionsFetchService.fetchQuestions);
         return;
-
-        function testReady(action: Action, exam: ExamState)
-        {
-            if (AsyncDataSer.hasData(exam.data, false) && exam.status === ExamStatus.READY)
-                return exam;
-            return null;
-        }
-
-        function produceTimer(state: ExamState)
-        {
-            const running$ = Observable.of(...[
-                new ExamStatusAction({ status: ExamStatus.RUNNING }),
-                new NavigationGoAction({
-                    commands: ['../question/1'],
-                    relativeRouteId: startRouteId,
-                }),
-            ]);
-
-            const timer$ = instance.examTimerService.getTimer(state.data.data.duration)
-                .takeUntil(exam$.filter(s => s.status !== ExamStatus.RUNNING))
-                .map(num => new ExamTimeAction({ time: num }));
-
-            const end$ = exam$ // this works because concat() only subscribes end$ after timer$ completes
-                .take(1)
-                .filter(s => s.status === ExamStatus.RUNNING) // timer ended to the end without interruption
-                .mergeMap(_ => Observable
-                    .of(...[
-                        new ExamEndAction({ status: ExamStatus.TIME_ENDED }),
-                        new NavigationGoAction({
-                            commands: ['../../result'],
-                            relativeRouteId: questionRouteId,
-                        })]));
-
-            return Observable.concat(running$, timer$, end$);
-        }
     }
+}
+
+export function examStartEffectsCore(
+    actions$: Actions,
+    exam$: Store<ExamState>,
+    timer$: (duration: number) => Observable<number>,
+    fetchQuestions: (examInfo: ExamInfo) => Observable<AsyncDataSer<Question[]>>,
+): Observable<Action>
+{
+    return actions$.ofType<Action>(ExamStartAction.type)
+        .withLatestFrom(exam$, testReady)
+        .filter(exam => exam != null && AsyncDataSer.hasData(exam.data, false))
+        .mergeMap<ExamState, Action>(
+            (state) =>
+            {
+                return examStartEffectsCore2(
+                    fetchQuestions(state.data.data),
+                    timer$(state.data.data.duration),
+                    exam$.map(s => s.status),
+                );
+            });
+}
+
+function examStartEffectsCore2(
+    questions$: Observable<AsyncDataSer<Question[]>>,
+    timer$: Observable<number>,
+    status$: Observable<ExamStatus>,
+): Observable<Action>
+{
+    return Observable.concat(
+        questions$
+            .map(questions => new QuestionsDataAction({ data: questions })),
+        Observable.of(...[
+            new QuestionsCurrentAction({ num: 1 }),
+            new ExamStatusAction({ status: ExamStatus.RUNNING }),
+            new NavigationGoAction({
+                commands: ['../question/1'],
+                relativeRouteId: startRouteId,
+            }),
+        ]),
+        timerRun(
+            timer$,
+            status$.filter(status => status !== ExamStatus.RUNNING),
+        ),
+        timerEnd(status$),
+    );
+}
+
+function timerRun(
+    timer$: Observable<number>,
+    haltTimer$: Observable<ExamStatus>,
+): Observable<Action>
+{
+    return timer$
+        .takeUntil(haltTimer$)
+        .map(num => new ExamTimeAction({ time: num }));
+}
+
+function timerEnd(
+    examStatus$: Observable<ExamStatus>,
+)
+{
+    return examStatus$ // this works because concat() only subscribes end$ after timer$ completes
+        .take(1)
+        .filter(s => s === ExamStatus.RUNNING) // timer ended to the end without interruption
+        .mergeMap(_ => Observable
+            .of(...[
+                new ExamEndAction({ status: ExamStatus.TIME_ENDED }),
+                new NavigationGoAction({
+                    commands: ['../../result'],
+                    relativeRouteId: questionRouteId,
+                })]));
+}
+
+function testReady(action: Action, exam: ExamState): ExamState
+{
+    if (AsyncDataSer.hasData(exam.data, false) && exam.status === ExamStatus.READY)
+        return exam;
+    return null;
 }
